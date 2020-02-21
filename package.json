@@ -4,6 +4,7 @@
   "description": "A REST web-API created for assignment 2, 1dv527, linnaeus University, VT20",
   "main": "app.js",
   "scripts": {
+    "start": "node ./app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
