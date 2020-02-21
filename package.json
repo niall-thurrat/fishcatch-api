@@ -1,0 +1,20 @@
+{
+  "name": "rest_web-api",
+  "version": "1.0.0",
+  "description": "A REST web-API created for assignment 2, 1dv527, linnaeus University, VT20",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.lnu.se:1dv527/student/nt222fc/examination-2.git"
+  },
+  "author": "Niall Thurrat",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-hbs": "^2.3.0",
+    "mongoose": "^5.9.1"
+  }
+}
