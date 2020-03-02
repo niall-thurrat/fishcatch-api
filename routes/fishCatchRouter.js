@@ -12,7 +12,7 @@ const controller = require('../controllers/fishCatchController')
 
 router.get('/fish', controller.index)
 
-router.get('/fish/:fishId', controller.viewFishCatch)
+// router.get('/fish/:fishId', controller.viewFishCatch)
 
 // Exports.
 module.exports = router

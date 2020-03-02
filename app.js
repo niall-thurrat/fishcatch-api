@@ -19,6 +19,7 @@ mongoose.run().catch(error => {
 })
 
 // routes
-app.use('/', require('./routes/index'))
+app.use('/', require('./routes/indexRouter'))
+app.use('/fish', require('./routes/fishCatchRouter'))
 
 app.listen(3000, () => console.log('Server running at http://localhost:3000/'))

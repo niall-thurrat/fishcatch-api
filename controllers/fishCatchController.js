@@ -11,7 +11,14 @@
 
 const fishCatchController = {}
 
-// do something
+fishCatchController.index = async (req, res, next) => {
+  try {
+    console.log('FISH CONTROLLER WORKING!!!')
+    res.json({ message: 'this is where i guess i\'ll do databasy stuff!!!' })
+  } catch (error) {
+    next(error)
+  }
+}
 
 // Exports.
 module.exports = fishCatchController
