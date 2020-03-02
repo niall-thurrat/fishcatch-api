@@ -21,9 +21,11 @@ mongoose.run().catch(error => {
 
 // middleware
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 
 // routes
 app.use('/', require('./routes/indexRouter'))
 app.use('/fish', require('./routes/fishCatchRouter'))
 
+// run server
 app.listen(3000, () => console.log('Server running at http://localhost:3000/'))

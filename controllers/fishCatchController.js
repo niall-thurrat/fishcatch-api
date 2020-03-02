@@ -7,14 +7,17 @@
 
 'use strict'
 
-// const FishCatch = require('../models/fishCatchModel')
+const FishCatch = require('../models/fishCatchModel')
 
 const fishCatchController = {}
 
-fishCatchController.listFish = async (req, res, next) => {
+fishCatchController.index = async (req, res, next) => {
   try {
-    console.log('FISH CONTROLLER WORKING!!!')
-    res.json({ message: 'this is where i guess i\'ll do databasy stuff!!!' })
+    console.log('FISH CONTROLLER CALLED')
+    const data = {
+      fishCatches: (await FishCatch.find({}))
+    }
+    res.json({ message: data })
   } catch (error) {
     next(error)
   }

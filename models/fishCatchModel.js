@@ -11,9 +11,10 @@ const mongoose = require('mongoose')
 
 // Create a fish catch schema.
 const fishCatchSchema = new mongoose.Schema({
-  test: String,
-  required: true,
-  trim: true
+  test: {
+    type: String,
+    required: true
+  }
 }, { timestamps: true })
 
 // Create a model using the schema.
