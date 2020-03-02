@@ -10,8 +10,9 @@
 const router = require('express').Router()
 const controller = require('../controllers/fishCatchController')
 
-// GET /
-router.get('/', controller.index)
+router.get('/fish', controller.index)
+
+router.get('/fish/:fishId', controller.viewFishCatch)
 
 // Exports.
 module.exports = router

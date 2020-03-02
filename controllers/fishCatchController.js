@@ -7,7 +7,7 @@
 
 'use strict'
 
-const FishCatch = require('../models/fishCatchModel')
+// const FishCatch = require('../models/fishCatchModel')
 
 const fishCatchController = {}
 

@@ -18,4 +18,7 @@ mongoose.run().catch(error => {
   process.exit(1)
 })
 
+// routes
+app.use('/', require('./routes/index'))
+
 app.listen(3000, () => console.log('Server running at http://localhost:3000/'))

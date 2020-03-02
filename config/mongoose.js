@@ -35,8 +35,8 @@ module.exports.run = async () => {
     })
   })
 
-  const option = { useNewUrlParser: true }
+  const options = { useNewUrlParser: true, useUnifiedTopology: true }
 
   // Connect to the server.
-  return mongoose.connect(CONNECTION_STRING, option)
+  return mongoose.connect(CONNECTION_STRING, options)
 }
