@@ -12,7 +12,7 @@ const controller = require('../controllers/fishCatchController')
 
 router.route('/')
   .get(controller.index)
-//  .post(controller.loginPost)
+  .post(controller.add)
 
 // router.get('/fish/:fishId', controller.viewFishCatch)
 

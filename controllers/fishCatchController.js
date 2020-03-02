@@ -13,11 +13,27 @@ const fishCatchController = {}
 
 fishCatchController.index = async (req, res, next) => {
   try {
-    console.log('FISH CONTROLLER CALLED')
-    const data = {
-      fishCatches: (await FishCatch.find({}))
-    }
-    res.json({ message: data })
+    const data = await FishCatch.find({})
+
+    res.json({ fishCatches: data })
+  } catch (error) {
+    next(error)
+  }
+}
+
+fishCatchController.add = async (req, res, next) => {
+  try {
+    const fishCatch = new FishCatch({
+      test: req.body.test
+    })
+
+    var testy = req.body.test.toString()
+    console.log(req.body.test)
+    console.log(testy)
+
+    await fishCatch.save()
+
+    res.json({ message: 'woohoo' })
   } catch (error) {
     next(error)
   }

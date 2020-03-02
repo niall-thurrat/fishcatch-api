@@ -10,6 +10,7 @@
 const express = require('express')
 const mongoose = require('./config/mongoose')
 const bodyParser = require('body-parser')
+const logger = require('morgan')
 
 const app = express()
 
@@ -20,6 +21,7 @@ mongoose.run().catch(error => {
 })
 
 // middleware
+app.use(logger('dev'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
