@@ -11,7 +11,7 @@
 
 const fishCatchController = {}
 
-fishCatchController.index = async (req, res, next) => {
+fishCatchController.listFish = async (req, res, next) => {
   try {
     console.log('FISH CONTROLLER WORKING!!!')
     res.json({ message: 'this is where i guess i\'ll do databasy stuff!!!' })

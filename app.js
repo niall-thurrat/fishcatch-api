@@ -9,6 +9,7 @@
 
 const express = require('express')
 const mongoose = require('./config/mongoose')
+const bodyParser = require('body-parser')
 
 const app = express()
 
@@ -17,6 +18,9 @@ mongoose.run().catch(error => {
   console.error(error)
   process.exit(1)
 })
+
+// middleware
+app.use(bodyParser.urlencoded({ extended: true }))
 
 // routes
 app.use('/', require('./routes/indexRouter'))
