@@ -15,6 +15,7 @@ router.route('/')
   .post(controller.addFish)
 
 router.route('/:id')
+  .get(controller.viewFish)
   .put(controller.updateFish)
 
 // Exports.
