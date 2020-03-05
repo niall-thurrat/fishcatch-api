@@ -11,6 +11,7 @@ const FishCatch = require('../models/fishCatchModel')
 
 const fishCatchController = {}
 
+// GET /fish endpoint
 fishCatchController.index = async (req, res, next) => {
   try {
     const data = await FishCatch.find({})
@@ -21,6 +22,7 @@ fishCatchController.index = async (req, res, next) => {
   }
 }
 
+// POST /fish endpoint
 fishCatchController.addFish = async (req, res, next) => {
   try {
     const fishCatch = new FishCatch({
@@ -35,6 +37,7 @@ fishCatchController.addFish = async (req, res, next) => {
   }
 }
 
+// GET /fish/:fishId endpoint
 fishCatchController.viewFish = async (req, res, next) => {
   try {
     const data = await FishCatch.findById(req.params.fishId)
@@ -45,6 +48,7 @@ fishCatchController.viewFish = async (req, res, next) => {
   }
 }
 
+// PUT /fish/:fishId endpoint
 fishCatchController.updateFish = async (req, res, next) => {
   try {
     await FishCatch.findOneAndUpdate({ _id: req.params.fishId }, {
@@ -57,6 +61,7 @@ fishCatchController.updateFish = async (req, res, next) => {
   }
 }
 
+// DELETE /fish/:fishId endpoint
 fishCatchController.deleteFish = async (req, res, next) => {
   try {
     await FishCatch.remove({ _id: req.params.fishId })
