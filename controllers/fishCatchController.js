@@ -37,11 +37,9 @@ fishCatchController.addFish = async (req, res, next) => {
 
 fishCatchController.viewFish = async (req, res, next) => {
   try {
-    await FishCatch.updateOne({ _id: req.body.id }, {
-      test: req.body.test
-    })
+    const data = await FishCatch.findById(req.params.fishId)
 
-    res.status(200).send('null')
+    res.json(data)
   } catch (error) {
     next(error)
   }
@@ -49,7 +47,7 @@ fishCatchController.viewFish = async (req, res, next) => {
 
 fishCatchController.updateFish = async (req, res, next) => {
   try {
-    await FishCatch.updateOne({ _id: req.body.id }, {
+    await FishCatch.updateOne({ _id: req.body.fishId }, {
       test: req.body.test
     })
 

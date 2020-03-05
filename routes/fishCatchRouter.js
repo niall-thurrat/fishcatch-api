@@ -14,7 +14,7 @@ router.route('/')
   .get(controller.index)
   .post(controller.addFish)
 
-router.route('/:id')
+router.route('/:fishId')
   .get(controller.viewFish)
   .put(controller.updateFish)
 
