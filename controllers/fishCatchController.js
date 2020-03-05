@@ -21,19 +21,27 @@ fishCatchController.index = async (req, res, next) => {
   }
 }
 
-fishCatchController.add = async (req, res, next) => {
+fishCatchController.addFish = async (req, res, next) => {
   try {
     const fishCatch = new FishCatch({
       test: req.body.test
     })
 
-    var testy = req.body.test.toString()
-    console.log(req.body.test)
-    console.log(testy)
-
     await fishCatch.save()
 
-    res.json({ message: 'woohoo' })
+    res.status(201).send('null')
+  } catch (error) {
+    next(error)
+  }
+}
+
+fishCatchController.updateFish = async (req, res, next) => {
+  try {
+    await FishCatch.updateOne({ _id: req.body.id }, {
+      test: req.body.test
+    })
+
+    res.status(200).send('null') // 204 no content should be used
   } catch (error) {
     next(error)
   }

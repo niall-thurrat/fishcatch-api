@@ -12,9 +12,10 @@ const controller = require('../controllers/fishCatchController')
 
 router.route('/')
   .get(controller.index)
-  .post(controller.add)
+  .post(controller.addFish)
 
-// router.get('/fish/:fishId', controller.viewFishCatch)
+router.route('/:id')
+  .put(controller.updateFish)
 
 // Exports.
 module.exports = router
