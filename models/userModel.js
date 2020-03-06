@@ -1,3 +1,15 @@
+/**
+ * User model
+ *
+ * @author Niall Thurrat
+ * @version 1.0.0
+ *
+ * @credits got a little help from Frank Atukunda for this one:
+ *   https://medium.com/swlh/jwt-authentication-authorization-in-nodejs-express-mongodb-rest-apis-2019-ad14ec818122
+ */
+
+'use strict'
+
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
