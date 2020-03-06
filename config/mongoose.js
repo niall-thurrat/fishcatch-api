@@ -34,8 +34,12 @@ module.exports.run = async () => {
     })
   })
 
-  const options = { useNewUrlParser: true, useUnifiedTopology: true }
+  const dbOptions = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+  }
 
   // Connect to the server.
-  return mongoose.connect(process.env.MONGODB_URL, options)
+  return mongoose.connect(process.env.MONGODB_URL, dbOptions)
 }

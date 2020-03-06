@@ -29,6 +29,7 @@ app.use(bodyParser.json())
 // routes
 app.use('/', require('./routes/indexRouter'))
 app.use('/fish', require('./routes/fishCatchRouter'))
+app.use('/users', require('./routes/usersRouter'))
 
 // run server
 app.listen(port, () => console.log(`Server running on port ${port}`))
