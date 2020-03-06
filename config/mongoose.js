@@ -8,11 +8,6 @@
 'use strict'
 
 const mongoose = require('mongoose')
-const CONNECTION_STRING = 'mongodb://first-admin:Administrati0n@cluster0-shard-00-00' +
-  '-ggj6m.mongodb.net:27017,cluster0-shard-00-01-ggj6m.mongodb.net:27017,cluster0-shard' +
-  '-00-02-ggj6m.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=' +
-  'admin&retryWrites=true'
-// ////////////////////////////////////////////////////////////// put password in a separate file and change db password
 
 /**
  * Creates connection to mongoDB database.
@@ -42,5 +37,5 @@ module.exports.run = async () => {
   const options = { useNewUrlParser: true, useUnifiedTopology: true }
 
   // Connect to the server.
-  return mongoose.connect(CONNECTION_STRING, options)
+  return mongoose.connect(process.env.MONGODB_URL, options)
 }
