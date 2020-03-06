@@ -4,7 +4,7 @@
   "description": "A REST web-API created for assignment 2, 1dv527, linnaeus University, VT20",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "env-cmd -f ./.env nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,6 +19,7 @@
     "mongoose": "^5.9.1"
   },
   "devDependencies": {
+    "env-cmd": "^10.1.0",
     "morgan": "^1.9.1",
     "nodemon": "^2.0.2"
   }
