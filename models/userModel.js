@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 const userSchema = mongoose.Schema({
-  name: {
+  username: {
     type: String,
     required: true,
     unique: true,
@@ -43,8 +43,8 @@ userSchema.methods.generateAuthToken = async function () {
 }
 
 // Search for user by name and password.
-userSchema.statics.findByCredentials = async (name, password) => {
-  const user = await User.findOne({ name })
+userSchema.statics.findByCredentials = async (username, password) => {
+  const user = await User.findOne({ username })
   if (!user) {
     throw new Error({ error: 'Invalid login credentials' })
   }
