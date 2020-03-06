@@ -12,7 +12,7 @@
 'use strict'
 
 const jwt = require('jsonwebtoken')
-const User = require('../models/UserModel')
+const User = require('../models/userModel')
 
 const authz = async (req, res, next) => {
   const token = req.header('Authorization').replace('Bearer ', '')

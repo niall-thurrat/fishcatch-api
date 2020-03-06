@@ -41,5 +41,13 @@ usersController.login = async (req, res, next) => {
   }
 }
 
+usersController.user = async (req, res, next) => {
+  try {
+    res.send(req.user)
+  } catch (error) {
+    res.status(400).send(error) // ////////// change error status??
+  }
+}
+
 // Exports.
 module.exports = usersController

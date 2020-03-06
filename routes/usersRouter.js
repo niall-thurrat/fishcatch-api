@@ -14,5 +14,7 @@ const authz = require('../middleware/authz')
 router.post('/signup', controller.signup)
 router.post('/login', controller.login)
 
+router.get('/user', authz, controller.user)
+
 // Exports.
 module.exports = router
