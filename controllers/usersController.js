@@ -3,6 +3,9 @@
  *
  * @author Niall Thurrat
  * @version 1.0.0
+ *
+ * @credits got a little help from Frank Atukunda for this one:
+ * https://medium.com/swlh/jwt-authentication-authorization-in-nodejs-express-mongodb-rest-apis-2019-ad14ec818122
  */
 
 'use strict'
@@ -41,11 +44,24 @@ usersController.login = async (req, res, next) => {
   }
 }
 
-usersController.user = async (req, res, next) => {
+usersController.viewUser = async (req, res, next) => {
   try {
     res.send(req.user)
   } catch (error) {
     res.status(400).send(error) // ////////// change error status??
+  }
+}
+
+usersController.logoutUser = async (req, res) => {
+  try {
+    req.user.tokens = req.user.tokens.filter((token) => {
+      return token.token !== req.token
+    })
+    await req.user.save()
+
+    res.send('Ill be danged')
+  } catch (error) {
+    res.status(500).send(error)
   }
 }
 
