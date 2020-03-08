@@ -59,7 +59,7 @@ usersController.logoutUser = async (req, res) => {
     })
     await req.user.save()
 
-    res.send('Ill be danged')
+    res.send('successful logout')
   } catch (error) {
     res.status(500).send(error)
   }

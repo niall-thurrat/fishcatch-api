@@ -26,7 +26,8 @@ fishCatchController.index = async (req, res, next) => {
 fishCatchController.addFish = async (req, res, next) => {
   try {
     const fishCatch = new FishCatch({
-      test: req.body.test
+      catcherName: req.body.username,
+      weight: req.body.weight
     })
 
     await fishCatch.save()
@@ -52,7 +53,8 @@ fishCatchController.viewFish = async (req, res, next) => {
 fishCatchController.updateFish = async (req, res, next) => {
   try {
     await FishCatch.findOneAndUpdate({ _id: req.params.fishId }, {
-      test: req.body.test
+      catcherName: req.body.username,
+      weight: req.body.weight
     })
 
     res.status(200).send('null') // 204 no content should be used

@@ -11,8 +11,13 @@ const mongoose = require('mongoose')
 
 // Create a fish catch schema.
 const fishCatchSchema = new mongoose.Schema({
-  test: {
+  catcherName: {
     type: String,
+    required: true,
+    trim: true
+  },
+  weight: {
+    type: Number,
     required: true
   }
 }, { timestamps: true })
@@ -25,11 +30,6 @@ module.exports = FishCatch
 
 // FISH DATA FOR MODEL
 /*
-catcherName: {
-    type: String,
-    required: true,
-    trim: true
-  },
   catchLatitude: {
     type: Number,
     required: true
