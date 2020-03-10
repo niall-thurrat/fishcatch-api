@@ -10,20 +10,54 @@
 
 'use strict'
 
+const bcrypt = require('bcryptjs')
+// const passport = require('passport')
+// const jwt = require('jsonwebtoken')
+
 const User = require('../models/userModel')
+// const secret = process.env.SECRET
 
 const usersController = {}
 
+// usersController.signup = async (req, res, next) => {
+//   try {
+//     const user = new User({
+//       username: req.body.username,
+//       password: req.body.password
+//     })
+//     await user.save()
+
+//     const token = await user.generateAuthToken()
+//     res.status(201).send({ user, token })
+//   } catch (error) {
+//     res.status(400).send(error)
+//   }
+// }
+
 usersController.signup = async (req, res, next) => {
   try {
-    const user = new User({
-      username: req.body.username,
-      password: req.body.password
-    })
-    await user.save()
+    var user = await User.findOne({ emailAddress: req.body.emailAddress })
 
-    const token = await user.generateAuthToken()
-    res.status(201).send({ user, token })
+    if (user) {
+      const error = 'Email Address Exists in Database.'
+      return res.status(400).json(error)
+    } else {
+      const newUser = new User({
+        name: req.body.name,
+        emailAddress: req.body.emailAddress,
+        password: req.body.password
+      })
+      bcrypt.genSalt(10, (err, salt) => {
+        if (err) throw err
+        bcrypt.hash(newUser.password, salt,
+          (err, hash) => {
+            if (err) throw err
+            newUser.password = hash
+            newUser.save().then(user => res.json(user))
+              .catch(err => res.status(400).json(err))
+          })
+      })
+    }
   } catch (error) {
     res.status(400).send(error)
   }

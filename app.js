@@ -9,9 +9,7 @@
 
 const express = require('express')
 const mongoose = require('./config/mongoose')
-const passport = require('passport')
 const bodyParser = require('body-parser')
-const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 
 const app = express()
@@ -24,10 +22,8 @@ mongoose.run().catch(error => {
 })
 
 // middleware
-app.use(passport.initialize())
-require('./passport-config')(passport)
+require('./middleware/auth')
 app.use(logger('dev'))
-app.use(cookieParser())
 app.use(bodyParser.urlencoded({ extended: true })) /// is extended really needed?
 app.use(bodyParser.json())
 
@@ -35,6 +31,12 @@ app.use(bodyParser.json())
 app.use('/', require('./routes/indexRouter'))
 app.use('/fish', require('./routes/fishCatchRouter'))
 app.use('/users', require('./routes/usersRouter'))
+
+// Handle errors
+app.use(function (err, req, res, next) {
+  res.status(err.status || 500)
+  res.json({ error: err })
+})
 
 // run server
 app.listen(port, () => console.log(`Server running on port ${port}`))
