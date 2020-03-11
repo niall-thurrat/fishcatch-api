@@ -9,7 +9,9 @@
 
 const express = require('express')
 const mongoose = require('./config/mongoose')
+const passport = require('passport')
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 
 const app = express()
@@ -22,21 +24,17 @@ mongoose.run().catch(error => {
 })
 
 // middleware
-require('./middleware/auth')
-app.use(logger('dev'))
-app.use(bodyParser.urlencoded({ extended: true })) /// is extended really needed?
+app.use(passport.initialize())
+require('./config/passport')(passport)
+app.use(cookieParser())
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+app.use(logger('dev'))
 
-// main routes
+// routes
 app.use('/', require('./routes/indexRouter'))
 app.use('/fish', require('./routes/fishCatchRouter'))
 app.use('/users', require('./routes/usersRouter'))
-
-// Handle errors
-app.use(function (err, req, res, next) {
-  res.status(err.status || 500)
-  res.json({ error: err })
-})
 
 // run server
 app.listen(port, () => console.log(`Server running on port ${port}`))

@@ -9,10 +9,12 @@
 'use strict'
 
 const mongoose = require('mongoose')
-const bcrypt = require('bcrypt')
 
 const userSchema = mongoose.Schema({
-  name: String,
+  name: {
+    type: String,
+    trim: true
+  },
   username: {
     type: String,
     required: true,
@@ -21,7 +23,6 @@ const userSchema = mongoose.Schema({
   },
   emailAddress: {
     type: String,
-    required: true,
     unique: true,
     trim: true
   },
@@ -31,21 +32,6 @@ const userSchema = mongoose.Schema({
     trim: false
   }
 }, { timestamps: true })
-
-// using pre-hook to hash password
-userSchema.pre('save', async function (next) {
-  const user = this
-  const hash = await bcrypt.hash(user.password, 10)
-  user.password = hash
-  next()
-})
-
-// Compare hashed login password with database password
-userSchema.methods.isValidPassword = async function (password) {
-  const user = this
-  const compare = await bcrypt.compare(password, user.password)
-  return compare
-}
 
 const User = mongoose.model('User', userSchema)
 

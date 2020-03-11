@@ -9,11 +9,11 @@
 
 const router = require('express').Router()
 const controller = require('../controllers/usersController')
+const passport = require('passport')
 
 router.post('/signup', controller.signup)
 router.post('/login', controller.login)
-router.get('/:username', controller.viewUser)
-router.post('/:username/logout', controller.logoutUser)
+router.get('/:username', passport.authenticate('jwt', { session: false }), controller.viewUser)
 
 // Exports.
 module.exports = router
