@@ -16,20 +16,6 @@ const fishCatchSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
-  weight: {
-    type: Number,
-    required: true
-  }
-}, { timestamps: true })
-
-// Create a model using the schema.
-const FishCatch = mongoose.model('fishCatch', fishCatchSchema)
-
-// Exports.
-module.exports = FishCatch
-
-// FISH DATA FOR MODEL
-/*
   catchLatitude: {
     type: Number,
     required: true
@@ -50,4 +36,10 @@ module.exports = FishCatch
     type: Number,
     required: true
   }
-*/
+}, { timestamps: true })
+
+// Create a model using the schema.
+const FishCatch = mongoose.model('fishCatch', fishCatchSchema)
+
+// Exports.
+module.exports = FishCatch
