@@ -8,6 +8,7 @@
 'use strict'
 
 const FishCatch = require('../models/fishCatchModel')
+// const passport = require('passport')
 
 const fishCatchController = {}
 
@@ -15,7 +16,6 @@ const fishCatchController = {}
 fishCatchController.index = async (req, res, next) => {
   try {
     const data = await FishCatch.find({})
-
     res.json({ fishCatches: data })
   } catch (error) {
     next(error)
@@ -26,7 +26,7 @@ fishCatchController.index = async (req, res, next) => {
 fishCatchController.addFish = async (req, res, next) => {
   try {
     const fishCatch = new FishCatch({
-      catcherName: req.body.username,
+      catcherName: req.user.name,
       weight: req.body.weight
     })
 

@@ -33,7 +33,8 @@ app.use(logger('dev'))
 
 // routes
 app.use('/', require('./routes/indexRouter'))
-app.use('/fish', require('./routes/fishCatchRouter'))
+app.use('/fish', passport.authenticate(
+  'jwt', { session: false }), require('./routes/fishCatchRouter'))
 app.use('/users', require('./routes/usersRouter'))
 
 // run server
