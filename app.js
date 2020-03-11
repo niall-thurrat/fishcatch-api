@@ -33,9 +33,9 @@ app.use(logger('dev'))
 
 // routes
 app.use('/', require('./routes/indexRouter'))
+app.use('/users', require('./routes/usersRouter'))
 app.use('/fish', passport.authenticate(
   'jwt', { session: false }), require('./routes/fishCatchRouter'))
-app.use('/users', require('./routes/usersRouter'))
 
 // run server
 app.listen(port, () => console.log(`Server running on port ${port}`))

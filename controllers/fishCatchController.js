@@ -70,9 +70,19 @@ fishCatchController.updateFish = async (req, res, next) => {
 // DELETE /fish/:fishId endpoint
 fishCatchController.deleteFish = async (req, res, next) => {
   try {
-    await FishCatch.remove({ _id: req.params.fishId })
+    const fishCatch = await FishCatch.findOne({ _id: req.params.fishId })
 
-    res.status(200).send('null') // change status //
+    if (!fishCatch) {
+      res.status(404).send('resource does not exist')
+    } else {
+      if (fishCatch.catcherName === req.user.username) {
+        await FishCatch.deleteOne({ _id: req.params.fishId })
+
+        res.status(204).send('null')
+      } else {
+        res.status(403).json('Not authorized to delete this fish')
+      }
+    }
   } catch (error) {
     next(error)
   }
