@@ -26,7 +26,7 @@ fishCatchController.index = async (req, res, next) => {
 fishCatchController.addFish = async (req, res, next) => {
   try {
     const fishCatch = new FishCatch({
-      catcherName: req.user.name,
+      catcherName: req.user.username,
       weight: req.body.weight
     })
 
@@ -52,12 +52,16 @@ fishCatchController.viewFish = async (req, res, next) => {
 // PUT /fish/:fishId endpoint
 fishCatchController.updateFish = async (req, res, next) => {
   try {
-    await FishCatch.findOneAndUpdate({ _id: req.params.fishId }, {
-      catcherName: req.body.username,
-      weight: req.body.weight
-    })
+    const fishCatch = await FishCatch.findOne({ _id: req.params.fishId })
 
-    res.status(200).send('null') // 204 no content should be used
+    if (fishCatch.catcherName === req.user.username) {
+      await fishCatch.updateOne({ weight: req.body.weight })
+    } else {
+      const error = 'Not authorized to edit this fish'
+      return res.status(403).json(error)
+    }
+
+    res.status(200).send('null')
   } catch (error) {
     next(error)
   }
