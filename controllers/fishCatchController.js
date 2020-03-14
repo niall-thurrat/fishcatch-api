@@ -16,6 +16,7 @@ const fishCatchController = {}
 fishCatchController.index = async (req, res, next) => {
   try {
     const data = await FishCatch.find({})
+
     res.json({ fishCatches: data })
   } catch (error) {
     next(error)
@@ -26,8 +27,12 @@ fishCatchController.index = async (req, res, next) => {
 fishCatchController.addFish = async (req, res, next) => {
   try {
     const fishCatch = new FishCatch({
-      catcherName: req.user.username,
-      weight: req.body.weight
+      catcherName: req.user.name,
+      catchLatitude: req.body.catchLatitude,
+      catchLongitude: req.body.catchLongitude,
+      species: req.body.species,
+      weight: req.body.weight,
+      length: req.body.length
     })
 
     await fishCatch.save()
@@ -54,11 +59,16 @@ fishCatchController.updateFish = async (req, res, next) => {
   try {
     const fishCatch = await FishCatch.findOne({ _id: req.params.fishId })
 
-    if (fishCatch.catcherName === req.user.username) {
-      await fishCatch.updateOne({ weight: req.body.weight })
+    if (fishCatch.catcherName === req.user.name) {
+      await fishCatch.updateOne({
+        catchLatitude: req.body.catchLatitude,
+        catchLongitude: req.body.catchLongitude,
+        species: req.body.species,
+        weight: req.body.weight,
+        length: req.body.length
+      })
     } else {
-      const error = 'Not authorized to edit this fish'
-      return res.status(403).json(error)
+      return res.status(403).json('Not authorized to edit this fish')
     }
 
     res.status(200).send('null')
@@ -73,9 +83,9 @@ fishCatchController.deleteFish = async (req, res, next) => {
     const fishCatch = await FishCatch.findOne({ _id: req.params.fishId })
 
     if (!fishCatch) {
-      res.status(404).send('resource does not exist')
+      return res.status(404).send('resource does not exist')
     } else {
-      if (fishCatch.catcherName === req.user.username) {
+      if (fishCatch.catcherName === req.user.name) {
         await FishCatch.deleteOne({ _id: req.params.fishId })
 
         res.status(204).send('null')

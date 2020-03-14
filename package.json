@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "env-cmd -f ./.env nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "seed": "env-cmd -f ./.env node seeder.js"
   },
   "repository": {
     "type": "git",
