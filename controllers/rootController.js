@@ -7,7 +7,7 @@
 
 'use strict'
 
-var halson = require('halson')
+const halson = require('halson')
 
 const rootController = {}
 
