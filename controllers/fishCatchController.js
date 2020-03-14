@@ -12,6 +12,25 @@ const FishCatch = require('../models/fishCatchModel')
 
 const fishCatchController = {}
 
+// check user authorized to access fish resources
+fishCatchController.authz = async function (req, res, next) {
+  try {
+    const fishCatch = await FishCatch.findById(req.params.fishId)
+
+    if (!fishCatch) {
+      return res.status(404).send('Resource not found in database')
+    } else {
+      if (fishCatch.catcherName === req.user.name) {
+        next()
+      } else {
+        return res.status(403).send('Not authorized to access this resource')
+      }
+    }
+  } catch (error) {
+    next(error)
+  }
+}
+
 // GET /fish endpoint
 fishCatchController.index = async (req, res, next) => {
   try {
@@ -37,7 +56,7 @@ fishCatchController.addFish = async (req, res, next) => {
 
     await fishCatch.save()
 
-    res.status(201).send('null')
+    res.status(201).send('Resource Created')
   } catch (error) {
     next(error)
   }
@@ -59,19 +78,15 @@ fishCatchController.updateFish = async (req, res, next) => {
   try {
     const fishCatch = await FishCatch.findOne({ _id: req.params.fishId })
 
-    if (fishCatch.catcherName === req.user.name) {
-      await fishCatch.updateOne({
-        catchLatitude: req.body.catchLatitude,
-        catchLongitude: req.body.catchLongitude,
-        species: req.body.species,
-        weight: req.body.weight,
-        length: req.body.length
-      })
-    } else {
-      return res.status(403).json('Not authorized to edit this fish')
-    }
+    await fishCatch.updateOne({
+      catchLatitude: req.body.catchLatitude,
+      catchLongitude: req.body.catchLongitude,
+      species: req.body.species,
+      weight: req.body.weight,
+      length: req.body.length
+    })
 
-    res.status(200).send('null')
+    res.status(200).send('Resource edited successfully')
   } catch (error) {
     next(error)
   }
@@ -80,19 +95,9 @@ fishCatchController.updateFish = async (req, res, next) => {
 // DELETE /fish/:fishId endpoint
 fishCatchController.deleteFish = async (req, res, next) => {
   try {
-    const fishCatch = await FishCatch.findOne({ _id: req.params.fishId })
+    await FishCatch.deleteOne({ _id: req.params.fishId })
 
-    if (!fishCatch) {
-      return res.status(404).send('resource does not exist')
-    } else {
-      if (fishCatch.catcherName === req.user.name) {
-        await FishCatch.deleteOne({ _id: req.params.fishId })
-
-        res.status(204).send('null')
-      } else {
-        res.status(403).json('Not authorized to delete this fish')
-      }
-    }
+    res.status(204).send('Resource deleted successfully') // no content means this null doesn't show right?
   } catch (error) {
     next(error)
   }

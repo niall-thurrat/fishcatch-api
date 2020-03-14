@@ -15,9 +15,9 @@ router.route('/')
   .post(controller.addFish)
 
 router.route('/:fishId')
-  .get(controller.viewFish)
-  .put(controller.updateFish)
-  .delete(controller.deleteFish)
+  .get(controller.authz, controller.viewFish)
+  .put(controller.authz, controller.updateFish)
+  .delete(controller.authz, controller.deleteFish)
 
 // Exports.
 module.exports = router
