@@ -12,7 +12,7 @@ const indexController = {}
 indexController.index = async (req, res, next) => {
   try {
     console.log('HOME CONTROLLER CALLED')
-    res.json({ message: 'this is where i guess i\'ll put all the links to the site!!!' })
+    res.status(200).json({ message: 'this is where i guess i\'ll put all the links to the site!!!' })
   } catch (error) {
     next(error)
   }

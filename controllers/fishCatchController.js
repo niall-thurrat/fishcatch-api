@@ -36,7 +36,7 @@ fishCatchController.index = async (req, res, next) => {
   try {
     const data = await FishCatch.find({})
 
-    res.json({ fishCatches: data })
+    res.status(200).json({ fishCatches: data })
   } catch (error) {
     next(error)
   }
