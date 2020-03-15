@@ -151,7 +151,7 @@ usersController.viewUser = async (req, res, next) => {
   }
 }
 
-// GET /users/:username endpoint
+// GET /users/:username/user-fish endpoint
 usersController.viewUserFish = async (req, res, next) => {
   try {
     const userFish = await FishCatch.find({ catcherName: req.user.name })
