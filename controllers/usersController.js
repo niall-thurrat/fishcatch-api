@@ -135,7 +135,16 @@ usersController.login = (req, res, next) => {
 // GET /users/:username endpoint
 usersController.viewUser = async (req, res, next) => {
   try {
-    res.send(req.user)
+    res.status(200)
+    res.setHeader('Content-Type', 'application/hal+json')
+
+    const resource = halson({
+      logged_in_user: req.user,
+      instructions: 'user can access fish collection resource'
+    }).addLink('self', `https://${req.headers.host}/users/${req.user.username}`)
+      .addLink('fish', `https://${req.headers.host}/fish`)
+
+    res.send(JSON.stringify(resource))
   } catch (error) {
     res.status(400).send(error)
   }
