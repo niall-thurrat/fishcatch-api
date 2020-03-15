@@ -8,12 +8,12 @@
 'use strict'
 
 const FishCatch = require('../models/fishCatchModel')
-// const passport = require('passport')
+const halson = require('halson')
 
 const fishCatchController = {}
 
 // check user authorized to access fish resources
-fishCatchController.authz = async (req, res, next) => {{
+fishCatchController.authz = async (req, res, next) => {
   try {
     const fishCatch = await FishCatch.findById(req.params.fishId)
 
@@ -36,7 +36,19 @@ fishCatchController.index = async (req, res, next) => {
   try {
     const data = await FishCatch.find({})
 
-    res.status(200).json({ fishCatches: data })
+    res.status(200)
+    res.setHeader('Content-Type', 'application/hal+json')
+
+    const resource = halson({
+      logged_in_user: req.user,
+      all_fish: data,
+      instructions: 'collection of all fish. From here user should' +
+        ' view a single fish, their own fish collection or their user page'
+    }).addLink('self', `https://${req.headers.host}/fish`)
+      .addLink('user', `https://${req.headers.host}/users/${req.user.username}`)
+    //  .addLink('fish', `https://${req.headers.host}/fish`) /////////////////////////// how is list auto generated??
+
+    res.send(JSON.stringify(resource))
   } catch (error) {
     next(error)
   }
