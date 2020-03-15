@@ -13,7 +13,8 @@ const passport = require('passport')
 
 router.post('/signup', controller.signup)
 router.post('/login', controller.login)
-router.get('/:username', passport.authenticate('jwt', { session: false }), controller.viewUser)
+router.get('/:username', passport.authenticate('jwt', { session: false }),
+  controller.authz, controller.viewUser)
 
 // Exports.
 module.exports = router

@@ -4,7 +4,7 @@
  * @author Niall Thurrat
  * @version 1.0.0
  *
- * @credits got a bit of help from Chris Rutherford on this one:
+ * @credits got a bit of help from Chris Rutherford on using passport/jwt here:
  * https://medium.com/@therealchrisrutherford/nodejs-authentication-with-passport-and-jwt-in-express-3820e256054f
  */
 
@@ -16,6 +16,21 @@ const jwt = require('jsonwebtoken')
 const halson = require('halson')
 
 const usersController = {}
+
+// check user authorized to access user resource
+usersController.authz = async function (req, res, next) {
+  try {
+    const loggedInUser = req.user.username
+
+    if (loggedInUser === req.params.username) {
+      next()
+    } else {
+      return res.status(403).send('Not authorized to access this resource')
+    }
+  } catch (error) {
+    next(error)
+  }
+}
 
 // POST /users/signup endpoint
 usersController.signup = (req, res, next) => {
