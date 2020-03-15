@@ -11,6 +11,7 @@
 'use strict'
 
 const User = require('../models/userModel')
+const FishCatch = require('../models/fishCatchModel')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const halson = require('halson')
@@ -142,6 +143,28 @@ usersController.viewUser = async (req, res, next) => {
       logged_in_user: req.user,
       instructions: 'user can access fish collection resource'
     }).addLink('self', `https://${req.headers.host}/users/${req.user.username}`)
+      .addLink('fish', `https://${req.headers.host}/fish`)
+
+    res.send(JSON.stringify(resource))
+  } catch (error) {
+    res.status(400).send(error)
+  }
+}
+
+// GET /users/:username endpoint
+usersController.viewUserFish = async (req, res, next) => {
+  try {
+    const userFish = await FishCatch.find({ catcherName: req.user.name })
+
+    res.status(200)
+    res.setHeader('Content-Type', 'application/hal+json')
+
+    const resource = halson({
+      logged_in_user: req.user,
+      user_fish: userFish,
+      instructions: 'user accesses all of their fish. can either return to user or view all fish'
+    }).addLink('self', `https://${req.headers.host}/users/${req.user.username}/user-fish`)
+      .addLink('user', `https://${req.headers.host}/users/${req.user.username}`)
       .addLink('fish', `https://${req.headers.host}/fish`)
 
     res.send(JSON.stringify(resource))
