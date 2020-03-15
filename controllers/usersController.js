@@ -13,16 +13,19 @@
 const User = require('../models/userModel')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const halson = require('halson')
 
 const usersController = {}
 
-usersController.signup = async (req, res, next) => {
+// POST /users/signup endpoint
+usersController.signup = (req, res, next) => {
   try {
     User.findOne({ username: req.body.username })
-      .then(user => {
+      .then(async (err, user) => {
+        if (err) throw err
+
         if (user) {
-          const error = 'Username Exists in Database.'
-          return res.status(400).json(error)
+          return res.status(400).send('Username Exists in Database.')
         } else {
           const newUser = new User({
             name: req.body.name,
@@ -30,23 +33,37 @@ usersController.signup = async (req, res, next) => {
             emailAddress: req.body.emailAddress,
             password: req.body.password
           })
-          bcrypt.genSalt(10, (err, salt) => {
+          await bcrypt.genSalt(10, (err, salt) => {
             if (err) throw err
+
             bcrypt.hash(newUser.password, salt,
               (err, hash) => {
                 if (err) throw err
+
                 newUser.password = hash
-                newUser.save().then(user => res.json(user))
+                newUser.save()
               })
           })
+
+          res.status(201)
+          res.setHeader('Content-Type', 'application/hal+json')
+
+          const resource = halson({
+            instructions: 'both successful and unsuccessful signups should' +
+            ' return to root where login and signup options are provided'
+          }).addLink('self', `https://${req.headers.host}/users/signup`)
+            .addLink('root', `https://${req.headers.host}/`)
+
+          res.send(JSON.stringify(resource))
         }
       })
   } catch (error) {
-    res.status(400).send(error)
+    res.status(400).send(error) // or next(error)?
   }
 }
 
-usersController.login = async (req, res, next) => {
+// POST /users/login endpoint
+usersController.login = (req, res, next) => {
   try {
     const username = req.body.username
     const password = req.body.password
@@ -75,13 +92,22 @@ usersController.login = async (req, res, next) => {
                         raw: err
                       })
                   }
-                  res.json({
-                    success: true,
-                    token: `Bearer ${token}`
-                  })
+                  res.status(201)
+                  res.setHeader('Content-Type', 'application/hal+json')
+
+                  const resource = halson({
+                    login_success: true,
+                    token: `Bearer ${token}`,
+                    logged_in_user: user,
+                    instructions: 'use token in Authorization header ' +
+                      'to access user resource'
+                  }).addLink('self', `https://${req.headers.host}/users/login`)
+                    .addLink('user', `https://${req.headers.host}/users/${username}`)
+
+                  res.send(JSON.stringify(resource))
                 })
             } else {
-              const error = 'Password is incorrect'
+              const error = 'Credentials incorrect'
               res.status(400).json(error)
             }
           })
@@ -91,6 +117,7 @@ usersController.login = async (req, res, next) => {
   }
 }
 
+// GET /users/:username endpoint
 usersController.viewUser = async (req, res, next) => {
   try {
     res.send(req.user)
