@@ -19,7 +19,7 @@ const halson = require('halson')
 const usersController = {}
 
 // check user authorized to access user resource
-usersController.authz = async function (req, res, next) {
+usersController.authz = (req, res, next) => {
   try {
     const loggedInUser = req.user.username
 

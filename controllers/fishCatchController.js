@@ -13,7 +13,7 @@ const FishCatch = require('../models/fishCatchModel')
 const fishCatchController = {}
 
 // check user authorized to access fish resources
-fishCatchController.authz = async function (req, res, next) {
+fishCatchController.authz = async (req, res, next) => {{
   try {
     const fishCatch = await FishCatch.findById(req.params.fishId)
 
