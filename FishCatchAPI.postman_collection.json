@@ -1,0 +1,414 @@
+{
+	"info": {
+		"_postman_id": "ff04f2ea-1bde-4ed6-9e7d-af02b2fe55d9",
+		"name": "FishCatch API",
+		"description": "This is a collection for Niall Thurrat's FishCatch API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "FishCatch API Root",
+			"item": [
+				{
+					"name": "Root API request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3ae6475d-5d6f-4914-a91e-66da822fccd0",
+								"exec": [
+									"pm.test(\"Root request should get status 200 response\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								""
+							],
+							"query": [
+								{
+									"key": "test",
+									"value": "yippy",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						},
+						"description": "This is the root API request"
+					},
+					"response": []
+				}
+			],
+			"description": "This will test the result of the root API call"
+		},
+		{
+			"name": "FishCatch API Users",
+			"item": [
+				{
+					"name": "Users Signup request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b276d02e-4ca9-406b-9bdc-84bcc225a96b",
+								"exec": [
+									"pm.test(\"Successful signup POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Bob Test",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "testBob",
+									"type": "text"
+								},
+								{
+									"key": "emailAddress",
+									"value": "bob@test.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "testPassword3",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"signup"
+							],
+							"query": [
+								{
+									"key": "test",
+									"value": "yippy",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						},
+						"description": "This is a user request to register with the api"
+					},
+					"response": []
+				},
+				{
+					"name": "Users Login request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81499728-0977-41ac-8de7-91816f117584",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"var bearerToken = jsonData.token;",
+									"var APIkey = bearerToken.substring(7, bearerToken.length);",
+									"",
+									"pm.environment.set(\"TOKEN\", APIkey);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "testBob",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "testPassword3",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"login"
+							],
+							"query": [
+								{
+									"key": "test",
+									"value": "yippy",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						},
+						"description": "This is a user request to login to the api"
+					},
+					"response": []
+				},
+				{
+					"name": "User request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0daeba80-4f48-4480-8d12-b872921a486e",
+								"exec": [
+									"pm.test(\"User request has status 200 response\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/:username",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								":username"
+							],
+							"variable": [
+								{
+									"key": "username",
+									"value": "testBob"
+								}
+							]
+						},
+						"description": "This is a request for a specific user resource."
+					},
+					"response": []
+				},
+				{
+					"name": "User fish collection request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "90e5fdff-5f81-4a6f-af33-f6337ae9a726",
+								"exec": [
+									"pm.test(\"User fish collection request has status 200 response\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/:username/user-fish",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								":username",
+								"user-fish"
+							],
+							"variable": [
+								{
+									"key": "username",
+									"value": "testBob"
+								}
+							]
+						},
+						"description": "User requests to see all fish they have added"
+					},
+					"response": []
+				}
+			],
+			"description": "Users routes in FishCatch API"
+		},
+		{
+			"name": "FishCatch API Fish",
+			"item": [
+				{
+					"name": "All Fish collection request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "46d22925-5a33-4940-b0f0-2736015915fe",
+								"exec": [
+									"pm.test(\"Fish request has status 200 response\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/fish",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"fish"
+							]
+						},
+						"description": "Request collection of all users fish"
+					},
+					"response": []
+				}
+			],
+			"description": "Requests to fish resources in the FishCatch API"
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{TOKEN}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "f28a6642-0e05-43f4-808f-005e769b5cfa",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "ef17637b-50b4-4f3c-8c66-337b6307886e",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

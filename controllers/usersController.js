@@ -108,7 +108,7 @@ usersController.login = (req, res, next) => {
                         raw: err
                       })
                   }
-                  res.status(201)
+                  res.status(200)
                   res.setHeader('Content-Type', 'application/hal+json')
 
                   const resource = halson({
