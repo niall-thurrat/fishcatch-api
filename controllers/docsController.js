@@ -90,21 +90,21 @@ docsController.loginDoc = (req, res, next) => {
 docsController.userDoc = (req, res, next) => {
   try {
     const jsonDoc = {
-      Request: {
-        'Expected request method(s)': 'GET',
-        Headers: 'Authorization header required with Bearer token',
-        Params: 'username required to complete user URI',
-        Body: 'none'
-      },
-      Response: {
-        'Success returns': '200 OK',
-        Headers: {
-          'Content-Type': 'application/hal+json'
+      GET: {
+        Request: {
+          Headers: 'Authorization header required with Bearer token',
+          Params: 'username required to complete user URI',
+          Body: 'none'
         },
-        Body: {
-          state: 'user current id, name, username and emailAddress',
-          links: 'list of fish belonging to this user'
-
+        Response: {
+          'Success returns': '200 OK',
+          Headers: {
+            'Content-Type': 'application/hal+json'
+          },
+          Body: {
+            state: 'user current id, name, username and emailAddress',
+            links: 'list of fish belonging to this user' /// //////////////// what is here?
+          }
         }
       }
     }
@@ -115,5 +115,5 @@ docsController.userDoc = (req, res, next) => {
   }
 }
 
-// Exports.
+// Exports
 module.exports = docsController
