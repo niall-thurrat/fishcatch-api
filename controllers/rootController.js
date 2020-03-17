@@ -23,8 +23,20 @@ rootController.getRoot = async (req, res, next) => {
         description: 'The FishCatch RESTful API provides user and fish resources'
       },
       description: 'This is the root/main entry point of the API' +
-        'should be available in clients to visitors of the root address are Login or Register'
-    }).addLink('self', `https://${req.headers.host}/`)
+        ''
+    }).addLink('self', '/')
+      .addLink('curies', [{
+        name: 'fc',
+        href: `https://${req.headers.host}/docs/rels/{rel}`,
+        templated: true
+      }])
+      .addLink('fc:signup', '/users/signup')
+      .addLink('fc:login', '/users/login')
+      .addLink('fc:user', {
+        href: '/users/{username}',
+        templated: true
+      })
+      .addLink('fc:fish', '/fish')
 
     res.send(JSON.stringify(resource))
   } catch (error) {
