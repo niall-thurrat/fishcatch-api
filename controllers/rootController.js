@@ -17,13 +17,12 @@ rootController.getRoot = async (req, res, next) => {
     res.setHeader('Content-Type', 'application/hal+json')
 
     var resource = halson({
-      apiMetaData: {
+      meta: {
         title: 'FishCatch RESTful API',
         author: 'Niall Thurrat',
-        description: 'The FishCatch RESTful API allows logged in users to view users\' records ' +
-        'of caught fish and record their own catches'
+        description: 'The FishCatch RESTful API provides user and fish resources'
       },
-      instructions: 'This API root indexes all links in the API. The only links which ' +
+      description: 'This is the root/main entry point of the API' +
         'should be available in clients to visitors of the root address are Login or Register'
     }).addLink('self', `https://${req.headers.host}/`)
 

@@ -40,9 +40,10 @@ fishCatchController.index = async (req, res, next) => {
     res.setHeader('Content-Type', 'application/hal+json')
 
     const resource = halson({
-      logged_in_user: req.user,
-      all_fish: data,
-      instructions: 'collection of all fish. From here user should' +
+      // logged_in_user: req.user, embed
+      // all_fish: data, embed
+      total_fish_in_db: data.length,
+      description: 'Collection of all fish. Embedded resources' +
         ' view a single fish, their own fish collection or their user page'
     }).addLink('self', `https://${req.headers.host}/fish`)
       .addLink('user', `https://${req.headers.host}/users/${req.user.username}`)

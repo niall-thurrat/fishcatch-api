@@ -65,7 +65,7 @@ usersController.signup = (req, res, next) => {
           res.setHeader('Content-Type', 'application/hal+json')
 
           const resource = halson({
-            instructions: 'both successful and unsuccessful signups should' +
+            description: 'both successful and unsuccessful signups should' +
             ' return to root where login and signup options are provided'
           }).addLink('self', `https://${req.headers.host}/users/signup`)
             .addLink('root', `https://${req.headers.host}/`)
@@ -140,6 +140,7 @@ usersController.viewUser = async (req, res, next) => {
     res.setHeader('Content-Type', 'application/hal+json')
 
     const resource = halson({
+      resource_username: req.user.username,
       logged_in_user: req.user,
       instructions: 'user can access fish collection resource'
     }).addLink('self', `https://${req.headers.host}/users/${req.user.username}`)
