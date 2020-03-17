@@ -60,6 +60,9 @@ usersController.signup = (req, res, next) => {
                 newUser.save()
               })
           })
+          res.status(201)
+          res.setHeader('Content-Type', 'application/hal+json')
+          res.setHeader('Location', `/users/${req.body.username}`)
 
           const resource = halson({
             description: 'signup required before login'
@@ -71,10 +74,6 @@ usersController.signup = (req, res, next) => {
             }])
             .addLink('root', '/')
             .addLink('fc:login', '/users/login')
-
-          res.status(201)
-          res.setHeader('Content-Type', 'application/hal+json')
-          res.setHeader('Location', `/users/${req.body.username}`)
 
           res.send(JSON.stringify(resource))
         }
@@ -158,7 +157,7 @@ usersController.viewUser = async (req, res, next) => {
 
     const resource = halson({
       user: req.user,
-      instructions: 'user can view all fish and own fish collections, ' +
+      description: 'user can view all fish and own fish collections, ' +
       'as well as add a fish'
     }).addLink('self', `/users/${req.user.username}`)
       .addLink('curies', [{
@@ -184,12 +183,24 @@ usersController.viewUserFish = async (req, res, next) => {
     res.setHeader('Content-Type', 'application/hal+json')
 
     const resource = halson({
-      logged_in_user: req.user,
-      user_fish: userFish,
-      instructions: 'user accesses all of their fish. can either return to user or view all fish'
-    }).addLink('self', `https://${req.headers.host}/users/${req.user.username}/user-fish`)
-      .addLink('user', `https://${req.headers.host}/users/${req.user.username}`)
-      .addLink('fish', `https://${req.headers.host}/fish`)
+      fish_catcher: req.user,
+      // user_fish: userFish,
+      number_of_fish_in_collection: userFish.length(),
+      description: 'user accesses collection of their own fish. can now view a ' +
+        'specific fish, add a fish, view all fish or return to user resource'
+    }).addLink('self', `/users/${req.user.username}/user-fish`)
+      .addLink('next', `/users/${req.user.username}/user-fish?page=2`)
+      .addLink('curies', [{
+        name: 'fc',
+        href: `https://${req.headers.host}/docs/rels/{rel}`,
+        templated: true
+      }])
+      .addLink('fc:user', `/users/${req.user.username}`)
+      .addLink('fc:all-fish', `https://${req.headers.host}/fish`)
+      .addLink('fc:one-fish', {
+        href: '/fish/{fishId}',
+        templated: true
+      })
 
     res.send(JSON.stringify(resource))
   } catch (error) {

@@ -105,13 +105,42 @@ docsController.userDoc = (req, res, next) => {
           },
           Body: {
             state: 'user current id, name, username and emailAddress',
-            links: 'list of fish belonging to this user' /// //////////////// what is here?
+            links: 'all fish and user\'s own fish collection'
           }
         }
       }
     }
 
     res.send(jsonDoc)
+  } catch (error) {
+    next(error)
+  }
+}
+
+// GET /docs/rels/user-fish endpoint
+docsController.userFishDoc = (req, res, next) => {
+  try {
+    // const jsonDoc = {
+    //   GET: {
+    //     Request: {
+    //       Headers: 'Authorization header required with Bearer token',
+    //       Params: 'username required to complete user URI',
+    //       Body: 'none'
+    //     },
+    //     Response: {
+    //       'Success returns': '200 OK',
+    //       Headers: {
+    //         'Content-Type': 'application/hal+json'
+    //       },
+    //       Body: {
+    //         state: 'user current id, name, username and emailAddress',
+    //         links: 'all fish and user\'s own fish collection'
+    //       }
+    //     }
+    //   }
+    // }
+
+    // res.send(jsonDoc)
   } catch (error) {
     next(error)
   }
