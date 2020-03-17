@@ -56,7 +56,7 @@ fishCatchController.index = async (req, res, next) => {
 }
 
 // POST /fish endpoint
-fishCatchController.addFish = async (req, res, next) => {
+fishCatchController.addFish = (req, res, next) => {
   try {
     const fishCatch = new FishCatch({
       catcherName: req.user.name,
@@ -67,7 +67,7 @@ fishCatchController.addFish = async (req, res, next) => {
       length: req.body.length
     })
 
-    await fishCatch.save(function (err, fish) {
+    fishCatch.save((err, fish) => {
       if (err) throw err
 
       res.status(201)
@@ -75,6 +75,7 @@ fishCatchController.addFish = async (req, res, next) => {
       res.setHeader('Location', `/fish/${fish._id}`)
 
       const resource = halson({
+        fish_catch: fish,
         fish_catcher: req.user,
         description: 'Fish resouce has been added and will show in both fish ' +
         'and user-fish collections. User can be directed to the new fish resource ' +
@@ -97,11 +98,30 @@ fishCatchController.addFish = async (req, res, next) => {
 }
 
 // GET /fish/:fishId endpoint
-fishCatchController.viewFish = async (req, res, next) => {
+fishCatchController.viewFish = (req, res, next) => {
   try {
-    const data = await FishCatch.findById(req.params.fishId)
+    FishCatch.findById(req.params.fishId, (err, fish) => {
+      if (err) throw err
 
-    res.json(data) // status?
+      res.status(200)
+      res.setHeader('Content-Type', 'application/hal+json')
+
+      const resource = halson({
+        fish_catch: fish,
+        fish_catcher: req.user,
+        description: 'Fish resouce has been retrieved'
+      }).addLink('self', `/fish/${fish._id}`)
+        .addLink('curies', [{
+          name: 'fc',
+          href: `https://${req.headers.host}/docs/rels/{rel}`,
+          templated: true
+        }])
+        .addLink('fc:fish', '/fish')
+        .addLink('fc:user-fish', `/users/${req.user.username}/user-fish`)
+        .addLink('fc:user', `/users/${req.user.username}`)
+
+      res.send(JSON.stringify(resource))
+    })
   } catch (error) {
     next(error)
   }
