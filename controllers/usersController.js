@@ -72,7 +72,7 @@ usersController.signup = (req, res, next) => {
             .addLink('root', '/')
             .addLink('fc:login', '/users/login')
 
-          res.status(200)
+          res.status(201)
           res.setHeader('Content-Type', 'application/hal+json')
           res.setHeader('Location', `/users/${req.body.username}`)
 
@@ -127,6 +127,11 @@ usersController.login = (req, res, next) => {
                     description: 'use Bearer token in Authorization header ' +
                       'to access user resource'
                   }).addLink('self', '/users/login')
+                    .addLink('curies', [{
+                      name: 'fc',
+                      href: `https://${req.headers.host}/docs/rels/{rel}`,
+                      templated: true
+                    }])
                     .addLink('fc:user', {
                       href: '/users/{username}',
                       templated: true
@@ -152,11 +157,15 @@ usersController.viewUser = async (req, res, next) => {
     res.setHeader('Content-Type', 'application/hal+json')
 
     const resource = halson({
-      resource_username: req.user.username,
-      logged_in_user: req.user,
-      instructions: 'user can access fish collection resource'
-    }).addLink('self', `https://${req.headers.host}/users/${req.user.username}`)
-      .addLink('fish', `https://${req.headers.host}/fish`)
+      user: req.user,
+      instructions: 'user can access fish collection resource and own fish'
+    }).addLink('self', `/users/${req.user.username}`)
+      .addLink('curies', [{
+        name: 'fc',
+        href: `https://${req.headers.host}/docs/rels/{rel}`,
+        templated: true
+      }])
+      .addLink('fc:fish', '/fish')
 
     res.send(JSON.stringify(resource))
   } catch (error) {

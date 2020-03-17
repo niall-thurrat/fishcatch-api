@@ -12,6 +12,7 @@ const controller = require('../controllers/docsController')
 
 router.get('/rels/signup', controller.signupDoc)
   .get('/rels/login', controller.loginDoc)
+  .get('/rels/user', controller.userDoc)
 
-// Exports.
+// Exports
 module.exports = router
