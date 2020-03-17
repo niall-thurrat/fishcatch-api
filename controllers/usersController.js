@@ -66,7 +66,7 @@ usersController.signup = (req, res, next) => {
 
           const resource = halson({
             description: 'signup required before login'
-          }).addLink('self', '/')
+          }).addLink('self', '/users/signup')
             .addLink('curies', [{
               name: 'fc',
               href: `https://${req.headers.host}/docs/rels/{rel}`,
@@ -184,7 +184,7 @@ usersController.viewUserFish = async (req, res, next) => {
 
     const resource = halson({
       fish_catcher: req.user,
-      // user_fish: userFish,
+      // user_fish: userFish, // do i really not list every fish in response // or like last 20?
       number_of_fish_in_collection: userFish.length(),
       description: 'user accesses collection of their own fish. can now view a ' +
         'specific fish, add a fish, view all fish or return to user resource'

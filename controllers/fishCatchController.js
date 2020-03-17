@@ -67,9 +67,30 @@ fishCatchController.addFish = async (req, res, next) => {
       length: req.body.length
     })
 
-    await fishCatch.save()
+    await fishCatch.save(function (err, fish) {
+      if (err) throw err
 
-    res.status(201).send('Resource Created')
+      res.status(201)
+      res.setHeader('Content-Type', 'application/hal+json')
+      res.setHeader('Location', `/fish/${fish._id}`)
+
+      const resource = halson({
+        fish_catcher: req.user,
+        description: 'Fish resouce has been added and will show in both fish ' +
+        'and user-fish collections. User can be directed to the new fish resource ' +
+        'or back to where the fish is added from: a fish collection or the user resource'
+      }).addLink('self', `/fish/${fish._id}`)
+        .addLink('curies', [{
+          name: 'fc',
+          href: `https://${req.headers.host}/docs/rels/{rel}`,
+          templated: true
+        }])
+        .addLink('fc:fish', '/fish')
+        .addLink('fc:user-fish', `/users/${req.user.username}/user-fish`)
+        .addLink('fc:user', `/users/${req.user.username}`)
+
+      res.send(JSON.stringify(resource))
+    })
   } catch (error) {
     next(error)
   }
