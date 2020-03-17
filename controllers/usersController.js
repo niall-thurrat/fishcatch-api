@@ -61,14 +61,20 @@ usersController.signup = (req, res, next) => {
               })
           })
 
-          res.status(201)
-          res.setHeader('Content-Type', 'application/hal+json')
-
           const resource = halson({
-            description: 'both successful and unsuccessful signups should' +
-            ' return to root where login and signup options are provided'
-          }).addLink('self', `https://${req.headers.host}/users/signup`)
+            description: 'signup required before login'
+          }).addLink('self', '/')
+            .addLink('curies', [{
+              name: 'fc',
+              href: `https://${req.headers.host}/docs/rels/{rel}`,
+              templated: true
+            }])
             .addLink('root', `https://${req.headers.host}/`)
+            .addLink('fc:login', '/users/login')
+
+          res.status(200)
+          res.setHeader('Content-Type', 'application/hal+json')
+          res.setHeader('Location', `/users/${req.body.username}`)
 
           res.send(JSON.stringify(resource))
         }

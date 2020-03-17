@@ -13,17 +13,15 @@ const rootController = {}
 
 rootController.getRoot = async (req, res, next) => {
   try {
-    res.status(200)
-    res.setHeader('Content-Type', 'application/hal+json')
-
-    var resource = halson({
+    const resource = halson({
       meta: {
         title: 'FishCatch RESTful API',
         author: 'Niall Thurrat',
-        description: 'The FishCatch RESTful API provides user and fish resources'
+        description: 'The FishCatch RESTful API serves up user and fish resources' -
+        'as well as accompanying API docs for client developers'
       },
-      description: 'This is the root/main entry point of the API' +
-        ''
+      description: 'This is the root/main entry point of the API. Login requires ' +
+        'signup first. Created user recources require jwt token from login request.'
     }).addLink('self', '/')
       .addLink('curies', [{
         name: 'fc',
@@ -37,6 +35,9 @@ rootController.getRoot = async (req, res, next) => {
         templated: true
       })
       .addLink('fc:fish', '/fish')
+
+    res.status(200)
+    res.setHeader('Content-Type', 'application/hal+json')
 
     res.send(JSON.stringify(resource))
   } catch (error) {

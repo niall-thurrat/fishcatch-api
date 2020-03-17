@@ -39,7 +39,7 @@ docsController.signupDoc = (req, res, next) => {
       Response: {
         'Success returns': '201 Created',
         Headers: {
-          Location: 'URI of the created user account' // remember to do this
+          Location: 'URI of the created user account'
         },
         Body: 'HAL resource with further guidance :)'
       }
