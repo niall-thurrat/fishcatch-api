@@ -80,7 +80,7 @@ usersController.signup = (req, res, next) => {
         }
       })
   } catch (error) {
-    res.status(400).send(error) // or next(error)?
+    res.status(400).send(error)
   }
 }
 
