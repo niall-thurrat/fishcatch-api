@@ -10,8 +10,8 @@
 const router = require('express').Router()
 const controller = require('../controllers/docsController')
 
-router.route('/rels/signup')
-  .get(controller.signupDoc)
+router.get('/rels/signup', controller.signupDoc)
+  .get('/rels/login', controller.loginDoc)
 
 // Exports.
 module.exports = router

@@ -69,7 +69,7 @@ usersController.signup = (req, res, next) => {
               href: `https://${req.headers.host}/docs/rels/{rel}`,
               templated: true
             }])
-            .addLink('root', `https://${req.headers.host}/`)
+            .addLink('root', '/')
             .addLink('fc:login', '/users/login')
 
           res.status(200)
@@ -120,11 +120,17 @@ usersController.login = (req, res, next) => {
                   const resource = halson({
                     login_success: true,
                     token: `Bearer ${token}`,
-                    logged_in_user: user,
-                    instructions: 'use token in Authorization header ' +
+                    logged_in_user: {
+                      id: user._id,
+                      username: user.username
+                    },
+                    description: 'use Bearer token in Authorization header ' +
                       'to access user resource'
-                  }).addLink('self', `https://${req.headers.host}/users/login`)
-                    .addLink('user', `https://${req.headers.host}/users/${username}`)
+                  }).addLink('self', '/users/login')
+                    .addLink('fc:user', {
+                      href: '/users/{username}',
+                      templated: true
+                    })
 
                   res.send(JSON.stringify(resource))
                 })

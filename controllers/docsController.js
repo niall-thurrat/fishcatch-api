@@ -1,11 +1,9 @@
 /**
- * users controller.
+ * documentation resource controller.
  *
  * @author Niall Thurrat
  * @version 1.0.0
  *
- * @credits got a bit of help from Chris Rutherford on using passport/jwt here:
- * https://medium.com/@therealchrisrutherford/nodejs-authentication-with-passport-and-jwt-in-express-3820e256054f
  */
 
 'use strict'
@@ -42,6 +40,43 @@ docsController.signupDoc = (req, res, next) => {
           Location: 'URI of the created user account'
         },
         Body: 'HAL resource with further guidance :)'
+      }
+    }
+
+    res.send(jsonDoc)
+  } catch (error) {
+    next(error)
+  }
+}
+
+// GET /docs/rels/login endpoint
+docsController.loginDoc = (req, res, next) => {
+  try {
+    const jsonDoc = {
+      Request: {
+        'Expected request method(s)': 'POST',
+        Headers: 'The request should have the Content-Type application/json,' +
+           'no Authorization header required at this point',
+        Body: {
+          'Required properties': {
+            username: 'string',
+            password: 'string'
+          },
+          Example: {
+            username: 'bobby',
+            password: 'bobbysPW'
+          }
+        }
+      },
+      Response: {
+        'Success returns': '200 OK',
+        Headers: {
+          'Content-Type': 'application/hal+json'
+        },
+        Body: {
+          token: 'Bearer token',
+          logged_in_user: 'id and username'
+        }
       }
     }
 
