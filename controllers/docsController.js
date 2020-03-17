@@ -14,32 +14,33 @@ const docsController = {}
 docsController.signupDoc = (req, res, next) => {
   try {
     const jsonDoc = {
-      Request: {
-        'Expected request method(s)': 'POST',
-        Headers: 'The request should have the Content-Type application/json',
-        Body: {
-          'Required properties': {
-            name: 'string',
-            username: 'string',
-            password: 'string'
-          },
-          'Optional properties': {
-            emailAddress: 'string'
-          },
-          Example: {
-            name: 'Robert Fisher',
-            username: 'bobby',
-            password: 'bobbysPW',
-            emailAddress: 'bobby@somewhere.com'
+      POST: {
+        Request: {
+          Headers: 'The request should have the Content-Type application/json',
+          Body: {
+            'Required properties': {
+              name: 'string',
+              username: 'string',
+              password: 'string'
+            },
+            'Optional properties': {
+              emailAddress: 'string'
+            },
+            Example: {
+              name: 'Robert Fisher',
+              username: 'bobby',
+              password: 'bobbysPW',
+              emailAddress: 'bobby@somewhere.com'
+            }
           }
-        }
-      },
-      Response: {
-        'Success returns': '201 Created',
-        Headers: {
-          Location: 'URI of the created user account'
         },
-        Body: 'HAL resource with further guidance :)'
+        Response: {
+          'Success returns': '201 Created',
+          Headers: {
+            Location: 'URI of the created user account'
+          },
+          Body: 'HAL resource with further guidance :)'
+        }
       }
     }
 
@@ -53,29 +54,30 @@ docsController.signupDoc = (req, res, next) => {
 docsController.loginDoc = (req, res, next) => {
   try {
     const jsonDoc = {
-      Request: {
-        'Expected request method(s)': 'POST',
-        Headers: 'The request should have the Content-Type application/json,' +
+      POST: {
+        Request: {
+          Headers: 'The request should have the Content-Type application/json,' +
            'no Authorization header required at this point',
-        Body: {
-          'Required properties': {
-            username: 'string',
-            password: 'string'
-          },
-          Example: {
-            username: 'bobby',
-            password: 'bobbysPW'
+          Body: {
+            'Required properties': {
+              username: 'string',
+              password: 'string'
+            },
+            Example: {
+              username: 'bobby',
+              password: 'bobbysPW'
+            }
           }
-        }
-      },
-      Response: {
-        'Success returns': '200 OK',
-        Headers: {
-          'Content-Type': 'application/hal+json'
         },
-        Body: {
-          token: 'Bearer token',
-          logged_in_user: 'id and username'
+        Response: {
+          'Success returns': '200 OK',
+          Headers: {
+            'Content-Type': 'application/hal+json'
+          },
+          Body: {
+            token: 'Bearer token',
+            logged_in_user: 'id and username'
+          }
         }
       }
     }

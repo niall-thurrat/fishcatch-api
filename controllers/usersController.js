@@ -158,13 +158,15 @@ usersController.viewUser = async (req, res, next) => {
 
     const resource = halson({
       user: req.user,
-      instructions: 'user can access fish collection resource and own fish'
+      instructions: 'user can view all fish and own fish collections, ' +
+      'as well as add a fish'
     }).addLink('self', `/users/${req.user.username}`)
       .addLink('curies', [{
         name: 'fc',
         href: `https://${req.headers.host}/docs/rels/{rel}`,
         templated: true
       }])
+      .addLink('fc:user-fish', `/users/${req.user.username}/user-fish`)
       .addLink('fc:fish', '/fish')
 
     res.send(JSON.stringify(resource))
