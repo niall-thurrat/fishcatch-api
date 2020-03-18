@@ -81,7 +81,7 @@ fishCatchController.addFish = (req, res, next) => {
 
       res.status(201)
       res.setHeader('Content-Type', 'application/hal+json')
-      res.setHeader('Location', `/fish/${fish._id}`)
+      res.setHeader('Location', `https://${req.headers.host}/fish/${fish._id}`)
 
       const resource = halson({
         fish_catch: fish,

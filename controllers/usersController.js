@@ -62,7 +62,7 @@ usersController.signup = (req, res, next) => {
           })
           res.status(201)
           res.setHeader('Content-Type', 'application/hal+json')
-          res.setHeader('Location', `/users/${req.body.username}`)
+          res.setHeader('Location', `https://${req.headers.host}/users/${req.body.username}`)
 
           const resource = halson({
             description: 'signup required before login'
