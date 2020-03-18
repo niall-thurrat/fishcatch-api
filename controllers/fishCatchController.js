@@ -9,6 +9,7 @@
 
 const FishCatch = require('../models/fishCatchModel')
 const halson = require('halson')
+const getQueryInt = require('../utils/getQueryInt')
 
 const fishCatchController = {}
 
@@ -34,6 +35,11 @@ fishCatchController.authz = async (req, res, next) => {
 // GET /fish endpoint
 fishCatchController.viewAllFish = async (req, res, next) => {
   try {
+    const skip = getQueryInt(req.query.skip, 0)
+    const fetch = getQueryInt(req.query.fetch, 10)
+
+    console.log(`SHOW ME SKIP + FETCH: ${skip}, ${fetch}`)
+
     const fishCatches = await FishCatch.find({})
 
     res.status(200)
@@ -193,7 +199,7 @@ fishCatchController.deleteFish = (req, res, next) => {
       const resource = halson({
         logged_on_user: req.user,
         description: 'Fish resource deleted. Can direct user to where the fish ' +
-        'was accessed from: the fish or user-fish collection, or the user resource'
+        'was accessed from: the fish or user-fish collections, or the user resource'
       }).addLink('curies', [{
         name: 'fc',
         href: `https://${req.headers.host}/docs/rels/{rel}`,
