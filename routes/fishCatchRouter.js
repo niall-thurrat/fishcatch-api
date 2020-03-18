@@ -16,7 +16,7 @@ router.route('/')
 
 router.route('/:fishId')
   .get(controller.authz, controller.viewFish)
-  .put(controller.authz, controller.updateFish)
+  .patch(controller.authz, controller.updateFish)
   .delete(controller.authz, controller.deleteFish)
 
 // Exports.

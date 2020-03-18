@@ -84,6 +84,22 @@ async function seedFishCatchCollection () {
         species: 'cod',
         weight: 2.3,
         length: 41
+      },
+      {
+        catcherName: 'Bob Test',
+        catchLatitude: 123.5678,
+        catchLongitude: 345.4567,
+        species: 'mullet',
+        weight: 1.4,
+        length: 24
+      },
+      {
+        catcherName: 'Bob Test',
+        catchLatitude: 123.4567,
+        catchLongitude: 234.4567,
+        species: 'flounder',
+        weight: 0.4,
+        length: 12
       }
     ]
 
