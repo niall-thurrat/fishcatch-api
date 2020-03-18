@@ -11,7 +11,7 @@ const router = require('express').Router()
 const controller = require('../controllers/fishCatchController')
 
 router.route('/')
-  .get(controller.index)
+  .get(controller.viewAllFish)
   .post(controller.addFish)
 
 router.route('/:fishId')

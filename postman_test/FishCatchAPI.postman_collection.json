@@ -77,7 +77,7 @@
 			"name": "FishCatch API Users",
 			"item": [
 				{
-					"name": "Users Signup request",
+					"name": "User signup request",
 					"event": [
 						{
 							"listen": "test",
@@ -101,7 +101,7 @@
 							{
 								"key": "Content-Type",
 								"name": "Content-Type",
-								"value": "application/x-www-form-urlencoded",
+								"value": "application/json",
 								"type": "text"
 							}
 						],
@@ -159,7 +159,7 @@
 					"response": []
 				},
 				{
-					"name": "Users Login request",
+					"name": "User login request",
 					"event": [
 						{
 							"listen": "test",
@@ -186,7 +186,7 @@
 							{
 								"key": "Content-Type",
 								"name": "Content-Type",
-								"value": "application/x-www-form-urlencoded",
+								"value": "application/json",
 								"type": "text"
 							}
 						],
@@ -255,8 +255,9 @@
 							{
 								"key": "Content-Type",
 								"name": "Content-Type",
-								"value": "application/x-www-form-urlencoded",
-								"type": "text"
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"body": {
@@ -284,7 +285,265 @@
 						"description": "This is a request for a specific user resource."
 					},
 					"response": []
+				}
+			],
+			"description": "Users routes in FishCatch API"
+		},
+		{
+			"name": "FishCatch API Fish CRUD",
+			"item": [
+				{
+					"name": "Add fish request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bf8bdb35-9289-4bd0-9a67-317ea4399046",
+								"exec": [
+									"pm.test(\"Add fish POST request successful\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"var fishId = jsonData.fish_catch._id;",
+									"",
+									"pm.environment.set(\"FISH_ID\", fishId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "catchLatitude",
+									"value": "44.44444",
+									"type": "text"
+								},
+								{
+									"key": "catchLongitude",
+									"value": "555.5555",
+									"type": "text"
+								},
+								{
+									"key": "species",
+									"value": "cat fish",
+									"type": "text"
+								},
+								{
+									"key": "weight",
+									"value": "140.45",
+									"type": "text"
+								},
+								{
+									"key": "length",
+									"value": "245.78",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/fish",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"fish"
+							]
+						},
+						"description": "User creates a new fish resource"
+					},
+					"response": []
 				},
+				{
+					"name": "View fish request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "646b8bf3-05ce-46c3-a18c-f16a9699f74c",
+								"exec": [
+									"pm.test(\"Read fish request gets status code 200 OK\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/fish/:fishId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"fish",
+								":fishId"
+							],
+							"variable": [
+								{
+									"key": "fishId",
+									"value": "{{FISH_ID}}"
+								}
+							]
+						},
+						"description": "User reads a fish resource"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit fish request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4fcbc07b-5039-4138-b3f0-f94721fcfde7",
+								"exec": [
+									"pm.test(\"Resouce updated successfully - Status code 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/hal+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "catchLatitude",
+									"value": "23",
+									"type": "text"
+								},
+								{
+									"key": "catchLongitude",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "species",
+									"value": "dog fish",
+									"type": "text"
+								},
+								{
+									"key": "weight",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "length",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/fish/:fishId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"fish",
+								":fishId"
+							],
+							"variable": [
+								{
+									"key": "fishId",
+									"value": "{{FISH_ID}}"
+								}
+							]
+						},
+						"description": "User updates a fish resource."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete fish request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "56151a5b-8f47-4082-ae16-5532c4b09eae",
+								"exec": [
+									"pm.test(\"Delete request gets status 200 OK\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/fish/:fishId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"fish",
+								":fishId"
+							],
+							"variable": [
+								{
+									"key": "fishId",
+									"value": "{{FISH_ID}}"
+								}
+							]
+						},
+						"description": "User deletes a fish resource"
+					},
+					"response": []
+				}
+			],
+			"description": "User creates, reads, updates and deletes a fish resource"
+		},
+		{
+			"name": "FishCatch API Fish Collections",
+			"item": [
 				{
 					"name": "User fish collection request",
 					"event": [
@@ -330,13 +589,7 @@
 						"description": "User requests to see all fish they have added"
 					},
 					"response": []
-				}
-			],
-			"description": "Users routes in FishCatch API"
-		},
-		{
-			"name": "FishCatch API Fish",
-			"item": [
+				},
 				{
 					"name": "All Fish collection request",
 					"event": [

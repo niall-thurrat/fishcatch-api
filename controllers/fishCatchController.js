@@ -32,22 +32,31 @@ fishCatchController.authz = async (req, res, next) => {
 }
 
 // GET /fish endpoint
-fishCatchController.index = async (req, res, next) => {
+fishCatchController.viewAllFish = async (req, res, next) => {
   try {
-    const data = await FishCatch.find({})
+    const fishCatches = await FishCatch.find({})
 
     res.status(200)
     res.setHeader('Content-Type', 'application/hal+json')
 
     const resource = halson({
-      // logged_in_user: req.user, embed
       // all_fish: data, embed
-      total_fish_in_db: data.length,
-      description: 'Collection of all fish. Embedded resources' +
-        ' view a single fish, their own fish collection or their user page'
-    }).addLink('self', `https://${req.headers.host}/fish`)
-      .addLink('user', `https://${req.headers.host}/users/${req.user.username}`)
-    //  .addLink('fish', `https://${req.headers.host}/fish`) /////////////////////////// how is list auto generated??
+      total_fish_in_collection: fishCatches.length,
+      description: 'Collection of all fish. Direct users to view a single ' +
+        'fish, their own fish collection or their own user resource.'
+    }).addLink('self', '/fish')
+      .addLink('next', '/fish?page=2')
+      .addLink('curies', [{
+        name: 'fc',
+        href: `https://${req.headers.host}/docs/rels/{rel}`,
+        templated: true
+      }])
+      .addLink('fc:user', `/users/${req.user.username}`)
+      .addLink('fc:user-fish', `/users/${req.user.username}/user-fish`)
+      .addLink('fc:one-fish', {
+        href: '/fish/{fishId}',
+        templated: true
+      })
 
     res.send(JSON.stringify(resource))
   } catch (error) {
@@ -143,8 +152,6 @@ fishCatchController.updateFish = (req, res, next) => {
         delete newFish[key]
       }
     }
-
-    console.log(newFish)
 
     FishCatch.findOneAndUpdate({ _id: req.params.fishId }, { $set: newFish },
       { upsert: true, new: true }, (err, fish) => {
