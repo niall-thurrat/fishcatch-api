@@ -35,23 +35,22 @@ fishCatchController.authz = async (req, res, next) => {
 // GET /fish endpoint
 fishCatchController.viewAllFish = async (req, res, next) => {
   try {
-    const skip = getQueryInt(req.query.skip, 0)
-    const fetch = getQueryInt(req.query.fetch, 10)
+    const offset = getQueryInt(req.query.offset, 2)
+    const limit = getQueryInt(req.query.limit, 3) // prevent limit exceding a certain amount
 
-    console.log(`SHOW ME SKIP + FETCH: ${skip}, ${fetch}`)
-
-    const fishCatches = await FishCatch.find({})
+    const count = await FishCatch.count({})
+    const fishCatches = await FishCatch.find({}).sort('-date').skip(offset).limit(limit)
 
     res.status(200)
     res.setHeader('Content-Type', 'application/hal+json')
 
     const resource = halson({
-      // all_fish: data, embed
-      total_fish_in_collection: fishCatches.length,
+      showing_fish_from: offset > count ? 0 : offset,
+      to: offset > count ? 0 : (offset + fishCatches.length),
+      of_total_fish: count === 0 ? 'no fish' : count,
       description: 'Collection of all fish. Direct users to view a single ' +
         'fish, their own fish collection or their own user resource.'
     }).addLink('self', '/fish')
-      .addLink('next', '/fish?page=2')
       .addLink('curies', [{
         name: 'fc',
         href: `https://${req.headers.host}/docs/rels/{rel}`,
@@ -64,10 +63,27 @@ fishCatchController.viewAllFish = async (req, res, next) => {
         templated: true
       })
 
+    for (var i = 0; i < fishCatches.length; i++) {
+      const embed = createEmbed(fishCatches[i])
+      resource.addEmbed('fc:one-fish', embed)
+    }
+
     res.send(JSON.stringify(resource))
   } catch (error) {
     next(error)
   }
+}
+
+function createEmbed (fishCatch) {
+  const embed = halson({
+    id: fishCatch._id,
+    catcher_name: fishCatch.catcherName,
+    species: fishCatch.species,
+    catch_created: fishCatch.createdAt
+  })
+    .addLink('self', `/fish/${fishCatch._id}`)
+
+  return embed
 }
 
 // POST /fish endpoint
