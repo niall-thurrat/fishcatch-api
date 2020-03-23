@@ -28,8 +28,6 @@ usersController.authz = (req, res, next) => {
   }
 }
 
-// POST /users/login endpoint
-
 // GET /users/:username endpoint
 usersController.viewUser = async (req, res, next) => {
   try {

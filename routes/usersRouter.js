@@ -9,8 +9,8 @@
 
 const router = require('express').Router()
 const controller = require('../controllers/usersController')
-const signupController = require('../controllers/users/signupController')
-const loginController = require('../controllers/users/loginController')
+const signupController = require('../controllers/users/signup')
+const loginController = require('../controllers/users/login')
 const passport = require('passport')
 
 router.post('/signup', signupController.signup)
