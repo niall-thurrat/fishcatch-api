@@ -1,5 +1,5 @@
 /**
- * signup controller
+ * Signup controller
  *
  * @author Niall Thurrat
  * @version 1.0.0
@@ -16,7 +16,7 @@ const signupController = {}
 
 /**
  * Create new user
- * handles POST requests to /users/signup endpoint
+ * Handling POST requests to /users/signup endpoint
  *
  * @param {Object} request
  * @param {Object} response
@@ -50,12 +50,12 @@ signupController.signup = (req, res) => {
           })
         }
 
-        const resBody = setResBody(req, res)
-
         res.status(201)
         res.setHeader('Content-Type', 'application/hal+json')
         res.setHeader('Location',
           `https://${req.headers.host}/users/${req.body.username}`)
+
+        const resBody = setResBody(req, res)
 
         res.send(JSON.stringify(resBody))
       })
