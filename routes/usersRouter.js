@@ -9,9 +9,10 @@
 
 const router = require('express').Router()
 const controller = require('../controllers/usersController')
+const signupController = require('../controllers/users/signupController')
 const passport = require('passport')
 
-router.post('/signup', controller.signup)
+router.post('/signup', signupController.signup)
 router.post('/login', controller.login)
 router.get('/:username', passport.authenticate('jwt', { session: false }),
   controller.authz, controller.viewUser)

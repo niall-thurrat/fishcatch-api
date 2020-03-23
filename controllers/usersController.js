@@ -4,8 +4,6 @@
  * @author Niall Thurrat
  * @version 1.0.0
  *
- * @credits got a bit of help from Chris Rutherford on using passport/jwt here:
- * https://medium.com/@therealchrisrutherford/nodejs-authentication-with-passport-and-jwt-in-express-3820e256054f
  */
 
 'use strict'
@@ -30,56 +28,6 @@ usersController.authz = (req, res, next) => {
     }
   } catch (error) {
     next(error)
-  }
-}
-
-// POST /users/signup endpoint
-usersController.signup = (req, res, next) => {
-  try {
-    User.findOne({ username: req.body.username })
-      .then(async (err, user) => {
-        if (err) throw err
-
-        if (user) {
-          return res.status(400).send('Username Exists in Database.')
-        } else {
-          const newUser = new User({
-            name: req.body.name,
-            username: req.body.username,
-            emailAddress: req.body.emailAddress,
-            password: req.body.password
-          })
-          await bcrypt.genSalt(10, (err, salt) => {
-            if (err) throw err
-
-            bcrypt.hash(newUser.password, salt,
-              (err, hash) => {
-                if (err) throw err
-
-                newUser.password = hash
-                newUser.save()
-              })
-          })
-          res.status(201)
-          res.setHeader('Content-Type', 'application/hal+json')
-          res.setHeader('Location', `https://${req.headers.host}/users/${req.body.username}`)
-
-          const resource = halson({
-            description: 'signup required before login'
-          }).addLink('self', '/users/signup')
-            .addLink('curies', [{
-              name: 'fc',
-              href: `https://${req.headers.host}/docs/rels/{rel}`,
-              templated: true
-            }])
-            .addLink('root', '/')
-            .addLink('fc:login', '/users/login')
-
-          res.send(JSON.stringify(resource))
-        }
-      })
-  } catch (error) {
-    res.status(400).send(error)
   }
 }
 
