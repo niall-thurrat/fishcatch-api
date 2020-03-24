@@ -12,36 +12,6 @@ const halson = require('halson')
 
 const fishCatchController = {}
 
-// GET /fish/:fishId endpoint
-fishCatchController.viewFish = (req, res, next) => {
-  try {
-    FishCatch.findById(req.params.fishId, (err, fish) => {
-      if (err) throw err
-
-      res.status(200)
-      res.setHeader('Content-Type', 'application/hal+json')
-
-      const resource = halson({
-        fish_catch: fish,
-        fish_catcher: req.user,
-        description: 'Fish resouce has been retrieved'
-      }).addLink('self', `/fish/${fish._id}`)
-        .addLink('curies', [{
-          name: 'fc',
-          href: `https://${req.headers.host}/docs/rels/{rel}`,
-          templated: true
-        }])
-        .addLink('fc:fish', '/fish')
-        .addLink('fc:user-fish', `/users/${req.user.username}/user-fish`)
-        .addLink('fc:user', `/users/${req.user.username}`)
-
-      res.send(JSON.stringify(resource))
-    })
-  } catch (error) {
-    next(error)
-  }
-}
-
 // PUT /fish/:fishId endpoint
 fishCatchController.updateFish = (req, res, next) => {
   try {
