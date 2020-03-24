@@ -10,6 +10,8 @@
 
 const FishCatch = require('../../models/fishCatchModel')
 const halson = require('halson')
+const getQueryInt = require('../../utils/getQueryInt')
+const embedFish = require('../../utils/embedFish')
 
 const userFishController = {}
 
@@ -23,12 +25,17 @@ const userFishController = {}
  */
 userFishController.get = async (req, res) => {
   try {
+    const offset = getQueryInt(req.query.offset, 0)
+    const limit = getQueryInt(req.query.limit, 10) // prevent limit exceding a certain amount
+
+    const totalDocs = await FishCatch.countDocuments({ catcherName: req.user.name })
     const userFish = await FishCatch.find({ catcherName: req.user.name })
+      .sort('-date').skip(offset).limit(limit)
 
     res.status(200)
     res.setHeader('Content-Type', 'application/hal+json')
 
-    const resBody = setResBody(req, res, userFish)
+    const resBody = setResBody(req, res, totalDocs, userFish, offset)
 
     res.send(JSON.stringify(resBody))
   } catch (error) {
@@ -39,19 +46,24 @@ userFishController.get = async (req, res) => {
 /**
  * Returns a HAL formatted JSON object
  *
- * @param {Object} request
- * @param {Object} response
+ * @param {Object} req - request object
+ * @param {Object} res - response object
+ * @param {Number} totalCount - total number of user's fish in db
+ * @param {Object} userFish - Collection of user's fish, got using offset + limit
+ * @param {Number} offset - where we began retrieving user's fish from db
  *
  */
-function setResBody (req, res, userfish) {
+function setResBody (req, res, totalCount, userFish, offset) {
+  const foundCount = userFish.length
+
   const resBody = halson({
     fish_catcher: req.user,
-    // user_fish: userFish,
-    // number_of_fish_in_collection: userFish.length,
-    description: 'user accesses collection of their own fish. can now view a ' +
+    showing_user_fish_from: offset > totalCount ? 0 : offset,
+    to: offset > totalCount ? 0 : (offset + foundCount),
+    of_total_user_fish: totalCount === 0 ? 'no fish' : totalCount,
+    description: 'User accesses collection of their own fish. can now view a ' +
             'specific fish, add a fish, view all fish or return to user resource'
   }).addLink('self', `/users/${req.user.username}/user-fish`)
-    .addLink('next', `/users/${req.user.username}/user-fish?page=2`)
     .addLink('curies', [{
       name: 'fc',
       href: `https://${req.headers.host}/docs/rels/{rel}`,
@@ -63,6 +75,11 @@ function setResBody (req, res, userfish) {
       href: '/fish/{fishId}',
       templated: true
     })
+
+  for (var i = 0; i < foundCount; i++) {
+    const embed = embedFish(userFish[i])
+    resBody.addEmbed('fc:one-fish', embed)
+  }
 
   return resBody
 }
