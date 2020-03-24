@@ -10,12 +10,13 @@
 const router = require('express').Router()
 
 const getFishController = require('../controllers/fishCatches/getFish')
+const addFishController = require('../controllers/fishCatches/addFish')
 const controller = require('../controllers/fishCatchController')
 const authz = require('../middleware/authz')
 
 router.route('/')
   .get(getFishController.get)
-  .post(controller.addFish)
+  .post(addFishController.add)
 
 router.route('/:fishId')
   .get(authz.fish, controller.viewFish)
