@@ -13,7 +13,7 @@ const FishCatch = require('../../models/fishCatchModel')
 const getQueryInt = require('../../utils/getQueryInt')
 const embedFish = require('../../utils/embedFish')
 
-const getFishController = {}
+const getAllFishController = {}
 
 /**
  * Get fish resources
@@ -24,7 +24,7 @@ const getFishController = {}
  * @param {Function} next - Next middleware func
  *
  */
-getFishController.get = async (req, res, next) => {
+getAllFishController.get = async (req, res, next) => {
   try {
     const offset = getQueryInt(req.query.offset, 2)
     const limit = getQueryInt(req.query.limit, 3) // prevent limit exceding a certain amount
@@ -82,4 +82,4 @@ function setResBody (req, res, totalCount, fishCatches, offset) {
 }
 
 // Exports
-module.exports = getFishController
+module.exports = getAllFishController
