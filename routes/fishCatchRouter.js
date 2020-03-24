@@ -8,16 +8,18 @@
 'use strict'
 
 const router = require('express').Router()
+
 const controller = require('../controllers/fishCatchController')
+const authz = require('../middleware/authz')
 
 router.route('/')
   .get(controller.viewAllFish)
   .post(controller.addFish)
 
 router.route('/:fishId')
-  .get(controller.authz, controller.viewFish)
-  .patch(controller.authz, controller.updateFish)
-  .delete(controller.authz, controller.deleteFish)
+  .get(authz.fish, controller.viewFish)
+  .patch(authz.fish, controller.updateFish)
+  .delete(authz.fish, controller.deleteFish)
 
-// Exports.
+// Exports
 module.exports = router

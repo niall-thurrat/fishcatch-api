@@ -13,32 +13,13 @@ const getQueryInt = require('../utils/getQueryInt')
 
 const fishCatchController = {}
 
-// check user authorized to access fish resources
-fishCatchController.authz = async (req, res, next) => {
-  try {
-    const fishCatch = await FishCatch.findById(req.params.fishId)
-
-    if (!fishCatch) {
-      return res.status(404).send('Resource not found in database')
-    } else {
-      if (fishCatch.catcherName === req.user.name) {
-        next()
-      } else {
-        return res.status(403).send('Not authorized to access this resource')
-      }
-    }
-  } catch (error) {
-    next(error)
-  }
-}
-
 // GET /fish endpoint
 fishCatchController.viewAllFish = async (req, res, next) => {
   try {
     const offset = getQueryInt(req.query.offset, 2)
     const limit = getQueryInt(req.query.limit, 3) // prevent limit exceding a certain amount
 
-    const count = await FishCatch.count({})
+    const count = await FishCatch.countDocuments({})
     const fishCatches = await FishCatch.find({}).sort('-date').skip(offset).limit(limit)
 
     res.status(200)
