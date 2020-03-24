@@ -9,63 +9,8 @@
 
 const FishCatch = require('../models/fishCatchModel')
 const halson = require('halson')
-const getQueryInt = require('../utils/getQueryInt')
 
 const fishCatchController = {}
-
-// GET /fish endpoint
-fishCatchController.viewAllFish = async (req, res, next) => {
-  try {
-    const offset = getQueryInt(req.query.offset, 2)
-    const limit = getQueryInt(req.query.limit, 3) // prevent limit exceding a certain amount
-
-    const count = await FishCatch.countDocuments({})
-    const fishCatches = await FishCatch.find({}).sort('-date').skip(offset).limit(limit)
-
-    res.status(200)
-    res.setHeader('Content-Type', 'application/hal+json')
-
-    const resource = halson({
-      showing_fish_from: offset > count ? 0 : offset,
-      to: offset > count ? 0 : (offset + fishCatches.length),
-      of_total_fish: count === 0 ? 'no fish' : count,
-      description: 'Collection of all fish. Direct users to view a single ' +
-        'fish, their own fish collection or their own user resource.'
-    }).addLink('self', '/fish')
-      .addLink('curies', [{
-        name: 'fc',
-        href: `https://${req.headers.host}/docs/rels/{rel}`,
-        templated: true
-      }])
-      .addLink('fc:user', `/users/${req.user.username}`)
-      .addLink('fc:user-fish', `/users/${req.user.username}/user-fish`)
-      .addLink('fc:one-fish', {
-        href: '/fish/{fishId}',
-        templated: true
-      })
-
-    for (var i = 0; i < fishCatches.length; i++) {
-      const embed = createEmbed(fishCatches[i])
-      resource.addEmbed('fc:one-fish', embed)
-    }
-
-    res.send(JSON.stringify(resource))
-  } catch (error) {
-    next(error)
-  }
-}
-
-function createEmbed (fishCatch) {
-  const embed = halson({
-    id: fishCatch._id,
-    catcher_name: fishCatch.catcherName,
-    species: fishCatch.species,
-    catch_created: fishCatch.createdAt
-  })
-    .addLink('self', `/fish/${fishCatch._id}`)
-
-  return embed
-}
 
 // POST /fish endpoint
 fishCatchController.addFish = (req, res, next) => {
