@@ -36,7 +36,7 @@ getFishController.get = async (req, res, next) => {
     res.setHeader('Content-Type', 'application/hal+json')
 
     const resBody = setResBody(
-      req, res, totalDocs, fishCatches.length, offset)
+      req, res, totalDocs, fishCatches, offset)
 
     res.send(JSON.stringify(resBody))
   } catch (error) {
