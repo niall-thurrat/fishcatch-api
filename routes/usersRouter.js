@@ -13,14 +13,15 @@ const passport = require('passport')
 const controller = require('../controllers/usersController')
 const signupController = require('../controllers/users/signup')
 const loginController = require('../controllers/users/login')
-const getUserController = require('../controllers/users/getUser')
+const userController = require('../controllers/users/getUser')
+const userFishController = require('../controllers/users/getUserFish')
 
 router.post('/signup', signupController.signup)
 router.post('/login', loginController.login)
 router.get('/:username', passport.authenticate('jwt', { session: false }),
-  controller.authz, getUserController.get)
+  controller.authz, userController.get)
 router.get('/:username/user-fish', passport.authenticate('jwt', { session: false }),
-  controller.authz, controller.viewUserFish)
+  controller.authz, userFishController.get)
 
 // Exports.
 module.exports = router
