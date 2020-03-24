@@ -26,9 +26,10 @@ const userFishController = {}
 userFishController.get = async (req, res) => {
   try {
     const offset = getQueryInt(req.query.offset, 0)
-    const limit = getQueryInt(req.query.limit, 10) // prevent limit exceding a certain amount
+    const limit = getQueryInt(req.query.limit, 10)
 
-    const totalDocs = await FishCatch.countDocuments({ catcherName: req.user.name })
+    const totalDocs = await FishCatch
+      .countDocuments({ catcherName: req.user.name })
     const userFish = await FishCatch.find({ catcherName: req.user.name })
       .sort('-date').skip(offset).limit(limit)
 

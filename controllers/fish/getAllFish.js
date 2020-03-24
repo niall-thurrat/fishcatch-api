@@ -27,10 +27,11 @@ const getAllFishController = {}
 getAllFishController.get = async (req, res, next) => {
   try {
     const offset = getQueryInt(req.query.offset, 2)
-    const limit = getQueryInt(req.query.limit, 3) // prevent limit exceding a certain amount
+    const limit = getQueryInt(req.query.limit, 3)
 
     const totalDocs = await FishCatch.countDocuments({})
-    const fishCatches = await FishCatch.find({}).sort('-date').skip(offset).limit(limit)
+    const fishCatches = await FishCatch.find({})
+      .sort('-date').skip(offset).limit(limit)
 
     res.status(200)
     res.setHeader('Content-Type', 'application/hal+json')
@@ -49,6 +50,9 @@ getAllFishController.get = async (req, res, next) => {
  *
  * @param {Object} request
  * @param {Object} response
+ * @param {Number} totalCount - total number of fish in db
+ * @param {Object} fishCatches - collection of fishCatches, got using offset + limit
+ * @param {Number} offset - where we began retrieving fish from db
  *
  */
 function setResBody (req, res, totalCount, fishCatches, offset) {
