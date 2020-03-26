@@ -35,7 +35,7 @@ getAllFishController.get = async (req, res, next) => {
 
     // move on if sortArg failed validation in setSortArg
     if (typeof sortArg !== 'string') {
-      next()
+      return
     }
 
     // limit restricted to 50 fish resources
