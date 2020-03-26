@@ -8,8 +8,9 @@
 
 'use strict'
 
-const FishCatch = require('../../models/fishCatchModel')
 const halson = require('halson')
+const createError = require('http-errors')
+const FishCatch = require('../../models/fishCatchModel')
 const getQueryInt = require('../../utils/getQueryInt')
 const embedFish = require('../../utils/embedFish')
 
@@ -67,36 +68,33 @@ userFishController.get = async (req, res, next) => {
  *
  */
 function setSortArg (res, sortQuery, sortOptions) {
-  let sortString = ''
+  let sortArg = ''
 
   if (sortQuery === undefined) {
-    // default sort newest to oldest if no query param
-    sortString = '-createdAt'
+    // default sort newest to oldest
+    sortArg = '-createdAt'
   } else {
-    let [sortOpt, order] = sortQuery.split(':')
+    let [sortType, order] = sortQuery.split(':')
 
-    if (!sortOptions.includes(sortOpt)) {
-      return res.status(400)
-        .send('Invalid "sort" parameter')
+    if (!sortOptions.includes(sortType)) {
+      throw createError(400, 'Invalid "sort" parameter')
+    }
+
+    if (order !== 'asc' && order !== 'desc') {
+      throw createError(400, 'Invalid "sort" order')
     }
 
     if (order === undefined) {
       order = 'asc'
     }
 
-    if (order !== 'asc' && order !== 'desc') {
-      return res.status(400)
-        .send('Invalid "sort" order')
-    }
-
-    sortString = sortOpt
+    sortArg = sortType
 
     if (order === 'desc') {
-      sortString = '-' + sortString
+      sortArg = '-' + sortArg
     }
   }
-
-  return sortString
+  return sortArg
 }
 
 /**
