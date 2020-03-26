@@ -21,17 +21,30 @@ const userFishController = {}
  *
  * @param {Object} request
  * @param {Object} response
+ * @param {Function} next - Next middleware func
  *
  */
-userFishController.get = async (req, res) => {
+userFishController.get = async (req, res, next) => {
   try {
     const offset = getQueryInt(req.query.offset, 0)
-    const limit = getQueryInt(req.query.limit, 10)
+    let limit = getQueryInt(req.query.limit, 10)
+
+    const sortQuery = req.query.sort
+    const sortOptions = ['catcherName', 'createdAt', 'species', 'weight', 'length']
+    const sortArg = setSortArg(res, sortQuery, sortOptions)
+
+    // move on if sortArg failed validation in setSortArg
+    if (typeof sortArg !== 'string') {
+      return
+    }
+
+    // limit restricted to 50 fish resources
+    limit = limit > 50 ? 50 : limit
 
     const totalDocs = await FishCatch
       .countDocuments({ catcherName: req.user.name })
     const userFish = await FishCatch.find({ catcherName: req.user.name })
-      .sort('-date').skip(offset).limit(limit)
+      .sort(sortArg).skip(offset).limit(limit)
 
     res.status(200)
     res.setHeader('Content-Type', 'application/hal+json')
@@ -42,6 +55,48 @@ userFishController.get = async (req, res) => {
   } catch (error) {
     res.status(400).send(error)
   }
+}
+
+/**
+ * Performs sort query paramater validation.
+ * Returns string argument for mongoose's sort function.
+ *
+ * @param {Object} res - response object
+ * @param {String} sortQuery - a sort query parameter
+ * @param {Object} sortOptions - array of possible sort properties
+ *
+ */
+function setSortArg (res, sortQuery, sortOptions) {
+  let sortString = ''
+
+  if (sortQuery === undefined) {
+    // default sort newest to oldest if no query param
+    sortString = '-createdAt'
+  } else {
+    let [sortOpt, order] = sortQuery.split(':')
+
+    if (!sortOptions.includes(sortOpt)) {
+      return res.status(400)
+        .send('Invalid "sort" parameter')
+    }
+
+    if (order === undefined) {
+      order = 'asc'
+    }
+
+    if (order !== 'asc' && order !== 'desc') {
+      return res.status(400)
+        .send('Invalid "sort" order')
+    }
+
+    sortString = sortOpt
+
+    if (order === 'desc') {
+      sortString = '-' + sortString
+    }
+  }
+
+  return sortString
 }
 
 /**
@@ -72,10 +127,6 @@ function setResBody (req, res, totalCount, userFish, offset) {
     }])
     .addLink('fc:user', `/users/${req.user.username}`)
     .addLink('fc:all-fish', `https://${req.headers.host}/fish`)
-    .addLink('fc:one-fish', {
-      href: '/fish/{fishId}',
-      templated: true
-    })
 
   for (var i = 0; i < foundCount; i++) {
     const embed = embedFish(userFish[i])

@@ -65,7 +65,7 @@ async function seedFishCatchCollection () {
         catcherName: 'Niall Test',
         catchLatitude: 12.45367,
         catchLongitude: 2334.4567,
-        species: 'trout',
+        species: 'zander',
         weight: 1.2,
         length: 23
       },
@@ -100,6 +100,38 @@ async function seedFishCatchCollection () {
         species: 'flounder',
         weight: 0.4,
         length: 12
+      },
+      {
+        catcherName: 'Bob Test',
+        catchLatitude: 123.5678,
+        catchLongitude: 345.4567,
+        species: 'wrass',
+        weight: 2.4,
+        length: 29
+      },
+      {
+        catcherName: 'Bob Test',
+        catchLatitude: 123.4567,
+        catchLongitude: 234.4567,
+        species: 'gudgeon',
+        weight: 0.17,
+        length: 0.15
+      },
+      {
+        catcherName: 'Bob Test',
+        catchLatitude: 123.5678,
+        catchLongitude: 345.4567,
+        species: 'turbot',
+        weight: 6.4,
+        length: 22
+      },
+      {
+        catcherName: 'Bob Test',
+        catchLatitude: 123.4567,
+        catchLongitude: 234.4567,
+        species: 'salmon',
+        weight: 17.9,
+        length: 57
       }
     ]
 
