@@ -10,6 +10,7 @@
 
 const User = require('../../models/userModel')
 const bcrypt = require('bcryptjs')
+const createError = require('http-errors')
 const halson = require('halson')
 
 const signupController = {}
@@ -20,16 +21,15 @@ const signupController = {}
  *
  * @param {Object} request
  * @param {Object} response
+ * @param {Function} next - Next middleware func
  *
  */
-signupController.signup = (req, res) => {
+signupController.signup = (req, res, next) => {
   try {
     User.findOne({ username: req.body.username })
-      .then(async (err, user) => {
-        if (err) throw err
-
+      .then(async (user) => {
         if (user) {
-          return res.status(400).send('Username Exists in Database.')
+          next(createError(400, 'Username Exists in Database.'))
         } else {
           const newUser = new User({
             name: req.body.name,
@@ -60,7 +60,7 @@ signupController.signup = (req, res) => {
         res.send(JSON.stringify(resBody))
       })
   } catch (error) {
-    res.status(400).send(error)
+    next(error)
   }
 }
 
