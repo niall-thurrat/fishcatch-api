@@ -29,26 +29,26 @@ signupController.signup = (req, res, next) => {
     User.findOne({ username: req.body.username })
       .then(async (user) => {
         if (user) {
-          next(createError(400, 'Username Exists in Database.'))
-        } else {
-          const newUser = new User({
-            name: req.body.name,
-            username: req.body.username,
-            emailAddress: req.body.emailAddress,
-            password: req.body.password
-          })
-          await bcrypt.genSalt(10, (err, salt) => {
-            if (err) throw err
-
-            bcrypt.hash(newUser.password, salt,
-              (err, hash) => {
-                if (err) throw err
-
-                newUser.password = hash
-                newUser.save()
-              })
-          })
+          return next(createError(400, 'Username Exists in Database.'))
         }
+
+        const newUser = new User({
+          name: req.body.name,
+          username: req.body.username,
+          emailAddress: req.body.emailAddress,
+          password: req.body.password
+        })
+        await bcrypt.genSalt(10, (err, salt) => {
+          if (err) throw err
+
+          bcrypt.hash(newUser.password, salt,
+            (err, hash) => {
+              if (err) throw err
+
+              newUser.password = hash
+              newUser.save()
+            })
+        })
 
         res.status(201)
         res.setHeader('Content-Type', 'application/hal+json')
