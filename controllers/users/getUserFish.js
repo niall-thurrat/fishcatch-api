@@ -34,27 +34,27 @@ userFishController.get = async (req, res, next) => {
     const sortOptions = ['catcherName', 'createdAt', 'species', 'weight', 'length']
     const sortArg = setSortArg(res, sortQuery, sortOptions)
 
-    // move on if sortArg failed validation in setSortArg
+    // move on if sort query param failed validation in setSortArg
     if (typeof sortArg !== 'string') {
-      return
+      next()
+    } else {
+      // limit restricted to 50 fish resources
+      limit = limit > 50 ? 50 : limit
+
+      const totalDocs = await FishCatch
+        .countDocuments({ catcherName: req.user.name })
+      const userFish = await FishCatch.find({ catcherName: req.user.name })
+        .sort(sortArg).skip(offset).limit(limit)
+
+      res.status(200)
+      res.setHeader('Content-Type', 'application/hal+json')
+
+      const resBody = setResBody(req, res, totalDocs, userFish, offset)
+
+      res.send(JSON.stringify(resBody))
     }
-
-    // limit restricted to 50 fish resources
-    limit = limit > 50 ? 50 : limit
-
-    const totalDocs = await FishCatch
-      .countDocuments({ catcherName: req.user.name })
-    const userFish = await FishCatch.find({ catcherName: req.user.name })
-      .sort(sortArg).skip(offset).limit(limit)
-
-    res.status(200)
-    res.setHeader('Content-Type', 'application/hal+json')
-
-    const resBody = setResBody(req, res, totalDocs, userFish, offset)
-
-    res.send(JSON.stringify(resBody))
   } catch (error) {
-    res.status(400).send(error)
+    next(error)
   }
 }
 

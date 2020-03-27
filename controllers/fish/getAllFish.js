@@ -36,23 +36,23 @@ getAllFishController.get = async (req, res, next) => {
 
     // move on if sortArg failed validation in setSortArg
     if (typeof sortArg !== 'string') {
-      return
+      next()
+    } else {
+      // limit restricted to 50 fish resources
+      limit = limit > 50 ? 50 : limit
+
+      const totalDocs = await FishCatch.countDocuments({})
+      const fishCatches = await FishCatch.find({})
+        .sort(sortArg).skip(offset).limit(limit)
+
+      res.status(200)
+      res.setHeader('Content-Type', 'application/hal+json')
+
+      const resBody = setResBody(
+        req, res, totalDocs, fishCatches, offset)
+
+      res.send(JSON.stringify(resBody))
     }
-
-    // limit restricted to 50 fish resources
-    limit = limit > 50 ? 50 : limit
-
-    const totalDocs = await FishCatch.countDocuments({})
-    const fishCatches = await FishCatch.find({})
-      .sort(sortArg).skip(offset).limit(limit)
-
-    res.status(200)
-    res.setHeader('Content-Type', 'application/hal+json')
-
-    const resBody = setResBody(
-      req, res, totalDocs, fishCatches, offset)
-
-    res.send(JSON.stringify(resBody))
   } catch (error) {
     next(error)
   }
