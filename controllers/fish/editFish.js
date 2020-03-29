@@ -9,6 +9,7 @@
 'use strict'
 
 const halson = require('halson')
+const createError = require('http-errors')
 const FishCatch = require('../../models/fishCatchModel')
 
 const editFishController = {}
@@ -40,7 +41,7 @@ editFishController.edit = (req, res, next) => {
 
     FishCatch.findOneAndUpdate({ _id: req.params.fishId }, { $set: newFish },
       { upsert: true, new: true }, (err, fish) => {
-        if (err) throw err
+        if (err) return next(createError(404, 'error finding fish', err))
 
         res.status(200)
         res.setHeader('Content-Type', 'application/hal+json')

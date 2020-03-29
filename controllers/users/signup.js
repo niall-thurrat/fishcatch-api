@@ -19,8 +19,8 @@ const signupController = {}
  * Create new user
  * Handling POST requests to /users/signup endpoint
  *
- * @param {Object} request
- * @param {Object} response
+ * @param {Object} req - request object
+ * @param {Object} res - response object
  * @param {Function} next - Next middleware func
  *
  */

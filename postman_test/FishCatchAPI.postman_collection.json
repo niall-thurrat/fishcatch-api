@@ -77,7 +77,7 @@
 			"name": "FishCatch API Users",
 			"item": [
 				{
-					"name": "User signup request",
+					"name": "Correct signup",
 					"event": [
 						{
 							"listen": "test",
@@ -140,18 +140,6 @@
 							"path": [
 								"users",
 								"signup"
-							],
-							"query": [
-								{
-									"key": "test",
-									"value": "yippy",
-									"disabled": true
-								},
-								{
-									"key": "",
-									"value": "",
-									"disabled": true
-								}
 							]
 						},
 						"description": "This is a user request to register with the api"
@@ -159,7 +147,77 @@
 					"response": []
 				},
 				{
-					"name": "User login request",
+					"name": "Signup with existing username",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b276d02e-4ca9-406b-9bdc-84bcc225a96b",
+								"exec": [
+									"pm.test(\"Signup should fail as username already exists in db\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Bob Test",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "testBob",
+									"type": "text"
+								},
+								{
+									"key": "emailAddress",
+									"value": "bob@test.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "testPassword3",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"signup"
+							]
+						},
+						"description": "An existing user tries to signup again with same credentials"
+					},
+					"response": []
+				},
+				{
+					"name": "Correct login - user 1",
 					"event": [
 						{
 							"listen": "test",
@@ -181,6 +239,9 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -215,18 +276,6 @@
 							"path": [
 								"users",
 								"login"
-							],
-							"query": [
-								{
-									"key": "test",
-									"value": "yippy",
-									"disabled": true
-								},
-								{
-									"key": "",
-									"value": "",
-									"disabled": true
-								}
 							]
 						},
 						"description": "This is a user request to login to the api"
@@ -234,7 +283,137 @@
 					"response": []
 				},
 				{
-					"name": "User request",
+					"name": "Login attempt without signup",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81499728-0977-41ac-8de7-91816f117584",
+								"exec": [
+									"pm.test(\"User not found - status 401 returned\", function () {",
+									"    pm.response.to.have.status(401);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "testFail",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "testPassword3",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "Fail Test",
+									"type": "text"
+								},
+								{
+									"key": "emailAddress",
+									"value": "failTest@test.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"login"
+							]
+						},
+						"description": "User that has not signed up tries to login"
+					},
+					"response": []
+				},
+				{
+					"name": "Login with wrong password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81499728-0977-41ac-8de7-91816f117584",
+								"exec": [
+									"pm.test(\"Login with wrong password should get status 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "testBob",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "testPasswordFail",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"login"
+							]
+						},
+						"description": "Registered user tries to login with wrong password"
+					},
+					"response": []
+				},
+				{
+					"name": "Get user resource",
 					"event": [
 						{
 							"listen": "test",
@@ -250,6 +429,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
@@ -285,6 +474,197 @@
 						"description": "This is a request for a specific user resource."
 					},
 					"response": []
+				},
+				{
+					"name": "Correct login - user 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81499728-0977-41ac-8de7-91816f117584",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"var bearerToken = jsonData.token;",
+									"var APIkey = bearerToken.substring(7, bearerToken.length);",
+									"",
+									"pm.environment.set(\"TOKEN_2\", APIkey);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "testJoe",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "testPassword2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"login"
+							]
+						},
+						"description": "Logging second user in for testing purposes"
+					},
+					"response": []
+				},
+				{
+					"name": "Try get unauthorized user resource",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0daeba80-4f48-4480-8d12-b872921a486e",
+								"exec": [
+									"pm.test(\"Attempt to get another user resource should be denied with 403 status\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN_2}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/:username",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								":username"
+							],
+							"variable": [
+								{
+									"key": "username",
+									"value": "testBob"
+								}
+							]
+						},
+						"description": "This is a request for a specific user resource."
+					},
+					"response": []
+				},
+				{
+					"name": "Correct login - user 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81499728-0977-41ac-8de7-91816f117584",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"var bearerToken = jsonData.token;",
+									"var APIkey = bearerToken.substring(7, bearerToken.length);",
+									"",
+									"pm.environment.set(\"TOKEN\", APIkey);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "testBob",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "testPassword3",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"login"
+							]
+						},
+						"description": "user 1 login again for Fish CRUD test purposes"
+					},
+					"response": []
 				}
 			],
 			"description": "Users routes in FishCatch API"
@@ -293,7 +673,7 @@
 			"name": "FishCatch API Fish CRUD",
 			"item": [
 				{
-					"name": "Add fish request",
+					"name": "Correct Add fish request",
 					"event": [
 						{
 							"listen": "test",
@@ -313,6 +693,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -348,6 +738,77 @@
 								{
 									"key": "length",
 									"value": "245.78",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/fish",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"fish"
+							]
+						},
+						"description": "User creates a new fish resource"
+					},
+					"response": []
+				},
+				{
+					"name": "Add fish without required fields",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bf8bdb35-9289-4bd0-9a67-317ea4399046",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "catchLatitude",
+									"value": "44.44444",
+									"type": "text"
+								},
+								{
+									"key": "catchLongitude",
+									"value": "555.5555",
+									"type": "text"
+								},
+								{
+									"key": "species",
+									"value": "why fish",
 									"type": "text"
 								}
 							]
@@ -535,6 +996,51 @@
 							]
 						},
 						"description": "User deletes a fish resource"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete fish that does not exist request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "93d5df41-e78c-44da-8af7-b25854e761c8",
+								"exec": [
+									"pm.test(\"Delete request gets status 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/fish/:fishId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"fish",
+								":fishId"
+							],
+							"variable": [
+								{
+									"key": "fishId",
+									"value": "{{FISH_ID}}"
+								}
+							]
+						},
+						"description": "User tries to delete the same fish a second time."
 					},
 					"response": []
 				}

@@ -11,6 +11,7 @@
 const User = require('../../models/userModel')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const createError = require('http-errors')
 const halson = require('halson')
 
 const loginController = {}
@@ -19,11 +20,12 @@ const loginController = {}
  * Logs a user in to FishCatch API
  * Handling POST requests to /users/login endpoint
  *
- * @param {Object} request
- * @param {Object} response
+ * @param {Object} req - request object
+ * @param {Object} res - response object
+ * @param {Function} next - Next middleware func
  *
  */
-loginController.login = (req, res) => {
+loginController.login = (req, res, next) => {
   try {
     const username = req.body.username
     const password = req.body.password
@@ -31,8 +33,7 @@ loginController.login = (req, res) => {
     User.findOne({ username })
       .then(user => {
         if (!user) {
-          const error = 'No Account Found'
-          return res.status(404).json(error)
+          return next(createError(401, 'No Account Found'))
         }
         bcrypt.compare(password, user.password)
           .then(isMatch => {
@@ -46,11 +47,7 @@ loginController.login = (req, res) => {
               jwt.sign(payload, process.env.SECRET, { expiresIn: 7200 },
                 (err, token) => {
                   if (err) {
-                    res.status(500)
-                      .json({
-                        error: 'Error signing token',
-                        raw: err
-                      })
+                    return next(createError(500, 'Error signing JWT'))
                   }
 
                   res.status(200)
@@ -61,13 +58,12 @@ loginController.login = (req, res) => {
                   res.send(JSON.stringify(resBody))
                 })
             } else {
-              const error = 'Credentials incorrect'
-              res.status(400).json(error)
+              return next(createError(401, 'Credentials incorrect'))
             }
           })
       })
   } catch (error) {
-    res.status(400).send(error)
+    next(error)
   }
 }
 

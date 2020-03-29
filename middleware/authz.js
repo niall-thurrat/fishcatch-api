@@ -8,6 +8,7 @@
 
 'use strict'
 
+const createError = require('http-errors')
 const FishCatch = require('../models/fishCatchModel')
 
 const authz = {}
@@ -27,7 +28,7 @@ authz.user = (req, res, next) => {
     if (loggedInUser === req.params.username) {
       next()
     } else {
-      return res.status(403).send('Not authorized to access this resource')
+      return next(createError(403, 'Not authorized to access this resource'))
     }
   } catch (error) {
     next(error)
@@ -47,12 +48,12 @@ authz.fish = async (req, res, next) => {
     const fishCatch = await FishCatch.findById(req.params.fishId)
 
     if (!fishCatch) {
-      return res.status(404).send('Resource not found in database')
+      return next(createError(404, 'Resource not found in database'))
     } else {
       if (fishCatch.catcherName === req.user.name) {
         next()
       } else {
-        return res.status(403).send('Not authorized to access this resource')
+        return next(createError(403, 'Not authorized to access this resource'))
       }
     }
   } catch (error) {

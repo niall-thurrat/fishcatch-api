@@ -7,8 +7,9 @@
 
 'use strict'
 
-const FishCatch = require('../../models/fishCatchModel')
 const halson = require('halson')
+const createError = require('http-errors')
+const FishCatch = require('../../models/fishCatchModel')
 
 const deleteFishController = {}
 
@@ -24,7 +25,7 @@ const deleteFishController = {}
 deleteFishController.delete = (req, res, next) => {
   try {
     FishCatch.deleteOne({ _id: req.params.fishId }, (err, fish) => {
-      if (err) throw err
+      if (err) return next(createError(404, 'error deleting fish', err))
 
       res.status(200)
       res.setHeader('Content-Type', 'application/hal+json')

@@ -9,6 +9,7 @@
 'use strict'
 
 const halson = require('halson')
+const createError = require('http-errors')
 const FishCatch = require('../../models/fishCatchModel')
 
 const getOneFishController = {}
@@ -25,7 +26,7 @@ const getOneFishController = {}
 getOneFishController.get = (req, res, next) => {
   try {
     FishCatch.findById(req.params.fishId, (err, fish) => {
-      if (err) throw err
+      if (err) return next(createError(404, 'error finding fish', err))
 
       res.status(200)
       res.setHeader('Content-Type', 'application/hal+json')

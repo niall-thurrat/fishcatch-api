@@ -9,6 +9,7 @@
 'use strict'
 
 const halson = require('halson')
+const createError = require('http-errors')
 const FishCatch = require('../../models/fishCatchModel')
 
 const addFishController = {}
@@ -34,7 +35,9 @@ addFishController.add = (req, res, next) => {
     })
 
     fishCatch.save((err, fish) => {
-      if (err) throw err
+      if (err) {
+        return next(createError(400, 'fishCatch validation failed', err))
+      }
 
       res.status(201)
       res.setHeader('Content-Type', 'application/hal+json')
