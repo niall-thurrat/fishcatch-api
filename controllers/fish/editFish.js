@@ -66,7 +66,10 @@ editFishController.edit = (req, res, next) => {
 function setResBody (req, res, fish) {
   const resBody = halson({
     fish_catch: fish,
-    fish_catcher: req.user,
+    logged_in_user: {
+      id: req.user.id,
+      username: req.user.username
+    },
     description: 'Fish resource updated'
   }).addLink('self', `/fish/${fish._id}`)
     .addLink('curies', [{

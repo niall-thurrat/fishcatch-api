@@ -49,9 +49,12 @@ deleteFishController.delete = (req, res, next) => {
  */
 function setResBody (req, res) {
   const resBody = halson({
-    logged_on_user: req.user,
-    description: 'Fish resource deleted. Can direct user to where the fish ' +
-    'was accessed from: the fish or user-fish collections, or the user resource'
+    logged_in_user: {
+      id: req.user.id,
+      username: req.user.username
+    },
+    description: 'Fish resource deleted. Can direct user to ' +
+    'the fish/user-fish collection or the user\'s own resource'
   }).addLink('curies', [{
     name: 'fc',
     href: `https://${req.headers.host}/docs/rels/{rel}`,

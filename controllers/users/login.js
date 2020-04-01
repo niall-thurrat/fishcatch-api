@@ -85,17 +85,14 @@ function setResBody (req, res, token, user) {
       username: user.username
     },
     description: 'use Bearer token in Authorization header ' +
-            'to access user resource'
+    'to access user and fish resources'
   }).addLink('self', '/users/login')
     .addLink('curies', [{
       name: 'fc',
       href: `https://${req.headers.host}/docs/rels/{rel}`,
       templated: true
     }])
-    .addLink('fc:user', {
-      href: '/users/{username}',
-      templated: true
-    })
+    .addLink('fc:user', `/users/${user.username}`)
 
   return resBody
 }

@@ -111,12 +111,17 @@ function setResBody (req, res, totalCount, userFish, offset) {
   const foundCount = userFish.length
 
   const resBody = halson({
-    fish_catcher: req.user,
     showing_user_fish_from: offset > totalCount ? 0 : offset,
     to: offset > totalCount ? 0 : (offset + foundCount),
     of_total_user_fish: totalCount === 0 ? 'no fish' : totalCount,
-    description: 'User accesses collection of their own fish. can now view a ' +
-            'specific fish, add a fish, view all fish or return to user resource'
+    logged_in_user: {
+      id: req.user.id,
+      username: req.user.username
+    },
+    description: 'User accesses collection of their own fish. offset + limit queries can ' +
+      'be used for pagination (limit cannot excede 50). sort query takes any fishCatch ' +
+      'attribute as well as an order (:asc or :desc). User can now view a specific fish, ' +
+      'add a fish, view all fish and view own user resource'
   }).addLink('self', `/users/${req.user.username}/user-fish`)
     .addLink('curies', [{
       name: 'fc',
@@ -124,8 +129,13 @@ function setResBody (req, res, totalCount, userFish, offset) {
       templated: true
     }])
     .addLink('fc:user', `/users/${req.user.username}`)
-    .addLink('fc:all-fish', `https://${req.headers.host}/fish`)
+    .addLink('fc:all-fish', '/fish')
+    .addLink('fc:one-fish', {
+      href: '/fish/{fishId}',
+      templated: true
+    })
 
+  // embed requested fishCatches
   for (var i = 0; i < foundCount; i++) {
     const embed = embedFish(userFish[i])
     resBody.addEmbed('fc:one-fish', embed)

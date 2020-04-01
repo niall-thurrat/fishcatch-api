@@ -413,7 +413,7 @@
 					"response": []
 				},
 				{
-					"name": "Get user resource",
+					"name": "Correct user resource request",
 					"event": [
 						{
 							"listen": "test",
@@ -444,8 +444,8 @@
 							{
 								"key": "Content-Type",
 								"name": "Content-Type",
-								"value": "application/json",
 								"type": "text",
+								"value": "application/json",
 								"disabled": true
 							}
 						],
@@ -599,72 +599,6 @@
 						"description": "This is a request for a specific user resource."
 					},
 					"response": []
-				},
-				{
-					"name": "Correct login - user 1",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "81499728-0977-41ac-8de7-91816f117584",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"var jsonData = pm.response.json();",
-									"var bearerToken = jsonData.token;",
-									"var APIkey = bearerToken.substring(7, bearerToken.length);",
-									"",
-									"pm.environment.set(\"TOKEN\", APIkey);"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "username",
-									"value": "testBob",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "testPassword3",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "http://localhost:3000/users/login",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"users",
-								"login"
-							]
-						},
-						"description": "user 1 login again for Fish CRUD test purposes"
-					},
-					"response": []
 				}
 			],
 			"description": "Users routes in FishCatch API"
@@ -765,7 +699,7 @@
 							"script": {
 								"id": "bf8bdb35-9289-4bd0-9a67-317ea4399046",
 								"exec": [
-									"pm.test(\"Status code is 400\", function () {",
+									"pm.test(\"FishCatch validation should fail with status 400 - missing fields\", function () {",
 									"    pm.response.to.have.status(400);",
 									"});"
 								],
@@ -824,12 +758,87 @@
 								"fish"
 							]
 						},
+						"description": "User creates a new fish resource without all required attributes - fishCatch validation should fail"
+					},
+					"response": []
+				},
+				{
+					"name": "Unauthenticated Add fish request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bf8bdb35-9289-4bd0-9a67-317ea4399046",
+								"exec": [
+									"pm.test(\"Unauthenticated add fish request should get status 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "catchLatitude",
+									"value": "44.44444",
+									"type": "text"
+								},
+								{
+									"key": "catchLongitude",
+									"value": "555.5555",
+									"type": "text"
+								},
+								{
+									"key": "species",
+									"value": "bad fish",
+									"type": "text"
+								},
+								{
+									"key": "weight",
+									"value": "140.45",
+									"type": "text"
+								},
+								{
+									"key": "length",
+									"value": "245.78",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/fish",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"fish"
+							]
+						},
 						"description": "User creates a new fish resource"
 					},
 					"response": []
 				},
 				{
-					"name": "View fish request",
+					"name": "Correct view fish request",
 					"event": [
 						{
 							"listen": "test",
@@ -845,6 +854,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -874,7 +893,62 @@
 					"response": []
 				},
 				{
-					"name": "Edit fish request",
+					"name": "Unauthorized view fish request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "646b8bf3-05ce-46c3-a18c-f16a9699f74c",
+								"exec": [
+									"pm.test(\"Unathorized read fish request gets status 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN_2}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/fish/:fishId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"fish",
+								":fishId"
+							],
+							"variable": [
+								{
+									"key": "fishId",
+									"value": "{{FISH_ID}}"
+								}
+							]
+						},
+						"description": "User tries to read a fish resource of another user - unathorized action"
+					},
+					"response": []
+				},
+				{
+					"name": "Correct edit fish request",
 					"event": [
 						{
 							"listen": "test",
@@ -890,6 +964,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PATCH",
 						"header": [
 							{
@@ -955,7 +1039,153 @@
 					"response": []
 				},
 				{
-					"name": "Delete fish request",
+					"name": "Unauthorized edit fish request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4fcbc07b-5039-4138-b3f0-f94721fcfde7",
+								"exec": [
+									"pm.test(\"Unautorized attempt to edit fish resource gets status 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN_2}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/hal+json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "catchLatitude",
+									"value": "23",
+									"type": "text"
+								},
+								{
+									"key": "catchLongitude",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "species",
+									"value": "unauthz fish",
+									"type": "text"
+								},
+								{
+									"key": "weight",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "length",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/fish/:fishId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"fish",
+								":fishId"
+							],
+							"variable": [
+								{
+									"key": "fishId",
+									"value": "{{FISH_ID}}"
+								}
+							]
+						},
+						"description": "User tries to update another users fish resource."
+					},
+					"response": []
+				},
+				{
+					"name": "Unauthorized delete fish request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "56151a5b-8f47-4082-ae16-5532c4b09eae",
+								"exec": [
+									"pm.test(\"Unauthorized delete request gets status 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN_2}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/fish/:fishId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"fish",
+								":fishId"
+							],
+							"variable": [
+								{
+									"key": "fishId",
+									"value": "{{FISH_ID}}"
+								}
+							]
+						},
+						"description": "User tries to deletes another user's fish resource"
+					},
+					"response": []
+				},
+				{
+					"name": "Correct delete fish request",
 					"event": [
 						{
 							"listen": "test",
@@ -971,6 +1201,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"body": {
@@ -1016,6 +1256,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"body": {
@@ -1051,7 +1301,7 @@
 			"name": "FishCatch API Fish Collections",
 			"item": [
 				{
-					"name": "User fish collection request",
+					"name": "Correct user-fish request",
 					"event": [
 						{
 							"listen": "test",
@@ -1067,6 +1317,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -1097,14 +1357,256 @@
 					"response": []
 				},
 				{
-					"name": "All Fish collection request",
+					"name": "Correct user-fish req sorted + ordered",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "90e5fdff-5f81-4a6f-af33-f6337ae9a726",
+								"exec": [
+									"pm.test(\"Sorted + ordered user-fish request gets status 200 response\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/:username/user-fish?sort=species:desc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								":username",
+								"user-fish"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "species:desc"
+								}
+							],
+							"variable": [
+								{
+									"key": "username",
+									"value": "testBob"
+								}
+							]
+						},
+						"description": "User requests to see all fish they have added sorted by species in descending order"
+					},
+					"response": []
+				},
+				{
+					"name": "Query sort type error -user-fish",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "90e5fdff-5f81-4a6f-af33-f6337ae9a726",
+								"exec": [
+									"pm.test(\"Error in sort type query param gets 400 response\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/:username/user-fish?sort=specie",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								":username",
+								"user-fish"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "specie"
+								}
+							],
+							"variable": [
+								{
+									"key": "username",
+									"value": "testBob"
+								}
+							]
+						},
+						"description": "Requests to see user-fish resource with query param fault - sort type not recognised"
+					},
+					"response": []
+				},
+				{
+					"name": "Query sort order error -user-fish",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "90e5fdff-5f81-4a6f-af33-f6337ae9a726",
+								"exec": [
+									"pm.test(\"Error in sort order query param gets 400 response\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/:username/user-fish?sort=species:desx",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								":username",
+								"user-fish"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "species:desx"
+								}
+							],
+							"variable": [
+								{
+									"key": "username",
+									"value": "testBob"
+								}
+							]
+						},
+						"description": "Requests to see user-fish resource with query param fault - sort order not recognised"
+					},
+					"response": []
+				},
+				{
+					"name": "Unauthorized user-fish request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "90e5fdff-5f81-4a6f-af33-f6337ae9a726",
+								"exec": [
+									"pm.test(\"Unautorized user-fish collection request gets status 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN_2}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/:username/user-fish",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								":username",
+								"user-fish"
+							],
+							"variable": [
+								{
+									"key": "username",
+									"value": "testBob"
+								}
+							]
+						},
+						"description": "User requests to see another user's user-fish collection resource"
+					},
+					"response": []
+				},
+				{
+					"name": "Correct (all) Fish request",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"id": "46d22925-5a33-4940-b0f0-2736015915fe",
 								"exec": [
-									"pm.test(\"Fish request has status 200 response\", function () {",
+									"pm.test(\"Fish request gets status 200 response\", function () {",
 									"    pm.response.to.have.status(200);",
 									"});"
 								],
@@ -1130,7 +1632,180 @@
 								"fish"
 							]
 						},
-						"description": "Request collection of all users fish"
+						"description": "Request to get collection of (all) fish"
+					},
+					"response": []
+				},
+				{
+					"name": "Correct (all) Fish req sorted + ordered",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "46d22925-5a33-4940-b0f0-2736015915fe",
+								"exec": [
+									"pm.test(\"sorted + ordered Fish request has status 200 response\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/fish?sort=species:desc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"fish"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "species:desc"
+								}
+							]
+						},
+						"description": "Request to get collection of (all) fish sorted and ordered"
+					},
+					"response": []
+				},
+				{
+					"name": "Query sort type error - fish",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "46d22925-5a33-4940-b0f0-2736015915fe",
+								"exec": [
+									"pm.test(\"fish request with query sort type error gets status 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/fish?sort=specie",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"fish"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "specie"
+								}
+							]
+						},
+						"description": "Request to get collection of (all) fish with sort type query error"
+					},
+					"response": []
+				},
+				{
+					"name": "Query sort order error - fish",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "46d22925-5a33-4940-b0f0-2736015915fe",
+								"exec": [
+									"pm.test(\"fish request with query sort order error gets status 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/fish?sort=specie",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"fish"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "specie"
+								}
+							]
+						},
+						"description": "Request to get collection of (all) fish with sort order query error"
+					},
+					"response": []
+				},
+				{
+					"name": "Unauthenticated (all) Fish request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "46d22925-5a33-4940-b0f0-2736015915fe",
+								"exec": [
+									"pm.test(\"Unathenticated fish request gets status 401 response\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/fish",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"fish"
+							]
+						},
+						"description": "Unauthenticated request to get collection of (all) fish"
 					},
 					"response": []
 				}

@@ -51,8 +51,13 @@ getOneFishController.get = (req, res, next) => {
 function setResBody (req, res, fish) {
   const resBody = halson({
     fish_catch: fish,
-    fish_catcher: req.user,
-    description: 'Fish resouce has been retrieved'
+    logged_in_user: {
+      id: req.user.id,
+      username: req.user.username
+    },
+    description: 'Fish resource presented to authorized user. User ' +
+    'edit, and delete resource as well as view fish + user-fish ' +
+    'collections and own user resource'
   }).addLink('self', `/fish/${fish._id}`)
     .addLink('curies', [{
       name: 'fc',

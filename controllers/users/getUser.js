@@ -20,7 +20,7 @@ const getUserController = {}
  * @param {Object} response
  *
  */
-getUserController.get = async (req, res) => {
+getUserController.get = async (req, res, next) => {
   try {
     res.status(200)
     res.setHeader('Content-Type', 'application/hal+json')
@@ -29,7 +29,7 @@ getUserController.get = async (req, res) => {
 
     res.send(JSON.stringify(resBody))
   } catch (error) {
-    res.status(400).send(error)
+    next(error)
   }
 }
 
@@ -42,9 +42,12 @@ getUserController.get = async (req, res) => {
  */
 function setResBody (req, res) {
   const resBody = halson({
-    user: req.user,
+    logged_in_user: {
+      id: req.user.id,
+      username: req.user.username
+    },
     description: 'user can view all fish and own fish collections, ' +
-          'as well as add a fish'
+      'as well as add a fish'
   }).addLink('self', `/users/${req.user.username}`)
     .addLink('curies', [{
       name: 'fc',

@@ -45,11 +45,11 @@ function setResBody (req, res) {
     meta: {
       title: 'FishCatch RESTful API',
       author: 'Niall Thurrat',
-      description: 'The FishCatch RESTful API serves up user and fish resources ' -
+      description: 'The FishCatch RESTful API serves up user and fish resources ' +
       'as well as accompanying API docs for client developers'
     },
     description: 'This is the root/main entry point of the API. Signup required ' +
-      'then jwt token from login before access to any other resource.'
+      'then jwt token from login before access to any other resource'
   }).addLink('self', '/')
     .addLink('curies', [{
       name: 'fc',

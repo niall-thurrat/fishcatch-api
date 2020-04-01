@@ -114,9 +114,14 @@ function setResBody (req, res, totalCount, fishCatches, offset) {
     showing_fish_from: offset > totalCount ? 0 : offset,
     to: offset > totalCount ? 0 : (offset + foundCount),
     of_total_fish: totalCount === 0 ? 'no fish' : totalCount,
-    description: 'Collection of fish taken from db using offset + limit ' +
-      'query parameters. From here users should be able to view a single ' +
-      'fish, their own fish collection or their own user resource.'
+    logged_in_user: {
+      id: req.user.id,
+      username: req.user.username
+    },
+    description: 'User accesses (all) fish collection resource. offset + limit queries can ' +
+    'be used for pagination (limit cannot excede 50). sort query takes any fishCatch ' +
+    'attribute as well as an order (:asc or :desc). User can now view a specific fish ' +
+    '(if authorized), add a fish, view user-fish and view own user resource'
   }).addLink('self', '/fish')
     .addLink('curies', [{
       name: 'fc',
@@ -125,7 +130,12 @@ function setResBody (req, res, totalCount, fishCatches, offset) {
     }])
     .addLink('fc:user', `/users/${req.user.username}`)
     .addLink('fc:user-fish', `/users/${req.user.username}/user-fish`)
+    .addLink('fc:one-fish', {
+      href: '/fish/{fishId}',
+      templated: true
+    })
 
+  // embed requested fishCatches
   for (var i = 0; i < foundCount; i++) {
     const embed = embedFish(fishCatches[i])
     resBody.addEmbed('fc:one-fish', embed)

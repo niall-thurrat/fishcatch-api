@@ -35,9 +35,7 @@ addFishController.add = (req, res, next) => {
     })
 
     fishCatch.save((err, fish) => {
-      if (err) {
-        return next(createError(400, 'fishCatch validation failed', err))
-      }
+      if (err) return next(createError(400, 'fishCatch validation failed', err))
 
       res.status(201)
       res.setHeader('Content-Type', 'application/hal+json')
@@ -63,10 +61,14 @@ addFishController.add = (req, res, next) => {
 function setResBody (req, res, fish) {
   const resBody = halson({
     fish_catch: fish,
-    fish_catcher: req.user,
+    logged_in_user: {
+      id: req.user.id,
+      username: req.user.username
+    },
     description: 'Fish resouce has been added and will show in both fish ' +
-          'and user-fish collections. User can be directed to the new fish resource ' +
-          'or back to where the fish is added from: a fish collection or the user resource'
+          '+ user-fish collections. User can be directed to the new fish ' +
+          'resource or back to where the fish is added from: a fish ' +
+          'collection or the user resource'
   }).addLink('self', `/fish/${fish._id}`)
     .addLink('curies', [{
       name: 'fc',
