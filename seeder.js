@@ -9,7 +9,6 @@
 'use strict'
 
 const mongoose = require('mongoose')
-const bcrypt = require('bcryptjs')
 const FishCatch = require('./models/fishCatchModel')
 const User = require('./models/userModel')
 
@@ -153,13 +152,13 @@ async function seedUserCollection () {
         name: 'Niall Test',
         username: 'testNiall',
         emailAddress: 'niallTest@test.com',
-        password: 'testPassword1'
+        password: 'T3stPassword1!'
       },
       {
         name: 'Joe Test',
         username: 'testJoe',
         emailAddress: 'joeTest@test.com',
-        password: 'testPassword2'
+        password: 'T3stPassword2!'
       }
     ]
 
@@ -170,15 +169,7 @@ async function seedUserCollection () {
         emailAddress: value.emailAddress,
         password: value.password
       })
-      await bcrypt.genSalt(10, async (err, salt) => {
-        if (err) throw err
-        await bcrypt.hash(newUser.password, salt,
-          async (err, hash) => {
-            if (err) throw err
-            newUser.password = hash
-            await newUser.save()
-          })
-      })
+      await newUser.save()
     })
   } catch (err) {
     console.log(err)

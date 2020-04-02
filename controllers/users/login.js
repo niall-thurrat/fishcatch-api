@@ -9,7 +9,6 @@
 'use strict'
 
 const User = require('../../models/userModel')
-const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const createError = require('http-errors')
 const halson = require('halson')
@@ -25,44 +24,44 @@ const loginController = {}
  * @param {Function} next - Next middleware func
  *
  */
-loginController.login = (req, res, next) => {
+loginController.login = async (req, res, next) => {
   try {
     const username = req.body.username
     const password = req.body.password
 
-    User.findOne({ username })
-      .then(user => {
-        if (!user) {
-          return next(createError(401, 'No Account Found'))
+    const user = await User.findOne({ username })
+
+    if (!user) {
+      return next(createError(401, 'No Account Found'))
+    } else {
+      const isMatch = await user.comparePassword(password)
+
+      if (isMatch) {
+        const payload = {
+          id: user._id,
+          name: user.userName,
+          username: user.username,
+          emailAddress: user.emailAddress
         }
-        bcrypt.compare(password, user.password)
-          .then(isMatch => {
-            if (isMatch) {
-              const payload = {
-                id: user._id,
-                name: user.userName,
-                username: user.username,
-                emailAddress: user.emailAddress
-              }
-              jwt.sign(payload, process.env.SECRET, { expiresIn: 7200 },
-                (err, token) => {
-                  if (err) {
-                    return next(createError(500, 'Error signing JWT'))
-                  }
 
-                  res.status(200)
-                  res.setHeader('Content-Type', 'application/hal+json')
-                  res.charset = 'utf-8'
-
-                  const resBody = setResBody(req, res, token, user)
-
-                  res.send(JSON.stringify(resBody))
-                })
-            } else {
-              return next(createError(401, 'Credentials incorrect'))
+        jwt.sign(payload, process.env.SECRET, { expiresIn: 7200 },
+          (err, token) => {
+            if (err) {
+              return next(createError(500, 'Error signing JWT'))
             }
+
+            res.status(200)
+            res.setHeader('Content-Type', 'application/hal+json')
+            res.charset = 'utf-8'
+
+            const resBody = setResBody(req, res, token, user)
+
+            res.send(JSON.stringify(resBody))
           })
-      })
+      } else {
+        return next(createError(401, 'Credentials incorrect'))
+      }
+    }
   } catch (error) {
     next(error)
   }

@@ -125,7 +125,7 @@
 								},
 								{
 									"key": "password",
-									"value": "testPassword3",
+									"value": "T3stPassword3!",
 									"type": "text"
 								}
 							]
@@ -195,7 +195,7 @@
 								},
 								{
 									"key": "password",
-									"value": "testPassword3",
+									"value": "T3stPassword3!",
 									"type": "text"
 								}
 							]
@@ -261,7 +261,7 @@
 								},
 								{
 									"key": "password",
-									"value": "testPassword3",
+									"value": "T3stPassword3!",
 									"type": "text"
 								}
 							]
@@ -516,7 +516,7 @@
 								},
 								{
 									"key": "password",
-									"value": "testPassword2",
+									"value": "T3stPassword2!",
 									"type": "text"
 								}
 							]
