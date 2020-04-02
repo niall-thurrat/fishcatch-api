@@ -42,8 +42,8 @@ userFishController.get = async (req, res, next) => {
       limit = limit > 50 ? 50 : limit
 
       const totalDocs = await FishCatch
-        .countDocuments({ catcherName: req.user.name })
-      const userFish = await FishCatch.find({ catcherName: req.user.name })
+        .countDocuments({ catcherUsername: req.user.username })
+      const userFish = await FishCatch.find({ catcherUsername: req.user.username })
         .sort(sortArg).skip(offset).limit(limit)
 
       res.status(200)
