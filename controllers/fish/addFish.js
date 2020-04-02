@@ -39,6 +39,7 @@ addFishController.add = (req, res, next) => {
 
       res.status(201)
       res.setHeader('Content-Type', 'application/hal+json')
+      res.charset = 'utf-8'
       res.setHeader('Location', `https://${req.headers.host}/fish/${fish._id}`)
 
       const resBody = setResBody(req, res, fish)

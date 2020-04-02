@@ -29,6 +29,7 @@ deleteFishController.delete = (req, res, next) => {
 
       res.status(200)
       res.setHeader('Content-Type', 'application/hal+json')
+      res.charset = 'utf-8'
 
       const resBody = setResBody(req, res)
 

@@ -12,6 +12,7 @@ const mongoose = require('./config/mongoose')
 const passport = require('passport')
 const bodyParser = require('body-parser')
 const createError = require('http-errors')
+const cacheControl = require('express-cache-controller')
 const logger = require('morgan')
 
 const app = express()
@@ -28,6 +29,7 @@ app.use(passport.initialize())
 require('./config/passport')(passport)
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
+app.use(cacheControl())
 app.use(logger('dev'))
 
 // routes
