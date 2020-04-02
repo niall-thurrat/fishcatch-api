@@ -50,7 +50,7 @@ authz.fish = async (req, res, next) => {
     if (!fishCatch) {
       return next(createError(404, 'Resource not found in database'))
     } else {
-      if (fishCatch.catcherName === req.user.name) {
+      if (fishCatch.catcherUsername === req.user.username) {
         next()
       } else {
         return next(createError(403, 'Not authorized to access this resource'))

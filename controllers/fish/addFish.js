@@ -26,7 +26,7 @@ const addFishController = {}
 addFishController.add = (req, res, next) => {
   try {
     const fishCatch = new FishCatch({
-      catcherName: req.user.name,
+      catcherUsername: req.user.username,
       catchLatitude: req.body.catchLatitude,
       catchLongitude: req.body.catchLongitude,
       species: req.body.species,

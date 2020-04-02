@@ -11,7 +11,7 @@ const mongoose = require('mongoose')
 
 // Create a fish catch schema.
 const fishCatchSchema = new mongoose.Schema({
-  catcherName: {
+  catcherUsername: {
     type: String,
     required: true,
     trim: true
