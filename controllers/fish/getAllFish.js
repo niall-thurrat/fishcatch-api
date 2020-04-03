@@ -31,14 +31,19 @@ getAllFishController.get = async (req, res, next) => {
     let limit = getQueryInt(req.query.limit, 10)
 
     const sortQuery = req.query.sort
-    const sortOptions = ['catcherName', 'createdAt', 'species', 'weight', 'length']
+    const sortOptions = []
+
+    // get all possible sort options from model
+    FishCatch.schema.eachPath(path => sortOptions.push(path))
+
+    // string argument for mongoose sort function
     const sortArg = setSortArg(res, sortQuery, sortOptions)
 
     // move on if sortArg failed validation in setSortArg
     if (typeof sortArg !== 'string') {
-      next()
+      return next()
     } else {
-      // limit restricted to 50 fish resources
+      // limit cannot exceed 50 fish resources
       limit = limit > 50 ? 50 : limit
 
       const totalDocs = await FishCatch.countDocuments({})
