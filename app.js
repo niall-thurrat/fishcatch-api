@@ -37,6 +37,7 @@ app.use('/', require('./routes/rootRouter'))
 app.use('/users', require('./routes/usersRouter'))
 app.use('/fish', passport.authenticate(
   'jwt', { session: false }), require('./routes/fishCatchRouter'))
+app.use('/hooks', require('./routes/hooksRouter'))
 app.use('/docs', require('./routes/docsRouter'))
 
 // catch 404 errors

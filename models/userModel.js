@@ -10,7 +10,7 @@
 
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
-const validate = require('../utils/userValidation')
+const validate = require('../lib/userValidation')
 
 const userSchema = mongoose.Schema({
   name: {
