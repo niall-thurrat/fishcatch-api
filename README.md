@@ -13,6 +13,12 @@ http://coursepress.lnu.se/kurs/the-web-as-an-application-platform/examination-2/
 
 ## Test Instructions
 
+To set the database for testing (close the connection after with ctrl+c):
+npm run seed
+
+To run the postman tests using newman:
+npm run newman
+
 -----------------------------------------
 
 ## Project Report
@@ -76,5 +82,5 @@ bla
 Did you do something extra besides the fundamental requirements? Explain them.
 
 ### ANSWER 6
-Not really, I pretty much stuck to the suggested problem in the brief. I suppose I could have got by with less sorting functionality, so that was nice to include (although I'm sure with more time an npm package would have been adopted for more options, especially filtering). I also created my own documentation which was not something I envisaged doing at the beginning of the project. This was because I was trying to accurately follew the HAL standard but I'm really glad I done it as its a really nice way to improve human discoverability of the API.
+Not really, I pretty much stuck to the suggested problem in the brief. I suppose I could have got by with less sorting functionality, so that was nice to include (although I'm sure with more time an npm package would have been adopted for more options, especially filtering). I also created my own documentation which was not something I envisaged doing at the beginning of the project. This was because I was trying to accurately follow the HAL standard but I'm really glad I done it as its a really nice way to improve human discoverability of the API, even though it created a bit of extra work for me. The downside of this is that it will require extra work to maintain also.
 
