@@ -49,7 +49,7 @@ function setResBody (req, res) {
       username: req.user.username
     },
     description: 'user can view all fish and own fish collections, ' +
-      'as well as add a fish'
+      'as well as add a fish. user can add, view and delete webhooks.'
   }).addLink('self', `/users/${req.user.username}`)
     .addLink('curies', [{
       name: 'fc',
@@ -58,6 +58,7 @@ function setResBody (req, res) {
     }])
     .addLink('fc:user-fish', `/users/${req.user.username}/user-fish`)
     .addLink('fc:fish', '/fish')
+    .addLink('fc:hooks', '/hooks')
 
   return resBody
 }

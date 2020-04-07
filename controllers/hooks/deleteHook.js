@@ -9,6 +9,7 @@
 
 const Hook = require('../../models/hookModel')
 const createError = require('http-errors')
+const halson = require('halson')
 
 const deleteHookController = {}
 
@@ -30,11 +31,39 @@ deleteHookController.delete = async (req, res, next) => {
       res.setHeader('Content-Type', 'application/hal+json')
       res.charset = 'utf-8'
 
-      res.send('Webhook deletion successful')
+      const resBody = setResBody(req, res)
+
+      res.send(JSON.stringify(resBody))
     })
   } catch (error) {
     next(error)
   }
+}
+
+/**
+ * Returns a HAL formatted JSON object
+ *
+ * @param {Object} req - Request object
+ * @param {Object} res - Response object
+ *
+ */
+function setResBody (req, res) {
+  const resBody = halson({
+    logged_in_user: {
+      id: req.user.id,
+      username: req.user.username
+    },
+    description: 'Webhook delete successful. Hooks should be added, ' +
+        'viewed and deleted from users\' own pages'
+  }).addLink('self', '/hooks')
+    .addLink('curies', [{
+      name: 'fc',
+      href: `https://${req.headers.host}/docs/rels/{rel}`,
+      templated: true
+    }])
+    .addLink('fc:user', `/users/${req.user.username}`)
+
+  return resBody
 }
 
 // Exports
