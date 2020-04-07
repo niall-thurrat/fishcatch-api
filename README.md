@@ -44,13 +44,13 @@ To do un-safe HTTP calls, the API must have Authentication/Authorization. A user
 Explain and defend your implementation of HATEOAS in your solution.
 
 ### ANSWER 1
-I have chosen to use HAL as my hypermedia format to implement HATEOAS. My decision was largely based on the fact that I wanted something lightweight that was not just machine readable but quite easy to read for developers. I really like the syntax which has properties representing resource state, followed by links and embedded resources which conform to the HAL standards. I have included a 'description' property in each response which gives a bit of info about the recived resource and what options are now available to the client developer. This is just for easier 'at-a-glance' reading and is not actually needed. The 'rel' links of links inspired me to create some basic documentation which is served up by the API (e.g. https://api.host/docs/rels/user) and related to my more ad-hoc links. While maintenance of these docs could be troublesome and it adds dev time to the project, I think it really helps make the API more discoverable to developers.
+I have chosen to use HAL as my hypermedia format to implement HATEOAS. My decision was largely based on the fact that I wanted something lightweight that was not just machine readable but quite easy to read for developers too. I really like the HAL standards syntax which has properties representing resource state, followed by links and embedded resources. I have included a 'description' property in each response which gives a bit of basic info to developers about the received resource and what options are now available from there. The link 'rels' inspired me to create some more detailed documentation which is served up by the API (e.g. https://api.host/docs/rels/user) and related to my more ad-hoc links. While maintenance of these docs could be troublesome and adds dev time to the project, I think it really helps make the API more discoverable to developers.
 
 ### QUESTION 2
 If your solution should implement multiple representations of the resources. How would you do it?
 
 ### ANSWER 2
-This would be acheived with content negotiation. At present my API only serves up Content Type application/hal+json, but I could also configure it to serve representations with other content types such as XML. I guess I would have to let developers know in the documentation that other options are available. Clients could then use the Accept header to specify which content type they prefer to receive. An npm package such as jsontoxml would enable me to convert my current json response bodies into xml. I'm not sure exactly how this would be coded, but I assume my controllers could pick up on the Accept header in the request and return the appropriate representation.
+This would be acheived with content negotiation. At present my API only serves up Content Type application/hal+json, but I could also configure it to serve representations with other content types such as XML. I guess I would have to let developers know in the documentation that other options are available. Clients would use the Accept header to specify which content type they prefer to receive. An npm package such as jsontoxml would enable me to convert my current json response bodies into xml. I'm not sure exactly how this would be coded, but I assume my controllers could pick up on the Accept header in the request and return the appropriate representation.
 
 ### QUESTION 3
 Motivate and defend your authentication solution.
@@ -58,13 +58,13 @@ Motivate and defend your authentication solution.
 2. What pros/cons do this solution have?
 
 ### ANSWER 3
-I used passport local authentication and JSON Web Tokens to authenticate and authorize users in my solution. I wanted to use this to keep things simple as I was conscious that this was a university project and I didn't want to over complicate things. The othe solution I considered was OAuth2 but it seemed to be more complicated to implement this as third parties were involved.
+I used passport local authentication and JSON Web Tokens to authenticate and authorize users in my solution. I wanted to use this to keep things simple as I was conscious that this was a university project and I didn't want to over complicate things. The other solution I considered was OAuth2 but it seemed to be more complicated to implement this as third parties were involved.
 
 PROS
-Using passport meant that a lot of the hard work was done for me, especially in relation to manging the JWT tokens. Once implemented it was really easy to asscess the user on the request object using middleware that could be placed on which ever route I wanted and the Authorization headers were taken care of in my responses. I was able to make my own authorization middleware specific to both fish resources and the users own fish collection.
+Using passport meant that a lot of the hard work was done for me, especially in relation to manging the JWT tokens. Once implemented it was really easy to asscess the 'user' on the request object using middleware that could be placed on which ever route I wanted. I was able to make my own authorization middleware specific to both fish and hook resources as well as the users' own fish collections.
 
 CONS
-After implementation of passport I then started to work on strengthening the validation of my users credentials which is something which must be robust. This was quite a bit of work. I also realized that I would need to handle password changes (not done yet) and all this would need to be documented to a certain degree. If I had of spent a little more time trying to figure out how to implement OAuth2, I could have had a third party do all that for me: it would have saved me a lot of work, provided safer validation, and come with easily accessible and thourough documentation. 
+After implementation of passport I then started to work on strengthening the validation of my users credentials which is something which must be robust. This was quite a bit of work. I also realized that I would need to handle password changes (not done yet) and all this would need to be documented to a certain degree. If I had of spent a little more time trying to figure out how to implement OAuth2, I could have had a third party do all that for me: it would have saved me a lot of work, provided safer validation and come with easily accessible and thourough documentation. 
 
 ### QUESTION 4
 Explain how your webhook works.
@@ -76,15 +76,21 @@ I have set up a webhook service which notifies FishCatch API users when a fish i
 Since this is your first own web API, there are probably things you would solve in another way, looking back at this assignment. Write your thoughts about this.
 
 ### ANSWER 5
-There are a lot of changes I would like to make to this API and I'll list a few below. I have had to simplify or omit a lot of functionality due to time constraints.
+There are a lot of changes I would like to make to this API and I'll list a few below. I have had to simplify or omit a lot of functionality due to time constraints. Some changes that are needed are:
 
-SORTING, FILTERING AND PAGINATION
+- AUTHENTICATION, AUTHORIZATION AND USER ACCOUNTS
+I would use OAuth2 in future. I also need to facilitate a logout function server side, e.g. a blacklist for jwt tokens relating to logged out users. I also need to facilitate user resource editing and deletion.
+
+- FISHCATCH DATA
+Validation needs strengthened for all FishCatch properties. I would also like to facilitate adding fishCatch images
+
+- SORTING, FILTERING AND PAGINATION
 I have provided sorting functionality on the 2 collection resources (fish and user-fish). I think i would like to use some sort of library for this to make it a bit tidier in future. I would also like to add filtering. I have used offset and limit query parameters to allow pagination on the client side, but I would like to setup pagination on the server side to make things easier for client developers.
 
-WEBHOOKS
+- WEBHOOKS
 I have implemented a very simple webhook which notifies subscribers when a fish is added. In an API which is being used be large numbers of users it would be a strain on my API to continue to serve up this many notifications, and they wouldn't be particularly useful in reality. I would therefore develope the function to have a series of hooks, such as hooks when a record fish is entered (i.e. the biggest trout), when a particular species is caught or even when a fish is caught in a users own area. This would involve adding webhook 'types' to the Hooks on the database, and a bit of filtering before choosing who to notify about particular events. I am also aware that there needs to be some some of mechanism for removing webhooks that are not being used. This could be achieved, e.g. by requiring 200 OK response within 10 seconds of issueing notifications.
 
-DOCUMENTATION
+- DOCUMENTATION
 There's a lot of hard coded information in my docs resources. With more time I would definitely like to add a lot more dynamic data into these docs to make them easier to maintain.
 
 ### QUESTION 6
@@ -92,4 +98,3 @@ Did you do something extra besides the fundamental requirements? Explain them.
 
 ### ANSWER 6
 I pretty much stuck to the suggested problem in the brief but I did create my own documentation resources which was not something I envisaged doing at the beginning of the project. This was because I was trying to accurately follow the HAL standard but I'm really glad I done it as its a really nice way to improve human discoverability of the API, even though it created quite a bit of extra work for me. Perhaps one downside of this is that it will require extra work to maintain in future too, although this should be mitigated by addition of more dynamic content as opposed to the hard coding I've done.
-
