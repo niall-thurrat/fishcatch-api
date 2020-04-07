@@ -82,7 +82,7 @@ There are a lot of changes I would like to make to this API and I'll list a few 
 I would use OAuth2 in future. I also need to facilitate a logout function server side, e.g. a blacklist for jwt tokens relating to logged out users. I also need to facilitate user resource editing and deletion.
 
 - FISHCATCH DATA
-Validation needs strengthened for all FishCatch properties. I would also like to facilitate adding fishCatch images
+Validation needs strengthened for all FishCatch properties. I would also like to facilitate adding fishCatch images, and have a region property that is auto generated based on the co-ordinates
 
 - SORTING, FILTERING AND PAGINATION
 I have provided sorting functionality on the 2 collection resources (fish and user-fish). I think i would like to use some sort of library for this to make it a bit tidier in future. I would also like to add filtering. I have used offset and limit query parameters to allow pagination on the client side, but I would like to setup pagination on the server side to make things easier for client developers.
