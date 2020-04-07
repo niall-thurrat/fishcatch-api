@@ -8,9 +8,16 @@
 'use strict'
 
 const router = require('express').Router()
-const controller = require('../controllers/hooksController')
+const authz = require('../middleware/authz')
 
-router.post('/', controller.add)
+const addHookController = require('../controllers/hooks/addHook')
+const getHookController = require('../controllers/hooks/getHook')
+const deleteHookController = require('../controllers/hooks/deleteHook')
 
-// Exports.
+router.route('/')
+  .post(addHookController.add)
+  .get(authz.hook, getHookController.get)
+  .delete(authz.hook, deleteHookController.delete)
+
+// Exports
 module.exports = router

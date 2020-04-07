@@ -11,6 +11,7 @@
 const halson = require('halson')
 const createError = require('http-errors')
 const FishCatch = require('../../models/fishCatchModel')
+const notifyHooks = require('../../lib/notifyHooks')
 
 const addFishController = {}
 
@@ -45,6 +46,8 @@ addFishController.add = (req, res, next) => {
       const resBody = setResBody(req, res, fish)
 
       res.send(JSON.stringify(resBody))
+
+      notifyHooks.fishAdded(fish, next)
     })
   } catch (error) {
     next(error)

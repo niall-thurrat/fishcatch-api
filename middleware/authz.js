@@ -10,6 +10,7 @@
 
 const createError = require('http-errors')
 const FishCatch = require('../models/fishCatchModel')
+const Hook = require('../models/hookModel')
 
 const authz = {}
 
@@ -51,6 +52,32 @@ authz.fish = async (req, res, next) => {
       return next(createError(404, 'Resource not found in database'))
     } else {
       if (fishCatch.catcherUsername === req.user.username) {
+        next()
+      } else {
+        return next(createError(403, 'Not authorized to access this resource'))
+      }
+    }
+  } catch (error) {
+    next(error)
+  }
+}
+
+/**
+ * Check user authorized to access webhook resource
+ *
+ * @param {Object} req - Request object
+ * @param {Object} res - Repsonse object
+ * @param {Function} next - Next middleware func
+ *
+ */
+authz.hook = async (req, res, next) => {
+  try {
+    const hook = await Hook.findById(req.query.hookId)
+
+    if (!hook) {
+      return next(createError(404, 'Resource not found'))
+    } else {
+      if (hook.username === req.user.username) {
         next()
       } else {
         return next(createError(403, 'Not authorized to access this resource'))

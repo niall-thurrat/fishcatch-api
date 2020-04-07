@@ -70,17 +70,23 @@ After implementation of passport I then started to work on strengthening the val
 Explain how your webhook works.
 
 ### ANSWER 4
-bla
+I have set up a webhook service which notifies FishCatch API users when a fish is added to the database. To do this I have created a hooks endpoint to manage POST, GET and DELETE requests for webhooks.  When users want to subscribe they must POST to the hooks endpoint with a body which contains a 'destination' field that states the URL that should receive the notifications. Users should be logged when subscribing as the route to the hooks endpoint requires authentication with a Bearer token received at login. POST requests with the appropriate 'destination' field and authentication will generate a Hook on the database. A key will be stored on the database as part of the Hook and FishCatch API uses a HMAC hexdigest of the key and body of hook notifications to create X-Hub-Signature headers so that the client can use their own key and validate that the hooks are coming from FishCatch API. GET methods to the hooks endpoint are a way for the client to retrieve the Hook details from FishCatch API and DELETE can be used to delete the Hook. Both also require user authentication. When a fish is added, the notifyHooks function checks the Hooks collection in MongoDB and issues a POST request including a payload and X-Hub-Signature to all subscribers.
 
 ### QUESTION 5
 Since this is your first own web API, there are probably things you would solve in another way, looking back at this assignment. Write your thoughts about this.
 
 ### ANSWER 5
-bla
+There are a lot of changes I would like to make to this API and I'll list a few below. I have had to simplify or omit a lot of functionality due to time constraints.
+
+SORTING, FILTERING AND PAGINATION
+I have provided sorting functionality on the 2 collection resources (fish and user fish). I think i would like to use some sort of library for this to make it a bit tidier in future. I would also like to add filtering. I have used offset and limit query parameters to allow pagination on the client side, but I would like to setup pagination on the server side to make things easier for client developers.
+
+WEBHOOKS
+I have implemented a very simple webhook which notifies subscribers when a fish is added. In an API which is being used be large numbers of users it would be a strain on my API to continue to serve up this many notifications, and they wouldn't be particularly useful in reality. I would therefore develope the function to have a series of hooks, such as hooks when a record fish is entered (i.e. the biggest trout), when a particular species is caught or even when a fish is caught in a users own area. This would involve adding webhook 'types' to the Hooks on the database, and a bit of filtering before choosing who to notify about particular events. I am also aware that there needs to be some some of mechanism for removing webhooks that are not being used. This could be achieved, e.g. by requiring 200 OK response within 10 seconds of issueing notifications.
 
 ### QUESTION 6
 Did you do something extra besides the fundamental requirements? Explain them.
 
 ### ANSWER 6
-Not really, I pretty much stuck to the suggested problem in the brief. I suppose I could have got by with less sorting functionality, so that was nice to include (although I'm sure with more time an npm package would have been adopted for more options, especially filtering). I also created my own documentation which was not something I envisaged doing at the beginning of the project. This was because I was trying to accurately follow the HAL standard but I'm really glad I done it as its a really nice way to improve human discoverability of the API, even though it created a bit of extra work for me. The downside of this is that it will require extra work to maintain also.
+Not really, I pretty much stuck to the suggested problem in the brief although I did create my own documentation which was not something I envisaged doing at the beginning of the project. This was because I was trying to accurately follow the HAL standard but I'm really glad I done it as its a really nice way to improve human discoverability of the API, even though it created a bit of extra work for me. Perhaps one downside of this is that it will require extra work to maintain in future too.
 
