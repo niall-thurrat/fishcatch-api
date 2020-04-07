@@ -13,6 +13,8 @@ const passport = require('passport')
 const bodyParser = require('body-parser')
 const createError = require('http-errors')
 const cacheControl = require('express-cache-controller')
+const rateLimit = require('express-rate-limit')
+const helmet = require('helmet')
 const logger = require('morgan')
 
 const app = express()
@@ -23,6 +25,16 @@ mongoose.run().catch(error => {
   console.error(error)
   process.exit(1)
 })
+
+// rate-limiting config
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100 // limit each IP to 100 requests per windowMs
+})
+
+// security middleware
+app.use(limiter)
+app.use(helmet())
 
 // middleware
 app.use(passport.initialize())
