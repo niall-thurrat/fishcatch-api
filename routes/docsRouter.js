@@ -8,14 +8,22 @@
 'use strict'
 
 const router = require('express').Router()
-const controller = require('../controllers/docsController')
 
-router.get('/rels/signup', controller.signupDoc)
-  .get('/rels/login', controller.loginDoc)
-  .get('/rels/user', controller.userDoc)
-  .get('/rels/user-fish', controller.userFishDoc)
-  // .get('/rels/all-fish', controller.allFishDoc)
-  // .get('/rels/one-fish', controller.oneFishDoc)
+const signupDocController = require('../controllers/docs/signupDoc')
+const loginDocController = require('../controllers/docs/loginDoc')
+const userController = require('../controllers/docs/userDoc')
+const userFishController = require('../controllers/docs/userFishDoc')
+const allFishController = require('../controllers/docs/allFishDoc')
+const oneFishController = require('../controllers/docs/oneFishDoc')
+const hooksController = require('../controllers/docs/hooksDoc')
+
+router.get('/rels/signup', signupDocController.get)
+  .get('/rels/login', loginDocController.get)
+  .get('/rels/user', userController.get)
+  .get('/rels/user-fish', userFishController.get)
+  .get('/rels/all-fish', allFishController.get)
+  .get('/rels/one-fish', oneFishController.get)
+  .get('/rels/hooks', hooksController.get)
 
 // Exports
 module.exports = router

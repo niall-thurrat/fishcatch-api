@@ -71,15 +71,14 @@ function setResBody (req, res, fish) {
     },
     description: 'Fish resouce has been added and will show in both fish ' +
           '+ user-fish collections. User can be directed to the new fish ' +
-          'resource or back to where the fish is added from: a fish ' +
-          'collection or the user resource'
+          'resource, a fish collection or the user resource'
   }).addLink('self', `/fish/${fish._id}`)
     .addLink('curies', [{
       name: 'fc',
       href: `https://${req.headers.host}/docs/rels/{rel}`,
       templated: true
     }])
-    .addLink('fc:fish', '/fish')
+    .addLink('fc:all-fish', '/fish')
     .addLink('fc:user-fish', `/users/${req.user.username}/user-fish`)
     .addLink('fc:user', `/users/${req.user.username}`)
 

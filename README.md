@@ -30,9 +30,9 @@ The FishCatch API is dedicated to helping anglers record their caugth fish. This
 -- --------------
 The fishing club "Den svartmunnade smörbultens banne" needs an API for collection fishing reports. They are thinking of building a client application but want a separate web API before taking this process along. The idea is that fishers should be able to report their catch and that this data could be made public. They want to collect data like:
 
-The user which catches the fish
+* The user that catches the fish
 * The position (longitude and latitude) of the catch
-* Specie of the fish
+* Species
 * Weight
 * Length
 * Timestamp of the catch
@@ -79,14 +79,17 @@ Since this is your first own web API, there are probably things you would solve 
 There are a lot of changes I would like to make to this API and I'll list a few below. I have had to simplify or omit a lot of functionality due to time constraints.
 
 SORTING, FILTERING AND PAGINATION
-I have provided sorting functionality on the 2 collection resources (fish and user fish). I think i would like to use some sort of library for this to make it a bit tidier in future. I would also like to add filtering. I have used offset and limit query parameters to allow pagination on the client side, but I would like to setup pagination on the server side to make things easier for client developers.
+I have provided sorting functionality on the 2 collection resources (fish and user-fish). I think i would like to use some sort of library for this to make it a bit tidier in future. I would also like to add filtering. I have used offset and limit query parameters to allow pagination on the client side, but I would like to setup pagination on the server side to make things easier for client developers.
 
 WEBHOOKS
 I have implemented a very simple webhook which notifies subscribers when a fish is added. In an API which is being used be large numbers of users it would be a strain on my API to continue to serve up this many notifications, and they wouldn't be particularly useful in reality. I would therefore develope the function to have a series of hooks, such as hooks when a record fish is entered (i.e. the biggest trout), when a particular species is caught or even when a fish is caught in a users own area. This would involve adding webhook 'types' to the Hooks on the database, and a bit of filtering before choosing who to notify about particular events. I am also aware that there needs to be some some of mechanism for removing webhooks that are not being used. This could be achieved, e.g. by requiring 200 OK response within 10 seconds of issueing notifications.
+
+DOCUMENTATION
+There's a lot of hard coded information in my docs resources. With more time I would definitely like to add a lot more dynamic data into these docs to make them easier to maintain.
 
 ### QUESTION 6
 Did you do something extra besides the fundamental requirements? Explain them.
 
 ### ANSWER 6
-Not really, I pretty much stuck to the suggested problem in the brief although I did create my own documentation which was not something I envisaged doing at the beginning of the project. This was because I was trying to accurately follow the HAL standard but I'm really glad I done it as its a really nice way to improve human discoverability of the API, even though it created a bit of extra work for me. Perhaps one downside of this is that it will require extra work to maintain in future too.
+I pretty much stuck to the suggested problem in the brief but I did create my own documentation resources which was not something I envisaged doing at the beginning of the project. This was because I was trying to accurately follow the HAL standard but I'm really glad I done it as its a really nice way to improve human discoverability of the API, even though it created quite a bit of extra work for me. Perhaps one downside of this is that it will require extra work to maintain in future too, although this should be mitigated by addition of more dynamic content as opposed to the hard coding I've done.
 

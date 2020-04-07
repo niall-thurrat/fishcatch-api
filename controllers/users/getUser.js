@@ -49,7 +49,8 @@ function setResBody (req, res) {
       username: req.user.username
     },
     description: 'user can view all fish and own fish collections, ' +
-      'as well as add a fish. user can add, view and delete webhooks.'
+      'as well as add a fish. user can add, view and delete webhooks. ' +
+      'see /docs/rels/user for full details'
   }).addLink('self', `/users/${req.user.username}`)
     .addLink('curies', [{
       name: 'fc',

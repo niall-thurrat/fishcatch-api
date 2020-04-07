@@ -68,7 +68,7 @@ userFishController.get = async (req, res, next) => {
 
 /**
  * Performs sort query paramater validation.
- * Returns string argument for mongoose's sort function.
+ * Creates and returns string argument for mongoose's sort function.
  *
  * @param {Object} res - response object
  * @param {String} sortQuery - a sort query parameter
@@ -126,10 +126,11 @@ function setResBody (req, res, totalCount, userFish, offset) {
       id: req.user.id,
       username: req.user.username
     },
-    description: 'User accesses collection of their own fish. offset + limit queries can ' +
+    description: 'user accesses collection of their own fish. offset + limit queries can ' +
       'be used for pagination (limit cannot excede 50). sort query takes any fishCatch ' +
       'attribute as well as an order (:asc or :desc). User can now view a specific fish, ' +
-      'add a fish, view all fish and view own user resource'
+      'add a fish, view all fish and view own user resource. ' +
+      'see /docs/rels/user-fish for full details'
   }).addLink('self', `/users/${req.user.username}/user-fish`)
     .addLink('curies', [{
       name: 'fc',

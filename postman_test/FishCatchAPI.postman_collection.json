@@ -2296,6 +2296,292 @@
 				}
 			],
 			"description": "Requests to hooks resource at FishCatch API"
+		},
+		{
+			"name": "FishCatch API Documentation",
+			"item": [
+				{
+					"name": "Signup documentation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9a379104-f1b0-40f9-9ebd-4b8286c0df8e",
+								"exec": [
+									"pm.test(\"Request for signup documentation should get status 200 response\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/docs/rels/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"docs",
+								"rels",
+								"signup"
+							]
+						},
+						"description": "Request to get the docs for signup info"
+					},
+					"response": []
+				},
+				{
+					"name": "Login documentation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9a379104-f1b0-40f9-9ebd-4b8286c0df8e",
+								"exec": [
+									"pm.test(\"Request for login documentation should get status 200 response\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/docs/rels/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"docs",
+								"rels",
+								"login"
+							]
+						},
+						"description": "Request to get the docs for login info"
+					},
+					"response": []
+				},
+				{
+					"name": "User documentation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9a379104-f1b0-40f9-9ebd-4b8286c0df8e",
+								"exec": [
+									"pm.test(\"Request for user documentation should get status 200 response\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/docs/rels/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"docs",
+								"rels",
+								"user"
+							]
+						},
+						"description": "Request to get the docs for user resource"
+					},
+					"response": []
+				},
+				{
+					"name": "User-fish documentation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9a379104-f1b0-40f9-9ebd-4b8286c0df8e",
+								"exec": [
+									"pm.test(\"Request for user-fish documentation should get status 200 response\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/docs/rels/user-fish",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"docs",
+								"rels",
+								"user-fish"
+							]
+						},
+						"description": "Request to get the docs for user-fish resource"
+					},
+					"response": []
+				},
+				{
+					"name": "All-fish documentation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9a379104-f1b0-40f9-9ebd-4b8286c0df8e",
+								"exec": [
+									"pm.test(\"Request for all-fish documentation should get status 200 response\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/docs/rels/all-fish",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"docs",
+								"rels",
+								"all-fish"
+							]
+						},
+						"description": "Request to get the docs for (all) fish resource"
+					},
+					"response": []
+				},
+				{
+					"name": "One-fish documentation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9a379104-f1b0-40f9-9ebd-4b8286c0df8e",
+								"exec": [
+									"pm.test(\"Request for one-fish documentation should get status 200 response\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/docs/rels/one-fish",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"docs",
+								"rels",
+								"one-fish"
+							]
+						},
+						"description": "Request to get the docs for a single fish resource"
+					},
+					"response": []
+				},
+				{
+					"name": "Hooks documentation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9a379104-f1b0-40f9-9ebd-4b8286c0df8e",
+								"exec": [
+									"pm.test(\"Request for webhooks documentation should get status 200 response\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3000/docs/rels/hooks",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"docs",
+								"rels",
+								"hooks"
+							]
+						},
+						"description": "Request to get the docs for webhooks resources"
+					},
+					"response": []
+				}
+			],
+			"description": "Requests for docs from FishCatch API"
 		}
 	],
 	"auth": {

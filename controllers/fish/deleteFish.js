@@ -61,7 +61,7 @@ function setResBody (req, res) {
     href: `https://${req.headers.host}/docs/rels/{rel}`,
     templated: true
   }])
-    .addLink('fc:fish', '/fish')
+    .addLink('fc:all-fish', '/fish')
     .addLink('fc:user-fish', `/users/${req.user.username}/user-fish`)
     .addLink('fc:user', `/users/${req.user.username}`)
 

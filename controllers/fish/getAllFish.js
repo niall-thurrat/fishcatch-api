@@ -67,7 +67,7 @@ getAllFishController.get = async (req, res, next) => {
 
 /**
  * Performs sort query paramater validation.
- * Returns string argument for mongoose's sort function.
+ * Creates and returns string argument for mongoose's sort function.
  *
  * @param {Object} res - response object
  * @param {String} sortQuery - a sort query parameter
