@@ -34,6 +34,9 @@ module.exports.run = async () => {
     })
   })
 
+  const dbUrl = process.env.MONGODB_URI ||
+    process.env.DEV_MONGODB_URL
+
   const dbOptions = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -42,5 +45,5 @@ module.exports.run = async () => {
   }
 
   // Connect to the server.
-  return mongoose.connect(process.env.MONGODB_URL, dbOptions)
+  return mongoose.connect(dbUrl, dbOptions)
 }

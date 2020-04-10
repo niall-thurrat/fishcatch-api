@@ -12,6 +12,9 @@ const mongoose = require('mongoose')
 const FishCatch = require('./models/fishCatchModel')
 const User = require('./models/userModel')
 
+const dbUrl = process.env.MONGODB_URI ||
+  process.env.DEV_MONGODB_URL
+
 const dbOptions = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -19,7 +22,7 @@ const dbOptions = {
 }
 
 // connect to mongoDB via mongoose
-mongoose.connect(process.env.MONGODB_URL, dbOptions)
+mongoose.connect(dbUrl, dbOptions)
 const connection = mongoose.connection
 
 connection.once('open', function () {

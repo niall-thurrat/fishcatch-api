@@ -1,6 +1,9 @@
 {
-  "name": "rest_web-api",
+  "name": "fishcatch-api",
   "version": "1.0.0",
+  "engines": {
+    "node": "12.14.0"
+  },
   "description": "A REST web-API created for assignment 2, 1dv527, linnaeus University, VT20",
   "main": "app.js",
   "scripts": {
