@@ -7,7 +7,7 @@
   "description": "A REST web-API created for assignment 2, 1dv527, linnaeus University, VT20",
   "main": "app.js",
   "scripts": {
-    "start": "env-cmd -f ./.env nodemon app.js",
+    "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "env-cmd -f ./.env node seeder.js",
     "newman": "newman run postman_test/FishCatchAPI.postman_collection.json -e postman_test/FISHCATCH_ENV.postman_environment.json"
