@@ -15,7 +15,6 @@ const createError = require('http-errors')
 const cacheControl = require('express-cache-controller')
 const rateLimit = require('express-rate-limit')
 const helmet = require('helmet')
-const logger = require('morgan')
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -42,7 +41,11 @@ require('./config/passport')(passport)
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(cacheControl())
-app.use(logger('dev'))
+
+if (app.settings.env === 'development') {
+  const logger = require('morgan')
+  app.use(logger('dev'))
+}
 
 // routes
 app.use('/', require('./routes/rootRouter'))
