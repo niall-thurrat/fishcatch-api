@@ -8,6 +8,7 @@
 'use strict'
 
 const mongoose = require('mongoose')
+require('dotenv').config()
 
 /**
  * Creates connection to mongoDB database.

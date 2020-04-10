@@ -11,6 +11,7 @@
 'use strict'
 
 const { Strategy, ExtractJwt } = require('passport-jwt')
+require('dotenv').config()
 
 const secret = process.env.SECRET || 'some other secret as default'
 

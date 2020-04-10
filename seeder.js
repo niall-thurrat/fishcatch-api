@@ -9,6 +9,7 @@
 'use strict'
 
 const mongoose = require('mongoose')
+require('dotenv').config()
 const FishCatch = require('./models/fishCatchModel')
 const User = require('./models/userModel')
 

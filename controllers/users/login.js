@@ -10,6 +10,7 @@
 
 const User = require('../../models/userModel')
 const jwt = require('jsonwebtoken')
+require('dotenv').config()
 const createError = require('http-errors')
 const halson = require('halson')
 
