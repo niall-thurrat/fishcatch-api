@@ -2,7 +2,7 @@
 # The FishCatch API
 #### by Niall Thurrat
 
-#### HOSTED AT: https://shielded-everglades-58520.herokuapp.com
+#### HOSTED AT: https://fishcatch-api.herokuapp.com
 #### SOURCE CODE: https://gitlab.lnu.se/1dv527/student/nt222fc/examination-2
 
 ## Examination 2 of 1dv527 (VT20)
@@ -103,7 +103,7 @@ There's a lot of hard coded information in my docs resources. With more time I w
 I would like to set up a simple client app (didn't feel I had time). I believe this would help me better understand how the HAL links can be used as machine discoverable information. It would also help when developing webhooks.
 
 - PRODUCTION
-I've just used a free Heroku account to put my app online with a free URI. Annoyingly I forgot to specify an appropriate fishcatch-api sub-domain so I got a random one generated. That would need fixed!! (don't have time) I'm also just hooked up to the same db I've used in testing. I would need to link to a separate one that's suitable for production.
+I've just used a free tier Heroku account to put my app online which would need changed to something more appropriate for production. I'm also just hooked up to the same db I've used in testing. I would need to link to a separate one that's suitable for prod as well.
 
 ### QUESTION 6
 Did you do something extra besides the fundamental requirements? Explain them.
