@@ -25,6 +25,7 @@ rootController.getRoot = (req, res, next) => {
     res.status(200)
     res.setHeader('Content-Type', 'application/hal+json')
     res.charset = 'utf-8'
+    res.cacheControl = { maxAge: 60, mustRevalidate: true }
 
     const resBody = setResBody(req, res)
 
