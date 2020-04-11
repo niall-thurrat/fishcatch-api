@@ -61,14 +61,17 @@ app.use('*', (req, res, next) => next(createError(404)))
 
 // custom error handler
 app.use((error, req, res, next) => {
-  const stack = app.settings.env === 'development' ? error.stack : ''
+  const data = {
+    status: error.status,
+    message: error.message
+  }
+
+  if (app.settings.env === 'development') {
+    data.stack = error.stack
+  }
 
   res.status(error.status || 500)
-  res.json({
-    status: error.status,
-    message: error.message,
-    stack: stack
-  })
+  res.json(data)
 })
 
 // run server
