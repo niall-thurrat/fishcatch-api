@@ -1,13 +1,13 @@
 {
 	"info": {
 		"_postman_id": "df604db0-b6e7-4c81-9312-d202b2759b61",
-		"name": "FishCatch API Heroku",
-		"description": "This is a collection for Niall Thurrat's FishCatch API",
+		"name": "FishCatch API",
+		"description": "This is a Postman collection for Niall Thurrat's FishCatch API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "FishCatch API Root",
+			"name": "Root",
 			"item": [
 				{
 					"name": "Root API request",
@@ -47,18 +47,6 @@
 							"raw": "{{HOST}}",
 							"host": [
 								"{{HOST}}"
-							],
-							"query": [
-								{
-									"key": "test",
-									"value": "yippy",
-									"disabled": true
-								},
-								{
-									"key": "",
-									"value": "",
-									"disabled": true
-								}
 							]
 						},
 						"description": "This is the root API request"
@@ -66,10 +54,32 @@
 					"response": []
 				}
 			],
-			"description": "This will test the result of the root API call"
+			"description": "This will test the result of the root API call",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "06725bd2-6e86-4b2c-ac85-73ab50284f13",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "9cc5cba2-72ce-4bf1-95b5-2a736cfa2ffe",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
 		},
 		{
-			"name": "FishCatch API Users",
+			"name": "Users",
 			"item": [
 				{
 					"name": "Correct signup",
@@ -583,7 +593,7 @@
 			"description": "Users routes in FishCatch API"
 		},
 		{
-			"name": "FishCatch API Fish CRUD",
+			"name": "Fish CRUD",
 			"item": [
 				{
 					"name": "Correct Add fish request",
@@ -1254,10 +1264,32 @@
 					"response": []
 				}
 			],
-			"description": "User creates, reads, updates and deletes a fish resource"
+			"description": "User creates, reads, updates and deletes a fish resource",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "23e93a5d-d56d-427f-a523-7b74618c903d",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "da7e4aae-5c4a-4909-b2b5-caacc35858df",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
 		},
 		{
-			"name": "FishCatch API Fish Collections",
+			"name": "Fish Collections",
 			"item": [
 				{
 					"name": "Correct user-fish request",
@@ -1752,7 +1784,7 @@
 			"description": "Requests to fish resources in the FishCatch API"
 		},
 		{
-			"name": "FishCatch API Webhooks",
+			"name": "Webhooks",
 			"item": [
 				{
 					"name": "Correct webhook added",
@@ -2221,7 +2253,7 @@
 			"description": "Requests to hooks resource at FishCatch API"
 		},
 		{
-			"name": "FishCatch API Documentation",
+			"name": "Documentation",
 			"item": [
 				{
 					"name": "Signup documentation",
@@ -2490,7 +2522,29 @@
 					"response": []
 				}
 			],
-			"description": "Requests for docs from FishCatch API"
+			"description": "Requests for doc resources from FishCatch API",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "956f835f-2e5f-44bc-9567-16e22e8f5721",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "fbe387a1-5763-474d-b98a-881ac88b26a3",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
 		}
 	],
 	"auth": {

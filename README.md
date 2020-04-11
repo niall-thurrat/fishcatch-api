@@ -2,6 +2,9 @@
 # The FishCatch API
 #### by Niall Thurrat
 
+#### HOSTED AT: https://shielded-everglades-58520.herokuapp.com
+#### SOURCE CODE: https://gitlab.lnu.se/1dv527/student/nt222fc/examination-2
+
 ## Examination 2 of 1dv527 (VT20)
 #### The Web as an Application Platform
 
@@ -13,11 +16,14 @@ http://coursepress.lnu.se/kurs/the-web-as-an-application-platform/examination-2/
 
 ## Test Instructions
 
-To set the database for testing (close the connection after with ctrl+c):
-npm run seed
+Go to my gitlab project's postman folder at:
+https://gitlab.lnu.se/1dv527/student/nt222fc/examination-2/-/tree/master/postman_test
 
-To run the postman tests using newman:
-npm run newman
+Here you can get the 2 files needed to test my app in postman:
+1. FishCatchAPI.postman_collection.json
+2. FC_HEROKU_ENV.postman_environment.json
+
+I have another ENV file in the postman_test folder for local testing so make sure you choose the right one! Import both files into the postman app and test away! There is some data added to the database already, so the user that signs up in the postman collection will already have fish in the database. The collection is designed to be ran in order (I use newman cli in my dev env). If you decide to run through the collection in order a second time, the only test that fails is the 'Correct Signup' request as the user is already in there.
 
 -----------------------------------------
 
@@ -79,22 +85,28 @@ Since this is your first own web API, there are probably things you would solve 
 There are a lot of changes I would like to make to this API and I'll list a few below. I have had to simplify or omit a lot of functionality due to time constraints. Some changes that are needed are:
 
 - AUTHENTICATION, AUTHORIZATION AND USER ACCOUNTS
-I would use OAuth2 in future. I also need to facilitate a logout function server side, e.g. a blacklist for jwt tokens relating to logged out users. I also need to facilitate user resource editing and deletion.
+I would use OAuth2 in future. I also need to facilitate a logout function server side, e.g. a blacklist for jwt tokens relating to logged out users. I also need to handle user resource editing and deletion.
 
 - FISHCATCH DATA
-Validation needs strengthened for all FishCatch properties. I would also like to facilitate adding fishCatch images, and have a region property that is auto generated based on the co-ordinates
+Validation needs implemented for all FishCatch properties (a security risk at present).
 
 - SORTING, FILTERING AND PAGINATION
-I have provided sorting functionality on the 2 collection resources (fish and user-fish). I think i would like to use some sort of library for this to make it a bit tidier in future. I would also like to add filtering. I have used offset and limit query parameters to allow pagination on the client side, but I would like to setup pagination on the server side to make things easier for client developers.
+I have provided sorting functionality on the 2 collection resources (fish and user-fish). I think i would like to use some sort of library for this to make it a bit tidier in future. I should also add filtering. I have used offset and limit query parameters to allow pagination on the client side, but I would like to setup pagination on the server side to make things easier for client developers.
 
 - WEBHOOKS
-I have implemented a very simple webhook which notifies subscribers when a fish is added. In an API which is being used be large numbers of users it would be a strain on my API to continue to serve up this many notifications, and they wouldn't be particularly useful in reality. I would therefore develope the function to have a series of hooks, such as hooks when a record fish is entered (i.e. the biggest trout), when a particular species is caught or even when a fish is caught in a users own area. This would involve adding webhook 'types' to the Hooks on the database, and a bit of filtering before choosing who to notify about particular events. I am also aware that there needs to be some some of mechanism for removing webhooks that are not being used. This could be achieved, e.g. by requiring 200 OK response within 10 seconds of issueing notifications.
+I have implemented a very simple webhook which notifies subscribers when a fish is added. In an API which is being used be large numbers of users it would be a strain on my API to continue to serve up this many notifications, and they wouldn't be particularly useful in reality. I would therefore develop the function to have a series of hooks, such as hooks when a record fish is entered (i.e. the biggest trout), when a particular species is caught or even when a fish is caught in a users own area. This would involve adding webhook 'types' to the Hooks on the database, and a bit of filtering before choosing who to notify about particular events. I am also aware that there needs to be some some of mechanism for removing webhooks that are not being used. This could be achieved, e.g. by requiring 200 OK response within 10 seconds of issueing notifications.
 
 - DOCUMENTATION
 There's a lot of hard coded information in my docs resources. With more time I would definitely like to add a lot more dynamic data into these docs to make them easier to maintain.
+
+- CLIENT APP
+I would like to set up a simple client app (didn't feel I had time). I believe this would help me better understand how the HAL links can be used as machine discoverable information. It would also help when developing webhooks.
+
+- PRODUCTION
+I've just used a free Heroku account to put my app online with a free URI. Annoyingly I forgot to specify an appropriate fishcatch-api sub-domain so I got a random one generated. That would need fixed!! (don't have time) I'm also just hooked up to the same db I've used in testing. I would need to link to a separate one that's suitable for production.
 
 ### QUESTION 6
 Did you do something extra besides the fundamental requirements? Explain them.
 
 ### ANSWER 6
-I create my own documentation resources which was not something I envisaged doing at the beginning of the project. This was because I was trying to accurately follow the HAL standard but I'm glad I done it as its a nice way to improve human discoverability of the API, even though it created quite a bit of extra work for me. One downside of this is that it will require extra work to maintain in future, although this should could mitigated by addition of more dynamic content as opposed to the hard coding I've done. I also created a user-fish resource which essentially can be achieved by filtering data using a query parameter on the fish collection resource but I thought this would make things easier for client developers to provide this service to users as well as helping machine discoverability of it as a clearly defined separate resource.
+I create my own documentation resources which was not something I envisaged doing at the beginning of the project. This was because I was trying to accurately follow the HAL standard but I'm glad I done it as its a nice way to improve human discoverability of the API, even though it created quite a bit of extra work for me. One downside of this is that it will require extra work to maintain in future, although this should could mitigated by addition of more dynamic content as opposed to the hard coding I've done. I also created a user-fish resource which essentially can be achieved by filtering data using a query parameter on the fish collection resource but I thought it would make things easier for client developers to provide this service to users as well as improving machine discoverability of it as a separate resource.
