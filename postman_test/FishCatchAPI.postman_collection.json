@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "ff04f2ea-1bde-4ed6-9e7d-af02b2fe55d9",
-		"name": "FishCatch API",
+		"_postman_id": "df604db0-b6e7-4c81-9312-d202b2759b61",
+		"name": "FishCatch API Heroku",
 		"description": "This is a collection for Niall Thurrat's FishCatch API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -44,14 +44,9 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/",
-							"protocol": "http",
+							"raw": "{{HOST}}",
 							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								""
+								"{{HOST}}"
 							],
 							"query": [
 								{
@@ -131,12 +126,10 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:3000/users/signup",
-							"protocol": "http",
+							"raw": "{{HOST}}/users/signup",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"users",
 								"signup"
@@ -201,12 +194,10 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:3000/users/signup",
-							"protocol": "http",
+							"raw": "{{HOST}}/users/signup",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"users",
 								"signup"
@@ -267,12 +258,10 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:3000/users/login",
-							"protocol": "http",
+							"raw": "{{HOST}}/users/login",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"users",
 								"login"
@@ -337,12 +326,10 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:3000/users/login",
-							"protocol": "http",
+							"raw": "{{HOST}}/users/login",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"users",
 								"login"
@@ -397,12 +384,10 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:3000/users/login",
-							"protocol": "http",
+							"raw": "{{HOST}}/users/login",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"users",
 								"login"
@@ -454,12 +439,10 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/users/:username",
-							"protocol": "http",
+							"raw": "{{HOST}}/users/:username",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"users",
 								":username"
@@ -522,12 +505,10 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:3000/users/login",
-							"protocol": "http",
+							"raw": "{{HOST}}/users/login",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"users",
 								"login"
@@ -579,12 +560,10 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/users/:username",
-							"protocol": "http",
+							"raw": "{{HOST}}/users/:username",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"users",
 								":username"
@@ -677,12 +656,10 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:3000/fish",
-							"protocol": "http",
+							"raw": "{{HOST}}/fish",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"fish"
 							]
@@ -748,12 +725,10 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:3000/fish",
-							"protocol": "http",
+							"raw": "{{HOST}}/fish",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"fish"
 							]
@@ -823,12 +798,10 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:3000/fish",
-							"protocol": "http",
+							"raw": "{{HOST}}/fish",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"fish"
 							]
@@ -871,12 +844,10 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/fish/:fishId",
-							"protocol": "http",
+							"raw": "{{HOST}}/fish/:fishId",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"fish",
 								":fishId"
@@ -926,12 +897,10 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/fish/:fishId",
-							"protocol": "http",
+							"raw": "{{HOST}}/fish/:fishId",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"fish",
 								":fishId"
@@ -1017,12 +986,10 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:3000/fish/:fishId",
-							"protocol": "http",
+							"raw": "{{HOST}}/fish/:fishId",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"fish",
 								":fishId"
@@ -1108,12 +1075,10 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:3000/fish/:fishId",
-							"protocol": "http",
+							"raw": "{{HOST}}/fish/:fishId",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"fish",
 								":fishId"
@@ -1163,12 +1128,10 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/fish/:fishId",
-							"protocol": "http",
+							"raw": "{{HOST}}/fish/:fishId",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"fish",
 								":fishId"
@@ -1218,12 +1181,10 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/fish/:fishId",
-							"protocol": "http",
+							"raw": "{{HOST}}/fish/:fishId",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"fish",
 								":fishId"
@@ -1273,12 +1234,10 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/fish/:fishId",
-							"protocol": "http",
+							"raw": "{{HOST}}/fish/:fishId",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"fish",
 								":fishId"
@@ -1334,12 +1293,10 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/users/:username/user-fish",
-							"protocol": "http",
+							"raw": "{{HOST}}/users/:username/user-fish",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"users",
 								":username",
@@ -1390,12 +1347,10 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/users/:username/user-fish?sort=species:desc",
-							"protocol": "http",
+							"raw": "{{HOST}}/users/:username/user-fish?sort=species:desc",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"users",
 								":username",
@@ -1452,12 +1407,10 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/users/:username/user-fish?sort=specie",
-							"protocol": "http",
+							"raw": "{{HOST}}/users/:username/user-fish?sort=specie",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"users",
 								":username",
@@ -1514,12 +1467,10 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/users/:username/user-fish?sort=species:desx",
-							"protocol": "http",
+							"raw": "{{HOST}}/users/:username/user-fish?sort=species:desx",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"users",
 								":username",
@@ -1576,12 +1527,10 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/users/:username/user-fish",
-							"protocol": "http",
+							"raw": "{{HOST}}/users/:username/user-fish",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"users",
 								":username",
@@ -1622,12 +1571,10 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/fish",
-							"protocol": "http",
+							"raw": "{{HOST}}/fish",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"fish"
 							]
@@ -1660,12 +1607,10 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/fish?sort=species:desc",
-							"protocol": "http",
+							"raw": "{{HOST}}/fish?sort=species:desc",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"fish"
 							],
@@ -1704,12 +1649,10 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/fish?sort=specie",
-							"protocol": "http",
+							"raw": "{{HOST}}/fish?sort=specie",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"fish"
 							],
@@ -1748,12 +1691,10 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/fish?sort=specie",
-							"protocol": "http",
+							"raw": "{{HOST}}/fish?sort=specie",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"fish"
 							],
@@ -1795,12 +1736,10 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/fish",
-							"protocol": "http",
+							"raw": "{{HOST}}/fish",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"fish"
 							]
@@ -1868,12 +1807,10 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:3000/hooks",
-							"protocol": "http",
+							"raw": "{{HOST}}/hooks",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"hooks"
 							]
@@ -1929,12 +1866,10 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:3000/hooks",
-							"protocol": "http",
+							"raw": "{{HOST}}/hooks",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"hooks"
 							]
@@ -1984,12 +1919,10 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:3000/hooks",
-							"protocol": "http",
+							"raw": "{{HOST}}/hooks",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"hooks"
 							]
@@ -2039,12 +1972,10 @@
 						],
 						"body": {},
 						"url": {
-							"raw": "http://localhost:3000/hooks?hookId={{HOOK_ID}}",
-							"protocol": "http",
+							"raw": "{{HOST}}/hooks?hookId={{HOOK_ID}}",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"hooks"
 							],
@@ -2100,12 +2031,10 @@
 						],
 						"body": {},
 						"url": {
-							"raw": "http://localhost:3000/hooks?hookId={{HOOK_ID}}",
-							"protocol": "http",
+							"raw": "{{HOST}}/hooks?hookId={{HOOK_ID}}",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"hooks"
 							],
@@ -2158,12 +2087,10 @@
 						],
 						"body": {},
 						"url": {
-							"raw": "http://localhost:3000/hooks?hookId={{HOOK_ID}}",
-							"protocol": "http",
+							"raw": "{{HOST}}/hooks?hookId={{HOOK_ID}}",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"hooks"
 							],
@@ -2216,12 +2143,10 @@
 						],
 						"body": {},
 						"url": {
-							"raw": "http://localhost:3000/hooks?hookId={{HOOK_ID}}",
-							"protocol": "http",
+							"raw": "{{HOST}}/hooks?hookId={{HOOK_ID}}",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"hooks"
 							],
@@ -2274,12 +2199,10 @@
 						],
 						"body": {},
 						"url": {
-							"raw": "http://localhost:3000/hooks?hookId={{HOOK_ID}}",
-							"protocol": "http",
+							"raw": "{{HOST}}/hooks?hookId={{HOOK_ID}}",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"hooks"
 							],
@@ -2324,12 +2247,10 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/docs/rels/signup",
-							"protocol": "http",
+							"raw": "{{HOST}}/docs/rels/signup",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"docs",
 								"rels",
@@ -2364,12 +2285,10 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/docs/rels/login",
-							"protocol": "http",
+							"raw": "{{HOST}}/docs/rels/login",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"docs",
 								"rels",
@@ -2404,12 +2323,10 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/docs/rels/user",
-							"protocol": "http",
+							"raw": "{{HOST}}/docs/rels/user",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"docs",
 								"rels",
@@ -2444,12 +2361,10 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/docs/rels/user-fish",
-							"protocol": "http",
+							"raw": "{{HOST}}/docs/rels/user-fish",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"docs",
 								"rels",
@@ -2484,12 +2399,10 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/docs/rels/all-fish",
-							"protocol": "http",
+							"raw": "{{HOST}}/docs/rels/all-fish",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"docs",
 								"rels",
@@ -2524,12 +2437,10 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/docs/rels/one-fish",
-							"protocol": "http",
+							"raw": "{{HOST}}/docs/rels/one-fish",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"docs",
 								"rels",
@@ -2564,12 +2475,10 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/docs/rels/hooks",
-							"protocol": "http",
+							"raw": "{{HOST}}/docs/rels/hooks",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "3000",
 							"path": [
 								"docs",
 								"rels",

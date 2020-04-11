@@ -68,8 +68,7 @@ signupController.signup = async (req, res, next) => {
 function setResBody (req, res) {
   const resBody = halson({
     signup_success: true,
-    description: 'login required after signup. ' +
-    'see /docs/rels/signup for full details'
+    description: 'login required after signup.'
   }).addLink('self', '/users/signup')
     .addLink('curies', [{
       name: 'fc',

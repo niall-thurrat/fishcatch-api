@@ -71,8 +71,8 @@ loginController.login = async (req, res, next) => {
 /**
  * Returns a HAL formatted JSON object
  *
- * @param {Object} request
- * @param {Object} response
+ * @param {Object} req - request object
+ * @param {Object} res - response object
  * @param {Object} token - JSON Web Token
  * @param {Object} user - user that's logging in
  *
@@ -86,8 +86,7 @@ function setResBody (req, res, token, user) {
       username: user.username
     },
     description: 'use Bearer token in Authorization header ' +
-    'to access user and fish resources. ' +
-    'see /docs/rels/login for full details'
+    'to access user and fish resources'
   }).addLink('self', '/users/login')
     .addLink('curies', [{
       name: 'fc',
