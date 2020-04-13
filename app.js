@@ -15,9 +15,14 @@ const createError = require('http-errors')
 const cacheControl = require('express-cache-controller')
 const rateLimit = require('express-rate-limit')
 const helmet = require('helmet')
+const enforceSSL = require('express-enforces-ssl')
 
 const app = express()
 const port = process.env.PORT || 3000
+
+// enforces https only
+app.enable('trust proxy')
+app.use(enforceSSL())
 
 // connect to mongoDB via mongoose
 mongoose.run().catch(error => {
@@ -31,6 +36,12 @@ const limiter = rateLimit({
   max: 100 // limit each IP to 100 requests per windowMs
 })
 
+// dev middleware
+if (app.settings.env === 'development') {
+  const logger = require('morgan')
+  app.use(logger('dev'))
+}
+
 // security middleware
 app.use(limiter)
 app.use(helmet())
@@ -41,11 +52,6 @@ require('./config/passport')(passport)
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(cacheControl())
-
-if (app.settings.env === 'development') {
-  const logger = require('morgan')
-  app.use(logger('dev'))
-}
 
 // routes
 app.use('/', require('./routes/rootRouter'))
@@ -65,11 +71,9 @@ app.use((error, req, res, next) => {
     status: error.status,
     message: error.message
   }
-
   if (app.settings.env === 'development') {
     data.stack = error.stack
   }
-
   res.status(error.status || 500)
   res.json(data)
 })
