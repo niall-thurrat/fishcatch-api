@@ -15,14 +15,11 @@ const createError = require('http-errors')
 const cacheControl = require('express-cache-controller')
 const rateLimit = require('express-rate-limit')
 const helmet = require('helmet')
-const enforceSSL = require('express-enforces-ssl')
+const redirectHttp = require('./middleware/redirectHttp')
+const logger = require('morgan')
 
 const app = express()
 const port = process.env.PORT || 3000
-
-// enforces https only
-// app.enable('trust proxy')
-app.use(enforceSSL())
 
 // connect to mongoDB via mongoose
 mongoose.run().catch(error => {
@@ -36,17 +33,19 @@ const limiter = rateLimit({
   max: 100 // limit each IP to 100 requests per windowMs
 })
 
-// dev middleware
+// prod specific middleware
+if (process.env.NODE_ENV === 'production') {
+  app.use(redirectHttp)
+}
+
+// dev specific middleware
 if (app.settings.env === 'development') {
-  const logger = require('morgan')
   app.use(logger('dev'))
 }
 
-// security middleware
-app.use(limiter)
-app.use(helmet())
-
 // middleware
+app.use(helmet())
+app.use(limiter)
 app.use(passport.initialize())
 require('./config/passport')(passport)
 app.use(bodyParser.urlencoded({ extended: true }))
