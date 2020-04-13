@@ -21,7 +21,7 @@ const app = express()
 const port = process.env.PORT || 3000
 
 // enforces https only
-app.enable('trust proxy')
+// app.enable('trust proxy')
 app.use(enforceSSL())
 
 // connect to mongoDB via mongoose
