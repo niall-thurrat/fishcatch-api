@@ -4,9 +4,6 @@
  * @author Niall Thurrat
  * @version 1.0.0
  *
- * @credits Got help from jaketrent.com for this one:
- * https://jaketrent.com/post/https-redirect-node-heroku/
- *
  */
 
 'use strict'
@@ -21,7 +18,7 @@
  */
 const redirectHttp = function (req, res, next) {
   if (req.header('x-forwarded-proto') !== 'https') {
-    res.redirect(`https://${req.header('host')}${req.url}`)
+    res.redirect(301, `https://${req.header('host')}${req.url}`)
   } else {
     next()
   }
