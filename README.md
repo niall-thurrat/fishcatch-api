@@ -3,10 +3,10 @@
 #### by Niall Thurrat
 
 #### HOSTED AT: https://fishcatch-api.herokuapp.com
-#### SOURCE CODE: https://gitlab.lnu.se/1dv527/student/nt222fc/examination-2
+#### SOURCE CODE: https://github.com/niall-thurrat/fishcatch-api
 
-## Examination 2 of 1dv527 (VT20)
-#### The Web as an Application Platform
+## A university project
+#### Linnaeus University: The Web as an Application Platform (1dv527): Examination 2
 
 #### Project brief:
 http://coursepress.lnu.se/kurs/the-web-as-an-application-platform/examination-2/

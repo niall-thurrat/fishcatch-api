@@ -4,7 +4,7 @@
   "engines": {
     "node": "12.14.0"
   },
-  "description": "A REST web-API created for assignment 2, 1dv527, linnaeus University, VT20",
+  "description": "A REST API for caught fish resources",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.lnu.se:1dv527/student/nt222fc/examination-2.git"
+    "url": "https://github.com/niall-thurrat/fishcatch-api"
   },
   "author": "Niall Thurrat",
   "license": "ISC",
@@ -32,13 +32,13 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.1",
     "newman": "^4.6.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.7",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
     "morgan": "^1.9.1",
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.15"
   }
 }
