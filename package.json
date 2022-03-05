@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/niall-thurrat/fishcatch-api"
+    "url": "https://github.com/niall-thurrat/fishcatch-api.git"
   },
   "author": "Niall Thurrat",
   "license": "ISC",
