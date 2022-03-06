@@ -1,9 +1,6 @@
 {
   "name": "fishcatch-api",
   "version": "1.0.0",
-  "engines": {
-    "node": "12.14.0"
-  },
   "description": "A REST API for caught fish resources",
   "main": "app.js",
   "scripts": {
@@ -19,6 +16,9 @@
   },
   "author": "Niall Thurrat",
   "license": "ISC",
+  "engines": {
+    "node": "14.17.6"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
