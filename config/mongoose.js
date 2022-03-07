@@ -40,9 +40,7 @@ module.exports.run = async () => {
 
   const dbOptions = {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false
+    useUnifiedTopology: true
   }
 
   // Connect to the server.
