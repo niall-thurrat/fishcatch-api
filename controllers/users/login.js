@@ -40,7 +40,7 @@ loginController.login = async (req, res, next) => {
       if (isMatch) {
         const payload = {
           id: user._id,
-          name: user.userName,
+          name: user.name,
           username: user.username,
           emailAddress: user.emailAddress
         }
