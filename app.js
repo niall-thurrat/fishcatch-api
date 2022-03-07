@@ -15,7 +15,6 @@ const createError = require('http-errors')
 const cacheControl = require('express-cache-controller')
 const rateLimit = require('express-rate-limit')
 const helmet = require('helmet')
-const redirectHttp = require('./middleware/redirectHttp')
 const logger = require('morgan')
 
 const app = express()
@@ -32,11 +31,6 @@ const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100 // limit each IP to 100 requests per windowMs
 })
-
-// prod specific middleware
-if (process.env.NODE_ENV === 'production') {
-  app.use(redirectHttp)
-}
 
 // dev specific middleware
 if (app.settings.env === 'development') {
