@@ -16,7 +16,7 @@ const cacheControl = require('express-cache-controller')
 const rateLimit = require('express-rate-limit')
 const helmet = require('helmet')
 const logger = require('morgan')
-const sslRedirect = require('heroku-ssl-redirect')
+const sslRedirect = require('heroku-ssl-redirect').default
 
 const app = express()
 const port = process.env.PORT || 3000
