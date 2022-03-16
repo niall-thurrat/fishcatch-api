@@ -4,7 +4,7 @@
 HOSTED AT: https://fishcatch-api.herokuapp.com  
 SOURCE CODE: https://github.com/niall-thurrat/fishcatch-api
 
-NB: FishCatch API has been created as part of a university project and is accessible online for demo purposes only.
+_NB: FishCatch API has been created as part of a university project and is accessible online for demo purposes only._
 
 ## a university project
 
@@ -27,7 +27,7 @@ At present, users can record the following data about their fish:
 
 Requests to each endpoint receive responses with HAL formatted body content, making the API endpoints machine readable. Developers also benefit from the response details as well as accompanying documents for each endpoint, served up as resources by the API as well.
 
-|  Endpoint  |  Resource URL  |  Doc URL  |  
+|  Resource  |  URL  |  Doc URL  |  
 |  ---------  |  ------------  |  -------  |  
 |  root  |  {{HOST}}  |  -  |  
 |  signup  |  {{HOST}}/users/signup  |  {{HOST}}/docs/rels/signup  |  
