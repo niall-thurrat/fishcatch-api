@@ -52,7 +52,7 @@ app.use(sslRedirect())
 app.use('/', require('./routes/rootRouter'))
 app.use('/users', require('./routes/usersRouter'))
 app.use('/fish', passport.authenticate(
-  'jwt', { session: false }), require('./routes/fishCatchRouter'))
+  'jwt', { session: false }), require('./routes/fishRouter'))
 app.use('/hooks', passport.authenticate(
   'jwt', { session: false }), require('./routes/hooksRouter'))
 app.use('/docs', require('./routes/docsRouter'))
