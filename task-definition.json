@@ -11,7 +11,7 @@
         {
           "hostPort": 80,
           "protocol": "tcp",
-          "containerPort": 80
+          "containerPort": 3000
         }
       ],
       "command": null,
@@ -46,7 +46,7 @@
       "dockerLabels": null,
       "systemControls": null,
       "privileged": null,
-      "name": "FishCatchApiContainer"
+      "name": "FishCatchContainer"
     }
   ],
   "placementConstraints": [],
@@ -56,8 +56,8 @@
     "EXTERNAL",
     "EC2"
   ],
-  "taskDefinitionArn": "arn:aws:ecs:eu-north-1:400312800447:task-definition/DeployContainer:1",
-  "family": "DeployContainer",
+  "taskDefinitionArn": "arn:aws:ecs:eu-north-1:400312800447:task-definition/DeploymentTask:1",
+  "family": "DeploymentTask",
   "requiresAttributes": [
     {
       "targetId": null,
