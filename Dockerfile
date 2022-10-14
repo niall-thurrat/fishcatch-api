@@ -1,8 +1,8 @@
-FROM node:alpine as builder
-WORKDIR '/app'
+FROM node:16
+WORKDIR /usr/src/app
+COPY package*.json ./
+# for dev: RUN npm install
+RUN npm ci --only=production
 COPY . .
-RUN npm install
-RUN npm run build
-FROM nginx
-EXPOSE 80
-COPY --from=builder /app/build /usr/share/nginx/html
+EXPOSE 3000
+CMD ["node", "app.js"]
