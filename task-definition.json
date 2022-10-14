@@ -56,7 +56,7 @@
     "EXTERNAL",
     "EC2"
   ],
-  "taskDefinitionArn": "arn:aws:ecs:eu-north-1:400312800447:task-definition/DeploymentTask:1",
+  "taskDefinitionArn": "arn:aws:ecs:eu-north-1:400312800447:task-definition/DeploymentTask:3",
   "family": "DeploymentTask",
   "requiresAttributes": [
     {
@@ -73,7 +73,7 @@
   "networkMode": null,
   "runtimePlatform": null,
   "cpu": "1024",
-  "revision": 1,
+  "revision": 3,
   "status": "ACTIVE",
   "inferenceAccelerators": null,
   "proxyConfiguration": null,
