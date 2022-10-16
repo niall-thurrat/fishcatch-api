@@ -1,8 +1,9 @@
-FROM node:16
-WORKDIR /usr/src/app
-COPY package*.json ./
-# for dev: RUN npm install
-RUN npm ci --only=production
+FROM node:16-alpine
+RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
+WORKDIR /home/node/app
 COPY . .
+COPY --chown=node:node . .
+USER node
+RUN npm install
 EXPOSE 3000
 CMD ["node", "app.js"]
